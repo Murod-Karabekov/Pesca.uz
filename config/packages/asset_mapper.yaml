@@ -1,0 +1,6 @@
+# Asset Mapper disabled — using Webpack Encore instead
+# framework:
+#     asset_mapper:
+#         paths:
+#             - assets/
+#         missing_import_mode: strict

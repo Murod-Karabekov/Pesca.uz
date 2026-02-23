@@ -1,0 +1,53 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block admin_body %}
+<div class="mb-8">
+    <a href="{{ path('admin_tailor_index') }}" class="inline-flex items-center gap-2 text-sm text-brand-medium hover:text-peach-600 transition-colors mb-4">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+        Back to Tailors
+    </a>
+    <h1 class="text-2xl md:text-3xl font-display font-bold text-brand-dark">{{ title }}</h1>
+</div>
+
+<div class="card p-6 md:p-8 max-w-2xl">
+    {{ form_start(form, {'attr': {'class': 'space-y-6', 'novalidate': 'novalidate', 'enctype': 'multipart/form-data'}}) }}
+
+    <div>
+        {{ form_label(form.name, null, {'label_attr': {'class': 'block text-sm font-medium text-brand-dark mb-2'}}) }}
+        {{ form_widget(form.name) }}
+        {{ form_errors(form.name) }}
+    </div>
+
+    <div>
+        {{ form_label(form.description, null, {'label_attr': {'class': 'block text-sm font-medium text-brand-dark mb-2'}}) }}
+        {{ form_widget(form.description) }}
+        {{ form_errors(form.description) }}
+    </div>
+
+    <div>
+        {{ form_label(form.price, null, {'label_attr': {'class': 'block text-sm font-medium text-brand-dark mb-2'}}) }}
+        {{ form_widget(form.price) }}
+        {{ form_errors(form.price) }}
+    </div>
+
+    <div>
+        {{ form_label(form.imageFile, null, {'label_attr': {'class': 'block text-sm font-medium text-brand-dark mb-2'}}) }}
+        {% if tailor.image %}
+            <div class="mb-3">
+                <img src="/uploads/tailors/{{ tailor.image }}" alt="Current" class="w-24 h-24 object-cover rounded-full">
+            </div>
+        {% endif %}
+        {{ form_widget(form.imageFile) }}
+        {{ form_errors(form.imageFile) }}
+    </div>
+
+    <div class="flex gap-3 pt-4">
+        <button type="submit" class="btn-primary">Save Tailor</button>
+        <a href="{{ path('admin_tailor_index') }}" class="btn-secondary">Cancel</a>
+    </div>
+
+    {{ form_end(form) }}
+</div>
+{% endblock %}

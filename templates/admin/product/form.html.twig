@@ -1,0 +1,75 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block admin_body %}
+<div class="mb-8">
+    <a href="{{ path('admin_product_index') }}" class="inline-flex items-center gap-2 text-sm text-brand-medium hover:text-peach-600 transition-colors mb-4">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+        Back to Products
+    </a>
+    <h1 class="text-2xl md:text-3xl font-display font-bold text-brand-dark">{{ title }}</h1>
+</div>
+
+<div class="card p-6 md:p-8 max-w-2xl">
+    {{ form_start(form, {'attr': {'class': 'space-y-6', 'novalidate': 'novalidate', 'enctype': 'multipart/form-data'}}) }}
+
+    <div>
+        {{ form_label(form.name, null, {'label_attr': {'class': 'block text-sm font-medium text-brand-dark mb-2'}}) }}
+        {{ form_widget(form.name) }}
+        {{ form_errors(form.name) }}
+    </div>
+
+    <div>
+        {{ form_label(form.price, null, {'label_attr': {'class': 'block text-sm font-medium text-brand-dark mb-2'}}) }}
+        {{ form_widget(form.price) }}
+        {{ form_errors(form.price) }}
+    </div>
+
+    <div>
+        {{ form_label(form.description, null, {'label_attr': {'class': 'block text-sm font-medium text-brand-dark mb-2'}}) }}
+        {{ form_widget(form.description) }}
+        {{ form_errors(form.description) }}
+    </div>
+
+    <div>
+        <label class="block text-sm font-medium text-brand-dark mb-3">Available Sizes</label>
+        <div class="flex flex-wrap gap-3">
+            {% for child in form.size %}
+            <label class="cursor-pointer">
+                {{ form_widget(child, {'attr': {'class': 'sr-only peer'}}) }}
+                <span class="inline-flex items-center justify-center w-14 h-14 rounded-xl border-2 border-beige-300 text-sm font-medium text-brand-medium
+                             peer-checked:border-peach-500 peer-checked:bg-peach-50 peer-checked:text-peach-700
+                             hover:border-peach-300 transition-all duration-200">
+                    {{ child.vars.label }}
+                </span>
+            </label>
+            {% endfor %}
+        </div>
+        {{ form_errors(form.size) }}
+    </div>
+
+    <div>
+        {{ form_label(form.imageFile, null, {'label_attr': {'class': 'block text-sm font-medium text-brand-dark mb-2'}}) }}
+        {% if product.image %}
+            <div class="mb-3">
+                <img src="/uploads/products/{{ product.image }}" alt="Current" class="w-32 h-32 object-cover rounded-xl">
+            </div>
+        {% endif %}
+        {{ form_widget(form.imageFile) }}
+        {{ form_errors(form.imageFile) }}
+    </div>
+
+    <div class="flex items-center gap-3">
+        {{ form_widget(form.status, {'attr': {'class': 'w-5 h-5 rounded border-beige-300 text-peach-500 focus:ring-peach-300'}}) }}
+        {{ form_label(form.status, null, {'label_attr': {'class': 'text-sm font-medium text-brand-dark'}}) }}
+    </div>
+
+    <div class="flex gap-3 pt-4">
+        <button type="submit" class="btn-primary">Save Product</button>
+        <a href="{{ path('admin_product_index') }}" class="btn-secondary">Cancel</a>
+    </div>
+
+    {{ form_end(form) }}
+</div>
+{% endblock %}

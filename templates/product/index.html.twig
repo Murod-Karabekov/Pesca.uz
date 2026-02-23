@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Collection — Pesca{% endblock %}
+
+{% block body %}
+<section class="py-12 md:py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {# ─── Header ─── #}
+        <div class="text-center mb-10">
+            <h1 class="text-3xl md:text-4xl font-display font-bold text-brand-dark mb-4">Our Collection</h1>
+            <p class="text-brand-medium max-w-2xl mx-auto">Explore our premium medical clothing designed for professionals who demand both style and comfort.</p>
+        </div>
+
+        {# ─── Size Filter ─── #}
+        <div class="flex flex-wrap items-center justify-center gap-3 mb-10">
+            <a href="{{ path('app_product_index') }}"
+               class="px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
+                      {{ currentSize is null ? 'bg-peach-500 text-white shadow-sm' : 'bg-white text-brand-medium border border-beige-300 hover:bg-beige-100' }}">
+                All Sizes
+            </a>
+            {% for s in sizes %}
+                <a href="{{ path('app_product_index', {size: s}) }}"
+                   class="px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
+                          {{ currentSize == s ? 'bg-peach-500 text-white shadow-sm' : 'bg-white text-brand-medium border border-beige-300 hover:bg-beige-100' }}">
+                    {{ s }}
+                </a>
+            {% endfor %}
+        </div>
+
+        {# ─── Products Grid ─── #}
+        {% if products|length > 0 %}
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {% for product in products %}
+            <a href="{{ path('app_product_show', {id: product.id}) }}" class="card group">
+                <div class="aspect-[3/4] bg-beige-100 relative overflow-hidden">
+                    {% if product.image %}
+                        <img src="/uploads/products/{{ product.image }}" alt="{{ product.name }}"
+                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                             loading="lazy">
+                    {% else %}
+                        <div class="w-full h-full flex items-center justify-center">
+                            <svg class="w-16 h-16 text-beige-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                            </svg>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="p-5">
+                    <h3 class="font-semibold text-brand-dark mb-1 group-hover:text-peach-600 transition-colors">{{ product.name }}</h3>
+                    <p class="text-peach-600 font-display font-bold text-lg">{{ product.price|number_format(0, '.', ' ') }} UZS</p>
+                    <div class="flex flex-wrap gap-1 mt-3">
+                        {% for s in product.size %}
+                            <span class="px-2 py-0.5 text-xs bg-beige-100 text-brand-medium rounded-md">{{ s }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-20">
+            <svg class="w-16 h-16 mx-auto text-beige-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/>
+            </svg>
+            <h3 class="text-lg font-display font-semibold text-brand-dark mb-2">No products found</h3>
+            <p class="text-brand-medium">Try selecting a different size filter.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,12 @@
+.git
+.github
+.vscode
+node_modules
+var/cache
+var/log
+vendor
+public/build
+docker/mysql/data
+*.md
+.env.local
+.env.*.local

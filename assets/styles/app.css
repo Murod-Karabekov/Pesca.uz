@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Custom Base Styles ─────────────────────── */
+@layer base {
+  body {
+    @apply font-sans text-brand-dark bg-beige-50 antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+  }
+}
+
+/* ─── Custom Components ──────────────────────── */
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-6 py-3 bg-peach-500 text-white font-medium rounded-xl
+           hover:bg-peach-600 active:bg-peach-700 transition-all duration-200 ease-in-out
+           focus:outline-none focus:ring-2 focus:ring-peach-300 focus:ring-offset-2;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-6 py-3 bg-white text-brand-dark font-medium rounded-xl
+           border border-beige-300 hover:bg-beige-100 active:bg-beige-200
+           transition-all duration-200 ease-in-out
+           focus:outline-none focus:ring-2 focus:ring-beige-300 focus:ring-offset-2;
+  }
+
+  .btn-danger {
+    @apply inline-flex items-center justify-center px-6 py-3 bg-red-500 text-white font-medium rounded-xl
+           hover:bg-red-600 active:bg-red-700 transition-all duration-200 ease-in-out
+           focus:outline-none focus:ring-2 focus:ring-red-300 focus:ring-offset-2;
+  }
+
+  .card {
+    @apply bg-white rounded-2xl shadow-sm border border-beige-200 overflow-hidden
+           hover:shadow-md transition-shadow duration-300;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 bg-white border border-beige-300 rounded-xl text-brand-dark
+           placeholder-brand-muted focus:outline-none focus:ring-2 focus:ring-peach-300
+           focus:border-peach-400 transition-all duration-200;
+  }
+
+  .badge {
+    @apply inline-flex items-center px-3 py-1 text-xs font-medium rounded-full;
+  }
+
+  .badge-active {
+    @apply badge bg-green-100 text-green-700;
+  }
+
+  .badge-inactive {
+    @apply badge bg-red-100 text-red-700;
+  }
+}

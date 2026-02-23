@@ -1,0 +1,79 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block admin_body %}
+<div class="mb-8">
+    <h1 class="text-2xl md:text-3xl font-display font-bold text-brand-dark">Dashboard</h1>
+    <p class="text-brand-medium mt-1">Welcome to Pesca Admin Panel</p>
+</div>
+
+{# ─── Stats Cards ─── #}
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div class="card p-6">
+        <div class="flex items-center gap-4">
+            <div class="w-12 h-12 bg-peach-100 rounded-xl flex items-center justify-center">
+                <svg class="w-6 h-6 text-peach-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+                </svg>
+            </div>
+            <div>
+                <p class="text-2xl font-display font-bold text-brand-dark">{{ productCount }}</p>
+                <p class="text-sm text-brand-medium">Total Products</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="card p-6">
+        <div class="flex items-center gap-4">
+            <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+            </div>
+            <div>
+                <p class="text-2xl font-display font-bold text-brand-dark">{{ activeProductCount }}</p>
+                <p class="text-sm text-brand-medium">Active Products</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="card p-6">
+        <div class="flex items-center gap-4">
+            <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L9.121 9.121m0 5.758a3 3 0 10-4.243 4.243 3 3 0 004.243-4.243z"/>
+                </svg>
+            </div>
+            <div>
+                <p class="text-2xl font-display font-bold text-brand-dark">{{ tailorCount }}</p>
+                <p class="text-sm text-brand-medium">Tailors</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="card p-6">
+        <div class="flex items-center gap-4">
+            <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
+                <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+                </svg>
+            </div>
+            <div>
+                <p class="text-2xl font-display font-bold text-brand-dark">{{ userCount }}</p>
+                <p class="text-sm text-brand-medium">Users</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{# ─── Quick Actions ─── #}
+<div class="card p-6">
+    <h3 class="font-display font-semibold text-lg text-brand-dark mb-4">Quick Actions</h3>
+    <div class="flex flex-wrap gap-3">
+        <a href="{{ path('admin_product_new') }}" class="btn-primary text-sm">Add Product</a>
+        <a href="{{ path('admin_tailor_new') }}" class="btn-secondary text-sm">Add Tailor</a>
+        <a href="{{ path('admin_user_index') }}" class="btn-secondary text-sm">Manage Users</a>
+    </div>
+</div>
+{% endblock %}

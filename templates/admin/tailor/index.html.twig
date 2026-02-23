@@ -1,0 +1,56 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Tailors{% endblock %}
+
+{% block admin_body %}
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+    <div>
+        <h1 class="text-2xl md:text-3xl font-display font-bold text-brand-dark">Tailors</h1>
+        <p class="text-brand-medium mt-1">Manage your tailor service providers</p>
+    </div>
+    <a href="{{ path('admin_tailor_new') }}" class="btn-primary text-sm">
+        + Add Tailor
+    </a>
+</div>
+
+{% if tailors|length > 0 %}
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {% for tailor in tailors %}
+    <div class="card p-6">
+        <div class="flex items-start gap-4 mb-4">
+            <div class="w-16 h-16 bg-beige-100 rounded-full overflow-hidden flex-shrink-0">
+                {% if tailor.image %}
+                    <img src="/uploads/tailors/{{ tailor.image }}" alt="{{ tailor.name }}" class="w-full h-full object-cover">
+                {% else %}
+                    <div class="w-full h-full flex items-center justify-center">
+                        <svg class="w-8 h-8 text-beige-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="flex-1 min-w-0">
+                <h3 class="font-semibold text-brand-dark">{{ tailor.name }}</h3>
+                {% if tailor.price %}
+                    <p class="text-sm text-peach-600 font-display font-semibold">{{ tailor.price|number_format(0, '.', ' ') }} UZS</p>
+                {% endif %}
+            </div>
+        </div>
+        {% if tailor.description %}
+            <p class="text-sm text-brand-medium mb-4 line-clamp-3">{{ tailor.description }}</p>
+        {% endif %}
+        <div class="flex items-center gap-2 pt-4 border-t border-beige-100">
+            <a href="{{ path('admin_tailor_edit', {id: tailor.id}) }}" class="btn-secondary text-xs !py-2 !px-3">Edit</a>
+            <form method="post" action="{{ path('admin_tailor_delete', {id: tailor.id}) }}" class="inline" onsubmit="return confirm('Delete this tailor?')">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete_tailor_' ~ tailor.id) }}">
+                <button type="submit" class="btn-danger text-xs !py-2 !px-3">Delete</button>
+            </form>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="card p-12 text-center">
+    <p class="text-brand-medium mb-4">No tailors yet.</p>
+    <a href="{{ path('admin_tailor_new') }}" class="btn-primary">Add First Tailor</a>
+</div>
+{% endif %}
+{% endblock %}

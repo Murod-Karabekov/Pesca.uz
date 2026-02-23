@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Pesca — Premium Medical Clothing{% endblock %}</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>🩺</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+</head>
+<body class="min-h-screen flex flex-col">
+    {# ─── Flash Messages ─── #}
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div data-flash class="fixed top-4 right-4 z-50 max-w-sm px-6 py-4 rounded-xl shadow-lg text-sm font-medium
+                {% if label == 'success' %} bg-green-50 text-green-800 border border-green-200
+                {% elseif label == 'error' %} bg-red-50 text-red-800 border border-red-200
+                {% elseif label == 'warning' %} bg-yellow-50 text-yellow-800 border border-yellow-200
+                {% else %} bg-blue-50 text-blue-800 border border-blue-200 {% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    {# ─── Navigation ─── #}
+    {% block navbar %}
+    <nav class="bg-white/80 backdrop-blur-md border-b border-beige-200 sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                {# Logo #}
+                <a href="{{ path('app_home') }}" class="flex items-center gap-2">
+                    <span class="text-2xl font-display font-bold text-brand-dark">Pesca</span>
+                    <span class="text-xs text-brand-light tracking-widest uppercase">Medical</span>
+                </a>
+
+                {# Desktop Nav #}
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="{{ path('app_home') }}" class="text-sm font-medium text-brand-medium hover:text-peach-600 transition-colors">Home</a>
+                    <a href="{{ path('app_product_index') }}" class="text-sm font-medium text-brand-medium hover:text-peach-600 transition-colors">Collection</a>
+                    <a href="{{ path('app_tailor_index') }}" class="text-sm font-medium text-brand-medium hover:text-peach-600 transition-colors">Premium Service</a>
+                    {% if app.user %}
+                        <a href="{{ path('app_cart_index') }}" class="text-sm font-medium text-brand-medium hover:text-peach-600 transition-colors relative">
+                            Cart
+                        </a>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('admin_dashboard') }}" class="text-sm font-medium text-peach-600 hover:text-peach-700 transition-colors">Admin</a>
+                        {% endif %}
+                        <a href="{{ path('app_logout') }}" class="btn-secondary text-sm !py-2 !px-4">Logout</a>
+                    {% else %}
+                        <a href="{{ path('app_login') }}" class="btn-primary text-sm !py-2 !px-4">Sign In</a>
+                    {% endif %}
+                </div>
+
+                {# Mobile Toggle #}
+                <button id="mobile-menu-toggle" class="md:hidden p-2 rounded-lg hover:bg-beige-100 transition-colors">
+                    <svg class="w-6 h-6 text-brand-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        {# Mobile Menu #}
+        <div id="mobile-menu" class="hidden md:hidden border-t border-beige-200 bg-white">
+            <div class="px-4 py-4 space-y-3">
+                <a href="{{ path('app_home') }}" class="block text-sm font-medium text-brand-medium hover:text-peach-600">Home</a>
+                <a href="{{ path('app_product_index') }}" class="block text-sm font-medium text-brand-medium hover:text-peach-600">Collection</a>
+                <a href="{{ path('app_tailor_index') }}" class="block text-sm font-medium text-brand-medium hover:text-peach-600">Premium Service</a>
+                {% if app.user %}
+                    <a href="{{ path('app_cart_index') }}" class="block text-sm font-medium text-brand-medium hover:text-peach-600">Cart</a>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('admin_dashboard') }}" class="block text-sm font-medium text-peach-600">Admin</a>
+                    {% endif %}
+                    <a href="{{ path('app_logout') }}" class="block text-sm font-medium text-red-500">Logout</a>
+                {% else %}
+                    <a href="{{ path('app_login') }}" class="block btn-primary text-sm text-center">Sign In</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    {% endblock %}
+
+    {# ─── Main Content ─── #}
+    <main class="flex-1">
+        {% block body %}{% endblock %}
+    </main>
+
+    {# ─── Footer ─── #}
+    {% block footer %}
+    <footer class="bg-brand-dark text-white mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-display font-bold mb-4">Pesca</h3>
+                    <p class="text-brand-muted text-sm leading-relaxed">Premium medical clothing designed for professionals who value comfort, style, and quality.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-sm uppercase tracking-wider mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-sm text-brand-muted">
+                        <li><a href="{{ path('app_product_index') }}" class="hover:text-peach-400 transition-colors">Collection</a></li>
+                        <li><a href="{{ path('app_tailor_index') }}" class="hover:text-peach-400 transition-colors">Premium Service</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-sm uppercase tracking-wider mb-4">Contact</h4>
+                    <p class="text-sm text-brand-muted">Tashkent, Uzbekistan</p>
+                </div>
+            </div>
+            <div class="border-t border-white/10 mt-10 pt-6 text-center text-xs text-brand-muted">
+                &copy; {{ "now"|date("Y") }} Pesca Medical. All rights reserved.
+            </div>
+        </div>
+    </footer>
+    {% endblock %}
+</body>
+</html>

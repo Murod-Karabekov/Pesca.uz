@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create Account — Pesca{% endblock %}
+
+{% block body %}
+<div class="min-h-[80vh] flex items-center justify-center px-4 py-12">
+    <div class="w-full max-w-md">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-display font-bold text-brand-dark mb-2">Create Account</h1>
+            <p class="text-brand-medium">Join Pesca and start shopping</p>
+        </div>
+
+        <div class="card p-8">
+            {{ form_start(registrationForm, {'attr': {'class': 'space-y-5', 'novalidate': 'novalidate'}}) }}
+
+            <div>
+                {{ form_label(registrationForm.fullName, null, {'label_attr': {'class': 'block text-sm font-medium text-brand-dark mb-2'}}) }}
+                {{ form_widget(registrationForm.fullName) }}
+                {{ form_errors(registrationForm.fullName) }}
+            </div>
+
+            <div>
+                {{ form_label(registrationForm.phone, null, {'label_attr': {'class': 'block text-sm font-medium text-brand-dark mb-2'}}) }}
+                {{ form_widget(registrationForm.phone) }}
+                {{ form_errors(registrationForm.phone) }}
+            </div>
+
+            <div>
+                {{ form_label(registrationForm.plainPassword.first, null, {'label_attr': {'class': 'block text-sm font-medium text-brand-dark mb-2'}}) }}
+                {{ form_widget(registrationForm.plainPassword.first) }}
+                {{ form_errors(registrationForm.plainPassword.first) }}
+            </div>
+
+            <div>
+                {{ form_label(registrationForm.plainPassword.second, null, {'label_attr': {'class': 'block text-sm font-medium text-brand-dark mb-2'}}) }}
+                {{ form_widget(registrationForm.plainPassword.second) }}
+                {{ form_errors(registrationForm.plainPassword.second) }}
+            </div>
+
+            <button type="submit" class="btn-primary w-full text-center">
+                Create Account
+            </button>
+
+            {{ form_end(registrationForm) }}
+
+            <div class="mt-6 text-center">
+                <p class="text-sm text-brand-medium">
+                    Already have an account?
+                    <a href="{{ path('app_login') }}" class="text-peach-600 font-medium hover:text-peach-700 transition-colors">Sign in</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Admin{% endblock %} — Pesca Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+</head>
+<body class="min-h-screen bg-beige-50">
+    {# ─── Flash Messages ─── #}
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div data-flash class="fixed top-4 right-4 z-50 max-w-sm px-6 py-4 rounded-xl shadow-lg text-sm font-medium
+                {% if label == 'success' %} bg-green-50 text-green-800 border border-green-200
+                {% elseif label == 'error' %} bg-red-50 text-red-800 border border-red-200
+                {% else %} bg-blue-50 text-blue-800 border border-blue-200 {% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <div class="flex min-h-screen">
+        {# ─── Sidebar ─── #}
+        <aside class="hidden lg:flex lg:flex-col w-64 bg-brand-dark text-white">
+            <div class="p-6 border-b border-white/10">
+                <a href="{{ path('admin_dashboard') }}" class="flex items-center gap-2">
+                    <span class="text-2xl font-display font-bold">Pesca</span>
+                    <span class="text-xs text-brand-muted tracking-widest uppercase">Admin</span>
+                </a>
+            </div>
+
+            <nav class="flex-1 p-4 space-y-1">
+                <a href="{{ path('admin_dashboard') }}"
+                   class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors
+                          {{ app.request.attributes.get('_route') starts with 'admin_dashboard' ? 'bg-white/10 text-white' : 'text-brand-muted hover:bg-white/5 hover:text-white' }}">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                    </svg>
+                    Dashboard
+                </a>
+
+                <a href="{{ path('admin_product_index') }}"
+                   class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors
+                          {{ app.request.attributes.get('_route') starts with 'admin_product' ? 'bg-white/10 text-white' : 'text-brand-muted hover:bg-white/5 hover:text-white' }}">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+                    </svg>
+                    Products
+                </a>
+
+                <a href="{{ path('admin_tailor_index') }}"
+                   class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors
+                          {{ app.request.attributes.get('_route') starts with 'admin_tailor' ? 'bg-white/10 text-white' : 'text-brand-muted hover:bg-white/5 hover:text-white' }}">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L9.121 9.121m0 5.758a3 3 0 10-4.243 4.243 3 3 0 004.243-4.243z"/>
+                    </svg>
+                    Tailors
+                </a>
+
+                <a href="{{ path('admin_user_index') }}"
+                   class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors
+                          {{ app.request.attributes.get('_route') starts with 'admin_user' ? 'bg-white/10 text-white' : 'text-brand-muted hover:bg-white/5 hover:text-white' }}">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+                    </svg>
+                    Users
+                </a>
+            </nav>
+
+            <div class="p-4 border-t border-white/10">
+                <a href="{{ path('app_home') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-brand-muted hover:bg-white/5 hover:text-white transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                    </svg>
+                    Back to Site
+                </a>
+            </div>
+        </aside>
+
+        {# ─── Main Content ─── #}
+        <div class="flex-1 flex flex-col">
+            {# Mobile Header #}
+            <header class="lg:hidden bg-white border-b border-beige-200 px-4 py-3 flex items-center justify-between">
+                <a href="{{ path('admin_dashboard') }}" class="flex items-center gap-2">
+                    <span class="text-xl font-display font-bold text-brand-dark">Pesca</span>
+                    <span class="text-xs text-brand-light tracking-widest uppercase">Admin</span>
+                </a>
+                <div class="flex items-center gap-2">
+                    <a href="{{ path('app_home') }}" class="p-2 text-brand-medium hover:text-peach-600 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                        </svg>
+                    </a>
+                </div>
+            </header>
+
+            {# Mobile Navigation #}
+            <nav class="lg:hidden bg-white border-b border-beige-200 px-4 py-2 flex gap-1 overflow-x-auto">
+                <a href="{{ path('admin_dashboard') }}" class="px-3 py-2 text-xs font-medium rounded-lg whitespace-nowrap {{ app.request.attributes.get('_route') starts with 'admin_dashboard' ? 'bg-peach-100 text-peach-700' : 'text-brand-medium' }}">Dashboard</a>
+                <a href="{{ path('admin_product_index') }}" class="px-3 py-2 text-xs font-medium rounded-lg whitespace-nowrap {{ app.request.attributes.get('_route') starts with 'admin_product' ? 'bg-peach-100 text-peach-700' : 'text-brand-medium' }}">Products</a>
+                <a href="{{ path('admin_tailor_index') }}" class="px-3 py-2 text-xs font-medium rounded-lg whitespace-nowrap {{ app.request.attributes.get('_route') starts with 'admin_tailor' ? 'bg-peach-100 text-peach-700' : 'text-brand-medium' }}">Tailors</a>
+                <a href="{{ path('admin_user_index') }}" class="px-3 py-2 text-xs font-medium rounded-lg whitespace-nowrap {{ app.request.attributes.get('_route') starts with 'admin_user' ? 'bg-peach-100 text-peach-700' : 'text-brand-medium' }}">Users</a>
+            </nav>
+
+            {# Page Content #}
+            <main class="flex-1 p-4 md:p-8">
+                {% block admin_body %}{% endblock %}
+            </main>
+        </div>
+    </div>
+</body>
+</html>
