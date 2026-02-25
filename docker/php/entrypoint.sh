@@ -1,8 +1,15 @@
 #!/bin/bash
 set -e
 
+# Parse DB credentials from DATABASE_URL or use defaults
+DB_HOST="database"
+DB_PORT="3306"
+DB_NAME="${MYSQL_DATABASE:-pesca}"
+DB_USER="${MYSQL_USER:-pesca}"
+DB_PASS="${MYSQL_PASSWORD:-pesca_secret}"
+
 echo "⏳ Waiting for MySQL to be ready..."
-until php -r "try { new PDO('mysql:host=database;port=3306;dbname=pesca', 'pesca', 'pesca_secret'); echo 'ok'; } catch(Exception \$e) { exit(1); }" 2>/dev/null; do
+until php -r "try { new PDO('mysql:host='.'\$argv[1]'.';port='.'\$argv[2]'.';dbname='.'\$argv[3]', \$argv[4], \$argv[5]); echo 'ok'; } catch(Exception \$e) { exit(1); }" "$DB_HOST" "$DB_PORT" "$DB_NAME" "$DB_USER" "$DB_PASS" 2>/dev/null; do
     sleep 2
     echo "  ...still waiting for MySQL"
 done
@@ -19,15 +26,14 @@ php bin/console doctrine:migrations:migrate --no-interaction --allow-no-migratio
 
 # Load fixtures if DB is empty (first run check)
 USER_COUNT=$(php -r "
-require 'vendor/autoload.php';
-\$pdo = new PDO('mysql:host=database;port=3306;dbname=pesca', 'pesca', 'pesca_secret');
+\$pdo = new PDO('mysql:host='.'\$argv[1]'.';port='.'\$argv[2]'.';dbname='.'\$argv[3]', \$argv[4], \$argv[5]);
 try {
     \$stmt = \$pdo->query('SELECT COUNT(*) FROM user');
     echo \$stmt->fetchColumn();
 } catch(Exception \$e) {
     echo '0';
 }
-" 2>/dev/null || echo "0")
+" "$DB_HOST" "$DB_PORT" "$DB_NAME" "$DB_USER" "$DB_PASS" 2>/dev/null || echo "0")
 
 if [ "$USER_COUNT" = "0" ]; then
     echo "🌱 Loading fixtures..."
