@@ -34,13 +34,23 @@
 
     <div>
         {{ form_label(form.imageFile, null, {'label_attr': {'class': 'block text-sm font-medium text-brand-dark mb-2'}}) }}
-        {% if tailor.image %}
+        {% if tailor.imageSrc %}
             <div class="mb-3">
-                <img src="/uploads/tailors/{{ tailor.image }}" alt="Current" class="w-24 h-24 object-cover rounded-full">
+                <img src="{{ tailor.imageSrc }}" alt="Current" class="w-24 h-24 object-cover rounded-full">
+                {% if tailor.isExternalImage %}
+                    <p class="text-xs text-brand-medium mt-1">Tashqi havola orqali</p>
+                {% endif %}
             </div>
         {% endif %}
         {{ form_widget(form.imageFile) }}
         {{ form_errors(form.imageFile) }}
+    </div>
+
+    <div>
+        {{ form_label(form.imageUrl, null, {'label_attr': {'class': 'block text-sm font-medium text-brand-dark mb-2'}}) }}
+        {{ form_widget(form.imageUrl) }}
+        {{ form_errors(form.imageUrl) }}
+        <p class="text-xs text-brand-medium mt-1">Rasm havolasini kiritish fayl yuklashdan ustun turadi. VDS'da joy tejaydi.</p>
     </div>
 
     <div class="flex gap-3 pt-4">

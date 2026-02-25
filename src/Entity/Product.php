@@ -115,6 +115,22 @@ class Product
         return $this;
     }
 
+    public function isExternalImage(): bool
+    {
+        return $this->image !== null && str_starts_with($this->image, 'http');
+    }
+
+    public function getImageSrc(): ?string
+    {
+        if ($this->image === null) {
+            return null;
+        }
+
+        return $this->isExternalImage()
+            ? $this->image
+            : '/uploads/products/' . $this->image;
+    }
+
     public function isStatus(): bool
     {
         return $this->status;

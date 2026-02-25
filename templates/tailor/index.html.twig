@@ -22,8 +22,8 @@
             <div class="card p-8 text-center hover:shadow-lg transition-shadow duration-300">
                 {# Profile Image #}
                 <div class="w-28 h-28 mx-auto mb-6 rounded-full bg-beige-100 overflow-hidden ring-4 ring-beige-200">
-                    {% if tailor.image %}
-                        <img src="/uploads/tailors/{{ tailor.image }}" alt="{{ tailor.name }}" class="w-full h-full object-cover">
+                    {% if tailor.imageSrc %}
+                        <img src="{{ tailor.imageSrc }}" alt="{{ tailor.name }}" class="w-full h-full object-cover">
                     {% else %}
                         <div class="w-full h-full flex items-center justify-center">
                             <svg class="w-12 h-12 text-beige-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">

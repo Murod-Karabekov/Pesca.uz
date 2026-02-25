@@ -14,8 +14,8 @@
                 <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
                     {# Product Image #}
                     <div class="w-20 h-20 bg-beige-100 rounded-xl overflow-hidden flex-shrink-0">
-                        {% if item.product.image %}
-                            <img src="/uploads/products/{{ item.product.image }}" alt="{{ item.product.name }}" class="w-full h-full object-cover">
+                        {% if item.product.imageSrc %}
+                            <img src="{{ item.product.imageSrc }}" alt="{{ item.product.name }}" class="w-full h-full object-cover">
                         {% else %}
                             <div class="w-full h-full flex items-center justify-center">
                                 <svg class="w-8 h-8 text-beige-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -85,8 +85,8 @@ class ProductCrudController extends AbstractController
         EntityManagerInterface $em
     ): Response {
         if ($this->isCsrfTokenValid('delete_product_' . $product->getId(), $request->request->get('_token'))) {
-            // Remove image file
-            if ($product->getImage()) {
+            // Lokal rasmni o'chirish (URL rasmlarni emas)
+            if ($product->getImage() && !$product->isExternalImage()) {
                 $imagePath = $this->getParameter('kernel.project_dir') . '/public/uploads/products/' . $product->getImage();
                 if (file_exists($imagePath)) {
                     unlink($imagePath);
@@ -118,6 +118,21 @@ class ProductCrudController extends AbstractController
 
     private function handleImageUpload($form, Product $product, SluggerInterface $slugger, string $folder): void
     {
+        // URL orqali rasm qo'shish (fayl yuklanmaydi, VDS'da joy olmaydi)
+        $imageUrl = $form->get('imageUrl')->getData();
+        if ($imageUrl) {
+            // Eski lokal rasmni o'chirib tashlash
+            if ($product->getImage() && !$product->isExternalImage()) {
+                $oldPath = $this->getParameter('kernel.project_dir') . '/public/uploads/' . $folder . '/' . $product->getImage();
+                if (file_exists($oldPath)) {
+                    unlink($oldPath);
+                }
+            }
+            $product->setImage($imageUrl);
+            return;
+        }
+
+        // Fayl yuklash (avvalgi usul)
         $imageFile = $form->get('imageFile')->getData();
         if ($imageFile) {
             $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
@@ -129,8 +144,8 @@ class ProductCrudController extends AbstractController
                     $this->getParameter('kernel.project_dir') . '/public/uploads/' . $folder,
                     $newFilename
                 );
-                // Remove old image
-                if ($product->getImage()) {
+                // Eski rasmni o'chirish
+                if ($product->getImage() && !$product->isExternalImage()) {
                     $oldPath = $this->getParameter('kernel.project_dir') . '/public/uploads/' . $folder . '/' . $product->getImage();
                     if (file_exists($oldPath)) {
                         unlink($oldPath);

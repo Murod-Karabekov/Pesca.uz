@@ -84,7 +84,7 @@ class TailorCrudController extends AbstractController
         EntityManagerInterface $em
     ): Response {
         if ($this->isCsrfTokenValid('delete_tailor_' . $tailor->getId(), $request->request->get('_token'))) {
-            if ($tailor->getImage()) {
+            if ($tailor->getImage() && !$tailor->isExternalImage()) {
                 $imagePath = $this->getParameter('kernel.project_dir') . '/public/uploads/tailors/' . $tailor->getImage();
                 if (file_exists($imagePath)) {
                     unlink($imagePath);
@@ -100,6 +100,21 @@ class TailorCrudController extends AbstractController
 
     private function handleImageUpload($form, Tailor $tailor, SluggerInterface $slugger): void
     {
+        // URL orqali rasm qo'shish (fayl yuklanmaydi, VDS'da joy olmaydi)
+        $imageUrl = $form->get('imageUrl')->getData();
+        if ($imageUrl) {
+            // Eski lokal rasmni o'chirib tashlash
+            if ($tailor->getImage() && !$tailor->isExternalImage()) {
+                $oldPath = $this->getParameter('kernel.project_dir') . '/public/uploads/tailors/' . $tailor->getImage();
+                if (file_exists($oldPath)) {
+                    unlink($oldPath);
+                }
+            }
+            $tailor->setImage($imageUrl);
+            return;
+        }
+
+        // Fayl yuklash (avvalgi usul)
         $imageFile = $form->get('imageFile')->getData();
         if ($imageFile) {
             $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
@@ -111,7 +126,7 @@ class TailorCrudController extends AbstractController
                     $this->getParameter('kernel.project_dir') . '/public/uploads/tailors',
                     $newFilename
                 );
-                if ($tailor->getImage()) {
+                if ($tailor->getImage() && !$tailor->isExternalImage()) {
                     $oldPath = $this->getParameter('kernel.project_dir') . '/public/uploads/tailors/' . $tailor->getImage();
                     if (file_exists($oldPath)) {
                         unlink($oldPath);
