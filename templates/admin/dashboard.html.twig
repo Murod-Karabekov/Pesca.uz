@@ -1,11 +1,11 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block title %}Dashboard{% endblock %}
+{% block title %}Boshqaruv paneli{% endblock %}
 
 {% block admin_body %}
 <div class="mb-8">
-    <h1 class="text-2xl md:text-3xl font-display font-bold text-brand-dark">Dashboard</h1>
-    <p class="text-brand-medium mt-1">Welcome to Pesca Admin Panel</p>
+    <h1 class="text-2xl md:text-3xl font-display font-bold text-brand-dark">Boshqaruv paneli</h1>
+    <p class="text-brand-medium mt-1">Pesca boshqaruv paneliga xush kelibsiz</p>
 </div>
 
 {# ─── Stats Cards ─── #}
@@ -19,7 +19,7 @@
             </div>
             <div>
                 <p class="text-2xl font-display font-bold text-brand-dark">{{ productCount }}</p>
-                <p class="text-sm text-brand-medium">Total Products</p>
+                <p class="text-sm text-brand-medium">Jami mahsulotlar</p>
             </div>
         </div>
     </div>
@@ -33,7 +33,7 @@
             </div>
             <div>
                 <p class="text-2xl font-display font-bold text-brand-dark">{{ activeProductCount }}</p>
-                <p class="text-sm text-brand-medium">Active Products</p>
+                <p class="text-sm text-brand-medium">Faol mahsulotlar</p>
             </div>
         </div>
     </div>
@@ -47,7 +47,7 @@
             </div>
             <div>
                 <p class="text-2xl font-display font-bold text-brand-dark">{{ tailorCount }}</p>
-                <p class="text-sm text-brand-medium">Tailors</p>
+                <p class="text-sm text-brand-medium">Tikuvchilar</p>
             </div>
         </div>
     </div>
@@ -61,7 +61,7 @@
             </div>
             <div>
                 <p class="text-2xl font-display font-bold text-brand-dark">{{ userCount }}</p>
-                <p class="text-sm text-brand-medium">Users</p>
+                <p class="text-sm text-brand-medium">Foydalanuvchilar</p>
             </div>
         </div>
     </div>
@@ -69,11 +69,11 @@
 
 {# ─── Quick Actions ─── #}
 <div class="card p-6">
-    <h3 class="font-display font-semibold text-lg text-brand-dark mb-4">Quick Actions</h3>
+    <h3 class="font-display font-semibold text-lg text-brand-dark mb-4">Tezkor amallar</h3>
     <div class="flex flex-wrap gap-3">
-        <a href="{{ path('admin_product_new') }}" class="btn-primary text-sm">Add Product</a>
-        <a href="{{ path('admin_tailor_new') }}" class="btn-secondary text-sm">Add Tailor</a>
-        <a href="{{ path('admin_user_index') }}" class="btn-secondary text-sm">Manage Users</a>
+        <a href="{{ path('admin_product_new') }}" class="btn-primary text-sm">Mahsulot qo'shish</a>
+        <a href="{{ path('admin_tailor_new') }}" class="btn-secondary text-sm">Tikuvchi qo'shish</a>
+        <a href="{{ path('admin_user_index') }}" class="btn-secondary text-sm">Foydalanuvchilarni boshqarish</a>
     </div>
 </div>
 {% endblock %}

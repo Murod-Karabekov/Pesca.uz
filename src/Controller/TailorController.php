@@ -28,12 +28,12 @@ class TailorController extends AbstractController
         GoogleFormService $googleFormService
     ): Response {
         if (!$this->getUser()) {
-            $this->addFlash('error', 'Please log in to book a tailor.');
+            $this->addFlash('error', 'Tikuvchiga buyurtma berish uchun tizimga kiring.');
             return $this->redirectToRoute('app_login');
         }
 
         if (!$this->isCsrfTokenValid('tailor_book_' . $tailor->getId(), $request->request->get('_token'))) {
-            $this->addFlash('error', 'Invalid CSRF token.');
+            $this->addFlash('error', 'Noto\'g\'ri CSRF token.');
             return $this->redirectToRoute('app_tailor_index');
         }
 
@@ -45,7 +45,7 @@ class TailorController extends AbstractController
             $tailor->getName()
         );
 
-        $this->addFlash('success', 'Your booking with ' . $tailor->getName() . ' has been submitted!');
+        $this->addFlash('success', $tailor->getName() . ' bilan buyurtmangiz yuborildi!');
         return $this->redirectToRoute('app_tailor_index');
     }
 }

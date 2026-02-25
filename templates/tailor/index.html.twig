@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Premium Tailor Service — Pesca{% endblock %}
+{% block title %}Premium tikuvchilik xizmati — Pesca{% endblock %}
 
 {% block body %}
 <section class="py-12 md:py-16">
@@ -9,10 +9,10 @@
         <div class="text-center mb-12">
             <div class="inline-flex items-center gap-2 px-4 py-2 bg-peach-100 text-peach-700 rounded-full text-sm font-medium mb-4">
                 <span class="w-2 h-2 bg-peach-500 rounded-full"></span>
-                Premium Service
+                Premium xizmat
             </div>
-            <h1 class="text-3xl md:text-4xl font-display font-bold text-brand-dark mb-4">Our Expert Tailors</h1>
-            <p class="text-brand-medium max-w-2xl mx-auto">Work with our skilled tailors for bespoke medical clothing tailored to your exact specifications.</p>
+            <h1 class="text-3xl md:text-4xl font-display font-bold text-brand-dark mb-4">Mutaxassis tikuvchilarimiz</h1>
+            <p class="text-brand-medium max-w-2xl mx-auto">Aniq xususiyatlaringizga moslashtirilgan maxsus tibbiy kiyimlar uchun malakali tikuvchilarimiz bilan ishlang.</p>
         </div>
 
         {# ─── Tailors Grid ─── #}
@@ -40,7 +40,7 @@
                 {% endif %}
 
                 {% if tailor.price %}
-                    <p class="text-peach-600 font-display font-bold text-lg mb-6">from {{ tailor.price|number_format(0, '.', ' ') }} UZS</p>
+                    <p class="text-peach-600 font-display font-bold text-lg mb-6">{{ tailor.price|number_format(0, '.', ' ') }} so'mdan</p>
                 {% endif %}
 
                 {# Book Button #}
@@ -48,12 +48,12 @@
                 <form method="post" action="{{ path('app_tailor_book', {id: tailor.id}) }}">
                     <input type="hidden" name="_token" value="{{ csrf_token('tailor_book_' ~ tailor.id) }}">
                     <button type="submit" class="btn-primary w-full">
-                        Book This Tailor
+                        Buyurtma berish
                     </button>
                 </form>
                 {% else %}
                 <a href="{{ path('app_login') }}" class="btn-primary w-full inline-block text-center">
-                    Sign In to Book
+                    Buyurtma uchun kiring
                 </a>
                 {% endif %}
             </div>
@@ -64,8 +64,8 @@
             <svg class="w-16 h-16 mx-auto text-beige-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
             </svg>
-            <h3 class="text-lg font-display font-semibold text-brand-dark mb-2">No tailors available yet</h3>
-            <p class="text-brand-medium">Please check back later.</p>
+            <h3 class="text-lg font-display font-semibold text-brand-dark mb-2">Hozircha tikuvchilar mavjud emas</h3>
+            <p class="text-brand-medium">Keyinroq tekshirib ko'ring.</p>
         </div>
         {% endif %}
     </div>

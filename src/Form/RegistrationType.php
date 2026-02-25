@@ -19,14 +19,14 @@ class RegistrationType extends AbstractType
     {
         $builder
             ->add('fullName', TextType::class, [
-                'label' => 'Full Name',
+                'label' => 'To\'liq ism',
                 'attr' => [
-                    'placeholder' => 'Enter your full name',
+                    'placeholder' => 'To\'liq ismingizni kiriting',
                     'class' => 'input-field',
                 ],
             ])
             ->add('phone', TelType::class, [
-                'label' => 'Phone Number',
+                'label' => 'Telefon raqami',
                 'attr' => [
                     'placeholder' => '+998 XX XXX XX XX',
                     'class' => 'input-field',
@@ -36,25 +36,25 @@ class RegistrationType extends AbstractType
                 'type' => PasswordType::class,
                 'mapped' => false,
                 'first_options' => [
-                    'label' => 'Password',
+                    'label' => 'Parol',
                     'attr' => [
-                        'placeholder' => 'Create a password',
+                        'placeholder' => 'Parol yarating',
                         'class' => 'input-field',
                     ],
                 ],
                 'second_options' => [
-                    'label' => 'Confirm Password',
+                    'label' => 'Parolni tasdiqlash',
                     'attr' => [
-                        'placeholder' => 'Confirm your password',
+                        'placeholder' => 'Parolingizni tasdiqlang',
                         'class' => 'input-field',
                     ],
                 ],
-                'invalid_message' => 'The password fields must match.',
+                'invalid_message' => 'Parol maydonlari mos kelishi kerak.',
                 'constraints' => [
-                    new NotBlank(['message' => 'Please enter a password.']),
+                    new NotBlank(['message' => 'Iltimos, parol kiriting.']),
                     new Length([
                         'min' => 6,
-                        'minMessage' => 'Password must be at least {{ limit }} characters.',
+                        'minMessage' => 'Parol kamida {{ limit }} belgidan iborat bo\'lishi kerak.',
                         'max' => 4096,
                     ]),
                 ],

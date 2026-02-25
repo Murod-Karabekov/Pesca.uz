@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Create Account — Pesca{% endblock %}
+{% block title %}Hisob yaratish — Pesca{% endblock %}
 
 {% block body %}
 <div class="min-h-[80vh] flex items-center justify-center px-4 py-12">
     <div class="w-full max-w-md">
         <div class="text-center mb-8">
-            <h1 class="text-3xl font-display font-bold text-brand-dark mb-2">Create Account</h1>
-            <p class="text-brand-medium">Join Pesca and start shopping</p>
+            <h1 class="text-3xl font-display font-bold text-brand-dark mb-2">Hisob yaratish</h1>
+            <p class="text-brand-medium">Pesca'ga qo'shiling va xarid qilishni boshlang</p>
         </div>
 
         <div class="card p-8">
@@ -38,15 +38,15 @@
             </div>
 
             <button type="submit" class="btn-primary w-full text-center">
-                Create Account
+                Hisob yaratish
             </button>
 
             {{ form_end(registrationForm) }}
 
             <div class="mt-6 text-center">
                 <p class="text-sm text-brand-medium">
-                    Already have an account?
-                    <a href="{{ path('app_login') }}" class="text-peach-600 font-medium hover:text-peach-700 transition-colors">Sign in</a>
+                    Hisobingiz bormi?
+                    <a href="{{ path('app_login') }}" class="text-peach-600 font-medium hover:text-peach-700 transition-colors">Kirish</a>
                 </p>
             </div>
         </div>

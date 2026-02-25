@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Collection — Pesca{% endblock %}
+{% block title %}Kolleksiya — Pesca{% endblock %}
 
 {% block body %}
 <section class="py-12 md:py-16">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {# ─── Header ─── #}
         <div class="text-center mb-10">
-            <h1 class="text-3xl md:text-4xl font-display font-bold text-brand-dark mb-4">Our Collection</h1>
-            <p class="text-brand-medium max-w-2xl mx-auto">Explore our premium medical clothing designed for professionals who demand both style and comfort.</p>
+            <h1 class="text-3xl md:text-4xl font-display font-bold text-brand-dark mb-4">Bizning kolleksiyamiz</h1>
+            <p class="text-brand-medium max-w-2xl mx-auto">Uslub va qulaylikni talab qiladigan mutaxassislar uchun mo'ljallangan premium tibbiy kiyimlarimizni ko'ring.</p>
         </div>
 
         {# ─── Size Filter ─── #}
@@ -16,7 +16,7 @@
             <a href="{{ path('app_product_index') }}"
                class="px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
                       {{ currentSize is null ? 'bg-peach-500 text-white shadow-sm' : 'bg-white text-brand-medium border border-beige-300 hover:bg-beige-100' }}">
-                All Sizes
+                Barcha o'lchamlar
             </a>
             {% for s in sizes %}
                 <a href="{{ path('app_product_index', {size: s}) }}"
@@ -47,7 +47,7 @@
                 </div>
                 <div class="p-5">
                     <h3 class="font-semibold text-brand-dark mb-1 group-hover:text-peach-600 transition-colors">{{ product.name }}</h3>
-                    <p class="text-peach-600 font-display font-bold text-lg">{{ product.price|number_format(0, '.', ' ') }} UZS</p>
+                    <p class="text-peach-600 font-display font-bold text-lg">{{ product.price|number_format(0, '.', ' ') }} so'm</p>
                     <div class="flex flex-wrap gap-1 mt-3">
                         {% for s in product.size %}
                             <span class="px-2 py-0.5 text-xs bg-beige-100 text-brand-medium rounded-md">{{ s }}</span>
@@ -62,8 +62,8 @@
             <svg class="w-16 h-16 mx-auto text-beige-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/>
             </svg>
-            <h3 class="text-lg font-display font-semibold text-brand-dark mb-2">No products found</h3>
-            <p class="text-brand-medium">Try selecting a different size filter.</p>
+            <h3 class="text-lg font-display font-semibold text-brand-dark mb-2">Mahsulotlar topilmadi</h3>
+            <p class="text-brand-medium">Boshqa o'lcham filtrini tanlang.</p>
         </div>
         {% endif %}
     </div>

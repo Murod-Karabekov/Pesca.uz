@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uz">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Pesca — Premium Medical Clothing{% endblock %}</title>
+    <title>{% block title %}Pesca — Premium tibbiy kiyimlar{% endblock %}</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>🩺</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -42,19 +42,19 @@
 
                 {# Desktop Nav #}
                 <div class="hidden md:flex items-center gap-8">
-                    <a href="{{ path('app_home') }}" class="text-sm font-medium text-brand-medium hover:text-peach-600 transition-colors">Home</a>
-                    <a href="{{ path('app_product_index') }}" class="text-sm font-medium text-brand-medium hover:text-peach-600 transition-colors">Collection</a>
-                    <a href="{{ path('app_tailor_index') }}" class="text-sm font-medium text-brand-medium hover:text-peach-600 transition-colors">Premium Service</a>
+                    <a href="{{ path('app_home') }}" class="text-sm font-medium text-brand-medium hover:text-peach-600 transition-colors">Bosh sahifa</a>
+                    <a href="{{ path('app_product_index') }}" class="text-sm font-medium text-brand-medium hover:text-peach-600 transition-colors">Kolleksiya</a>
+                    <a href="{{ path('app_tailor_index') }}" class="text-sm font-medium text-brand-medium hover:text-peach-600 transition-colors">Premium xizmat</a>
                     {% if app.user %}
                         <a href="{{ path('app_cart_index') }}" class="text-sm font-medium text-brand-medium hover:text-peach-600 transition-colors relative">
-                            Cart
+                            Savatcha
                         </a>
                         {% if is_granted('ROLE_ADMIN') %}
                             <a href="{{ path('admin_dashboard') }}" class="text-sm font-medium text-peach-600 hover:text-peach-700 transition-colors">Admin</a>
                         {% endif %}
-                        <a href="{{ path('app_logout') }}" class="btn-secondary text-sm !py-2 !px-4">Logout</a>
+                        <a href="{{ path('app_logout') }}" class="btn-secondary text-sm !py-2 !px-4">Chiqish</a>
                     {% else %}
-                        <a href="{{ path('app_login') }}" class="btn-primary text-sm !py-2 !px-4">Sign In</a>
+                        <a href="{{ path('app_login') }}" class="btn-primary text-sm !py-2 !px-4">Kirish</a>
                     {% endif %}
                 </div>
 
@@ -70,17 +70,17 @@
         {# Mobile Menu #}
         <div id="mobile-menu" class="hidden md:hidden border-t border-beige-200 bg-white">
             <div class="px-4 py-4 space-y-3">
-                <a href="{{ path('app_home') }}" class="block text-sm font-medium text-brand-medium hover:text-peach-600">Home</a>
-                <a href="{{ path('app_product_index') }}" class="block text-sm font-medium text-brand-medium hover:text-peach-600">Collection</a>
-                <a href="{{ path('app_tailor_index') }}" class="block text-sm font-medium text-brand-medium hover:text-peach-600">Premium Service</a>
+                <a href="{{ path('app_home') }}" class="block text-sm font-medium text-brand-medium hover:text-peach-600">Bosh sahifa</a>
+                <a href="{{ path('app_product_index') }}" class="block text-sm font-medium text-brand-medium hover:text-peach-600">Kolleksiya</a>
+                <a href="{{ path('app_tailor_index') }}" class="block text-sm font-medium text-brand-medium hover:text-peach-600">Premium xizmat</a>
                 {% if app.user %}
-                    <a href="{{ path('app_cart_index') }}" class="block text-sm font-medium text-brand-medium hover:text-peach-600">Cart</a>
+                    <a href="{{ path('app_cart_index') }}" class="block text-sm font-medium text-brand-medium hover:text-peach-600">Savatcha</a>
                     {% if is_granted('ROLE_ADMIN') %}
                         <a href="{{ path('admin_dashboard') }}" class="block text-sm font-medium text-peach-600">Admin</a>
                     {% endif %}
-                    <a href="{{ path('app_logout') }}" class="block text-sm font-medium text-red-500">Logout</a>
+                    <a href="{{ path('app_logout') }}" class="block text-sm font-medium text-red-500">Chiqish</a>
                 {% else %}
-                    <a href="{{ path('app_login') }}" class="block btn-primary text-sm text-center">Sign In</a>
+                    <a href="{{ path('app_login') }}" class="block btn-primary text-sm text-center">Kirish</a>
                 {% endif %}
             </div>
         </div>
@@ -99,22 +99,22 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div>
                     <h3 class="text-xl font-display font-bold mb-4">Pesca</h3>
-                    <p class="text-brand-muted text-sm leading-relaxed">Premium medical clothing designed for professionals who value comfort, style, and quality.</p>
+                    <p class="text-brand-muted text-sm leading-relaxed">Qulaylik, uslub va sifatni qadrlaydigan mutaxassislar uchun mo'ljallangan premium tibbiy kiyimlar.</p>
                 </div>
                 <div>
-                    <h4 class="font-semibold text-sm uppercase tracking-wider mb-4">Quick Links</h4>
+                    <h4 class="font-semibold text-sm uppercase tracking-wider mb-4">Tezkor havolalar</h4>
                     <ul class="space-y-2 text-sm text-brand-muted">
-                        <li><a href="{{ path('app_product_index') }}" class="hover:text-peach-400 transition-colors">Collection</a></li>
-                        <li><a href="{{ path('app_tailor_index') }}" class="hover:text-peach-400 transition-colors">Premium Service</a></li>
+                        <li><a href="{{ path('app_product_index') }}" class="hover:text-peach-400 transition-colors">Kolleksiya</a></li>
+                        <li><a href="{{ path('app_tailor_index') }}" class="hover:text-peach-400 transition-colors">Premium xizmat</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4 class="font-semibold text-sm uppercase tracking-wider mb-4">Contact</h4>
-                    <p class="text-sm text-brand-muted">Tashkent, Uzbekistan</p>
+                    <h4 class="font-semibold text-sm uppercase tracking-wider mb-4">Aloqa</h4>
+                    <p class="text-sm text-brand-muted">Toshkent, O'zbekiston</p>
                 </div>
             </div>
             <div class="border-t border-white/10 mt-10 pt-6 text-center text-xs text-brand-muted">
-                &copy; {{ "now"|date("Y") }} Pesca Medical. All rights reserved.
+                &copy; {{ "now"|date("Y") }} Pesca Medical. Barcha huquqlar himoyalangan.
             </div>
         </div>
     </footer>

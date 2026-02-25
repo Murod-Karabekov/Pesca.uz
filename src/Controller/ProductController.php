@@ -35,7 +35,7 @@ class ProductController extends AbstractController
     public function show(Product $product): Response
     {
         if (!$product->isStatus()) {
-            throw $this->createNotFoundException('Product not found.');
+            throw $this->createNotFoundException('Mahsulot topilmadi.');
         }
 
         return $this->render('product/show.html.twig', [

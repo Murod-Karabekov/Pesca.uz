@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Sign In — Pesca{% endblock %}
+{% block title %}Kirish — Pesca{% endblock %}
 
 {% block body %}
 <div class="min-h-[80vh] flex items-center justify-center px-4 py-12">
     <div class="w-full max-w-md">
         <div class="text-center mb-8">
-            <h1 class="text-3xl font-display font-bold text-brand-dark mb-2">Welcome Back</h1>
-            <p class="text-brand-medium">Sign in to your Pesca account</p>
+            <h1 class="text-3xl font-display font-bold text-brand-dark mb-2">Xush kelibsiz</h1>
+            <p class="text-brand-medium">Pesca hisobingizga kiring</p>
         </div>
 
         <div class="card p-8">
@@ -19,30 +19,30 @@
 
             <form method="post" class="space-y-5">
                 <div>
-                    <label for="phone" class="block text-sm font-medium text-brand-dark mb-2">Phone Number</label>
+                    <label for="phone" class="block text-sm font-medium text-brand-dark mb-2">Telefon raqami</label>
                     <input type="tel" id="phone" name="_phone" value="{{ last_phone }}"
                            placeholder="+998 XX XXX XX XX"
                            class="input-field" required autofocus>
                 </div>
 
                 <div>
-                    <label for="password" class="block text-sm font-medium text-brand-dark mb-2">Password</label>
+                    <label for="password" class="block text-sm font-medium text-brand-dark mb-2">Parol</label>
                     <input type="password" id="password" name="_password"
-                           placeholder="Enter your password"
+                           placeholder="Parolingizni kiriting"
                            class="input-field" required>
                 </div>
 
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
                 <button type="submit" class="btn-primary w-full text-center">
-                    Sign In
+                    Kirish
                 </button>
             </form>
 
             <div class="mt-6 text-center">
                 <p class="text-sm text-brand-medium">
-                    Don't have an account?
-                    <a href="{{ path('app_register') }}" class="text-peach-600 font-medium hover:text-peach-700 transition-colors">Create one</a>
+                    Hisobingiz yo'qmi?
+                    <a href="{{ path('app_register') }}" class="text-peach-600 font-medium hover:text-peach-700 transition-colors">Yarating</a>
                 </p>
             </div>
         </div>

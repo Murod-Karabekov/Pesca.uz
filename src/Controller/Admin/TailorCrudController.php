@@ -41,14 +41,14 @@ class TailorCrudController extends AbstractController
             $em->persist($tailor);
             $em->flush();
 
-            $this->addFlash('success', 'Tailor added successfully!');
+            $this->addFlash('success', 'Tikuvchi muvaffaqiyatli qo\'shildi!');
             return $this->redirectToRoute('admin_tailor_index');
         }
 
         return $this->render('admin/tailor/form.html.twig', [
             'form' => $form->createView(),
             'tailor' => $tailor,
-            'title' => 'Add New Tailor',
+            'title' => 'Yangi tikuvchi qo\'shish',
         ]);
     }
 
@@ -66,14 +66,14 @@ class TailorCrudController extends AbstractController
             $this->handleImageUpload($form, $tailor, $slugger);
             $em->flush();
 
-            $this->addFlash('success', 'Tailor updated successfully!');
+            $this->addFlash('success', 'Tikuvchi muvaffaqiyatli yangilandi!');
             return $this->redirectToRoute('admin_tailor_index');
         }
 
         return $this->render('admin/tailor/form.html.twig', [
             'form' => $form->createView(),
             'tailor' => $tailor,
-            'title' => 'Edit Tailor',
+            'title' => 'Tikuvchini tahrirlash',
         ]);
     }
 
@@ -92,7 +92,7 @@ class TailorCrudController extends AbstractController
             }
             $em->remove($tailor);
             $em->flush();
-            $this->addFlash('success', 'Tailor deleted.');
+            $this->addFlash('success', 'Tikuvchi o\'chirildi.');
         }
 
         return $this->redirectToRoute('admin_tailor_index');
@@ -119,7 +119,7 @@ class TailorCrudController extends AbstractController
                 }
                 $tailor->setImage($newFilename);
             } catch (FileException $e) {
-                $this->addFlash('error', 'Failed to upload image.');
+                $this->addFlash('error', 'Rasmni yuklash muvaffaqiyatsiz bo\'ldi.');
             }
         }
     }

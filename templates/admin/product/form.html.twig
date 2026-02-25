@@ -6,7 +6,7 @@
 <div class="mb-8">
     <a href="{{ path('admin_product_index') }}" class="inline-flex items-center gap-2 text-sm text-brand-medium hover:text-peach-600 transition-colors mb-4">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-        Back to Products
+        Mahsulotlarga qaytish
     </a>
     <h1 class="text-2xl md:text-3xl font-display font-bold text-brand-dark">{{ title }}</h1>
 </div>
@@ -33,7 +33,7 @@
     </div>
 
     <div>
-        <label class="block text-sm font-medium text-brand-dark mb-3">Available Sizes</label>
+        <label class="block text-sm font-medium text-brand-dark mb-3">Mavjud o'lchamlar</label>
         <div class="flex flex-wrap gap-3">
             {% for child in form.size %}
             <label class="cursor-pointer">
@@ -66,8 +66,8 @@
     </div>
 
     <div class="flex gap-3 pt-4">
-        <button type="submit" class="btn-primary">Save Product</button>
-        <a href="{{ path('admin_product_index') }}" class="btn-secondary">Cancel</a>
+        <button type="submit" class="btn-primary">Mahsulotni saqlash</button>
+        <a href="{{ path('admin_product_index') }}" class="btn-secondary">Bekor qilish</a>
     </div>
 
     {{ form_end(form) }}

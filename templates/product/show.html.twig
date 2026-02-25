@@ -7,7 +7,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {# ─── Breadcrumb ─── #}
         <nav class="mb-8 text-sm text-brand-medium">
-            <a href="{{ path('app_product_index') }}" class="hover:text-peach-600 transition-colors">Collection</a>
+            <a href="{{ path('app_product_index') }}" class="hover:text-peach-600 transition-colors">Kolleksiya</a>
             <span class="mx-2">→</span>
             <span class="text-brand-dark">{{ product.name }}</span>
         </nav>
@@ -31,7 +31,7 @@
             <div class="flex flex-col justify-center space-y-6">
                 <div>
                     <h1 class="text-3xl md:text-4xl font-display font-bold text-brand-dark mb-3">{{ product.name }}</h1>
-                    <p class="text-2xl font-display font-bold text-peach-600">{{ product.price|number_format(0, '.', ' ') }} UZS</p>
+                    <p class="text-2xl font-display font-bold text-peach-600">{{ product.price|number_format(0, '.', ' ') }} so'm</p>
                 </div>
 
                 {% if product.description %}
@@ -46,7 +46,7 @@
                     <input type="hidden" name="_token" value="{{ csrf_token('cart_add_' ~ product.id) }}">
 
                     <div>
-                        <label class="block text-sm font-medium text-brand-dark mb-3">Select Size</label>
+                        <label class="block text-sm font-medium text-brand-dark mb-3">O'lcham tanlang</label>
                         <div class="flex flex-wrap gap-3">
                             {% for s in product.size %}
                             <label class="cursor-pointer">
@@ -62,13 +62,13 @@
                     </div>
 
                     <button type="submit" class="btn-primary w-full md:w-auto text-base px-10 py-4">
-                        Add to Cart
+                        Savatga qo'shish
                     </button>
                 </form>
                 {% else %}
                 <div class="p-6 bg-beige-50 rounded-2xl border border-beige-200">
-                    <p class="text-brand-medium mb-4">Please sign in to add items to your cart.</p>
-                    <a href="{{ path('app_login') }}" class="btn-primary">Sign In to Purchase</a>
+                    <p class="text-brand-medium mb-4">Savatga mahsulot qo'shish uchun tizimga kiring.</p>
+                    <a href="{{ path('app_login') }}" class="btn-primary">Xarid uchun kiring</a>
                 </div>
                 {% endif %}
 
@@ -78,19 +78,19 @@
                         <svg class="w-5 h-5 text-peach-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                         </svg>
-                        Premium quality materials
+                        Premium sifatli materiallar
                     </div>
                     <div class="flex items-center gap-3 text-sm text-brand-medium">
                         <svg class="w-5 h-5 text-peach-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                         </svg>
-                        Professional medical standard
+                        Professional tibbiy standart
                     </div>
                     <div class="flex items-center gap-3 text-sm text-brand-medium">
                         <svg class="w-5 h-5 text-peach-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                         </svg>
-                        Available sizes: {{ product.size|join(', ') }}
+                        Mavjud o'lchamlar: {{ product.size|join(', ') }}
                     </div>
                 </div>
             </div>

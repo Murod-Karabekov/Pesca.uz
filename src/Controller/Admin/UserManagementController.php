@@ -29,7 +29,7 @@ class UserManagementController extends AbstractController
         EntityManagerInterface $em
     ): Response {
         if (!$this->isCsrfTokenValid('assign_role', $request->request->get('_token'))) {
-            $this->addFlash('error', 'Invalid CSRF token.');
+            $this->addFlash('error', 'Noto\'g\'ri CSRF token.');
             return $this->redirectToRoute('admin_user_index');
         }
 
@@ -37,13 +37,13 @@ class UserManagementController extends AbstractController
         $role = $request->request->get('role');
 
         if (!in_array($role, ['ROLE_USER', 'ROLE_ADMIN'])) {
-            $this->addFlash('error', 'Invalid role.');
+            $this->addFlash('error', 'Noto\'g\'ri rol.');
             return $this->redirectToRoute('admin_user_index');
         }
 
         $user = $userRepository->findOneByPhone($phone);
         if (!$user) {
-            $this->addFlash('error', 'User with phone "' . $phone . '" not found.');
+            $this->addFlash('error', '"' . $phone . '" telefonli foydalanuvchi topilmadi.');
             return $this->redirectToRoute('admin_user_index');
         }
 
@@ -55,7 +55,7 @@ class UserManagementController extends AbstractController
 
         $em->flush();
 
-        $this->addFlash('success', 'Role updated for ' . $user->getFullName() . '.');
+        $this->addFlash('success', $user->getFullName() . ' uchun rol yangilandi.');
         return $this->redirectToRoute('admin_user_index');
     }
 }

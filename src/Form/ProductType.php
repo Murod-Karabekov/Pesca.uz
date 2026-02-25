@@ -20,14 +20,14 @@ class ProductType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Product Name',
+                'label' => 'Mahsulot nomi',
                 'attr' => [
-                    'placeholder' => 'Enter product name',
+                    'placeholder' => 'Mahsulot nomini kiriting',
                     'class' => 'input-field',
                 ],
             ])
             ->add('price', MoneyType::class, [
-                'label' => 'Price',
+                'label' => 'Narx',
                 'currency' => 'UZS',
                 'attr' => [
                     'placeholder' => '0.00',
@@ -35,36 +35,36 @@ class ProductType extends AbstractType
                 ],
             ])
             ->add('description', TextareaType::class, [
-                'label' => 'Description',
+                'label' => 'Tavsif',
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'Product description...',
+                    'placeholder' => 'Mahsulot tavsifi...',
                     'class' => 'input-field',
                     'rows' => 4,
                 ],
             ])
             ->add('size', ChoiceType::class, [
-                'label' => 'Available Sizes',
+                'label' => 'Mavjud o\'lchamlar',
                 'choices' => array_combine(Product::SIZES, Product::SIZES),
                 'multiple' => true,
                 'expanded' => true,
                 'attr' => ['class' => 'flex flex-wrap gap-3'],
             ])
             ->add('imageFile', FileType::class, [
-                'label' => 'Product Image',
+                'label' => 'Mahsulot rasmi',
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [
                     new File([
                         'maxSize' => '5M',
                         'mimeTypes' => ['image/jpeg', 'image/png', 'image/webp'],
-                        'mimeTypesMessage' => 'Please upload a valid image (JPEG, PNG, or WebP).',
+                        'mimeTypesMessage' => 'Iltimos, haqiqiy rasm yuklang (JPEG, PNG yoki WebP).',
                     ]),
                 ],
                 'attr' => ['class' => 'input-field', 'accept' => 'image/*'],
             ])
             ->add('status', CheckboxType::class, [
-                'label' => 'Active',
+                'label' => 'Faol',
                 'required' => false,
             ]);
     }

@@ -36,13 +36,13 @@ class CartController extends AbstractController
         EntityManagerInterface $em
     ): Response {
         if (!$this->isCsrfTokenValid('cart_add_' . $product->getId(), $request->request->get('_token'))) {
-            $this->addFlash('error', 'Invalid CSRF token.');
+            $this->addFlash('error', 'Noto\'g\'ri CSRF token.');
             return $this->redirectToRoute('app_product_show', ['id' => $product->getId()]);
         }
 
         $size = $request->request->get('size');
         if (!$size || !in_array($size, $product->getSize())) {
-            $this->addFlash('error', 'Please select a valid size.');
+            $this->addFlash('error', 'Iltimos, to\'g\'ri o\'lchamni tanlang.');
             return $this->redirectToRoute('app_product_show', ['id' => $product->getId()]);
         }
 
@@ -62,7 +62,7 @@ class CartController extends AbstractController
 
         $em->flush();
 
-        $this->addFlash('success', $product->getName() . ' added to cart!');
+        $this->addFlash('success', $product->getName() . ' savatga qo\'shildi!');
         return $this->redirectToRoute('app_cart_index');
     }
 
@@ -77,7 +77,7 @@ class CartController extends AbstractController
         }
 
         if (!$this->isCsrfTokenValid('cart_update_' . $cartItem->getId(), $request->request->get('_token'))) {
-            $this->addFlash('error', 'Invalid CSRF token.');
+            $this->addFlash('error', 'Noto\'g\'ri CSRF token.');
             return $this->redirectToRoute('app_cart_index');
         }
 
@@ -89,7 +89,7 @@ class CartController extends AbstractController
         $cartItem->setQuantity($quantity);
         $em->flush();
 
-        $this->addFlash('success', 'Cart updated.');
+        $this->addFlash('success', 'Savatcha yangilandi.');
         return $this->redirectToRoute('app_cart_index');
     }
 
@@ -106,7 +106,7 @@ class CartController extends AbstractController
         if ($this->isCsrfTokenValid('cart_remove_' . $cartItem->getId(), $request->request->get('_token'))) {
             $em->remove($cartItem);
             $em->flush();
-            $this->addFlash('success', 'Item removed from cart.');
+            $this->addFlash('success', 'Mahsulot savatdan o\'chirildi.');
         }
 
         return $this->redirectToRoute('app_cart_index');

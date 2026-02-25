@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Your Cart — Pesca{% endblock %}
+{% block title %}Savatchangiz — Pesca{% endblock %}
 
 {% block body %}
 <section class="py-12 md:py-16">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 class="text-3xl font-display font-bold text-brand-dark mb-8">Your Cart</h1>
+        <h1 class="text-3xl font-display font-bold text-brand-dark mb-8">Savatchangiz</h1>
 
         {% if cartItems|length > 0 %}
         <div class="space-y-4 mb-8">
@@ -28,8 +28,8 @@
                     {# Product Info #}
                     <div class="flex-1 min-w-0">
                         <h3 class="font-semibold text-brand-dark">{{ item.product.name }}</h3>
-                        <p class="text-sm text-brand-medium mt-1">Size: <span class="font-medium">{{ item.size }}</span></p>
-                        <p class="text-peach-600 font-display font-bold mt-1">{{ item.product.price|number_format(0, '.', ' ') }} UZS</p>
+                        <p class="text-sm text-brand-medium mt-1">O'lcham: <span class="font-medium">{{ item.size }}</span></p>
+                        <p class="text-peach-600 font-display font-bold mt-1">{{ item.product.price|number_format(0, '.', ' ') }} so'm</p>
                     </div>
 
                     {# Quantity Control #}
@@ -45,7 +45,7 @@
 
                         <form method="post" action="{{ path('app_cart_remove', {id: item.id}) }}">
                             <input type="hidden" name="_token" value="{{ csrf_token('cart_remove_' ~ item.id) }}">
-                            <button type="submit" class="p-2 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200" title="Remove">
+                            <button type="submit" class="p-2 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200" title="O'chirish">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                                 </svg>
@@ -55,7 +55,7 @@
 
                     {# Item Total #}
                     <div class="text-right min-w-[100px]">
-                        <p class="font-display font-bold text-brand-dark">{{ item.total|number_format(0, '.', ' ') }} UZS</p>
+                        <p class="font-display font-bold text-brand-dark">{{ item.total|number_format(0, '.', ' ') }} so'm</p>
                     </div>
                 </div>
             </div>
@@ -65,16 +65,16 @@
         {# ─── Cart Summary ─── #}
         <div class="card p-6 md:p-8">
             <div class="flex items-center justify-between mb-6">
-                <span class="text-lg font-medium text-brand-dark">Total</span>
-                <span class="text-2xl font-display font-bold text-peach-600">{{ total|number_format(0, '.', ' ') }} UZS</span>
+                <span class="text-lg font-medium text-brand-dark">Jami</span>
+                <span class="text-2xl font-display font-bold text-peach-600">{{ total|number_format(0, '.', ' ') }} so'm</span>
             </div>
             <form method="post" action="{{ path('app_order_place') }}">
                 <input type="hidden" name="_token" value="{{ csrf_token('order_place') }}">
                 <button type="submit" class="btn-primary w-full text-center text-base py-4">
-                    Place Order
+                    Buyurtma berish
                 </button>
             </form>
-            <p class="text-xs text-brand-muted text-center mt-4">Your order will be submitted for processing.</p>
+            <p class="text-xs text-brand-muted text-center mt-4">Buyurtmangiz qayta ishlash uchun yuboriladi.</p>
         </div>
 
         {% else %}
@@ -82,9 +82,9 @@
             <svg class="w-16 h-16 mx-auto text-beige-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"/>
             </svg>
-            <h3 class="text-lg font-display font-semibold text-brand-dark mb-2">Your cart is empty</h3>
-            <p class="text-brand-medium mb-6">Looks like you haven't added any items yet.</p>
-            <a href="{{ path('app_product_index') }}" class="btn-primary">Browse Collection</a>
+            <h3 class="text-lg font-display font-semibold text-brand-dark mb-2">Savatchangiz bo'sh</h3>
+            <p class="text-brand-medium mb-6">Hali hech qanday mahsulot qo'shmadingiz.</p>
+            <a href="{{ path('app_product_index') }}" class="btn-primary">Kolleksiyani ko'rish</a>
         </div>
         {% endif %}
     </div>

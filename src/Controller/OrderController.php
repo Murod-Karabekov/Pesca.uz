@@ -23,7 +23,7 @@ class OrderController extends AbstractController
         EntityManagerInterface $em
     ): Response {
         if (!$this->isCsrfTokenValid('order_place', $request->request->get('_token'))) {
-            $this->addFlash('error', 'Invalid CSRF token.');
+            $this->addFlash('error', 'Noto\'g\'ri CSRF token.');
             return $this->redirectToRoute('app_cart_index');
         }
 
@@ -31,7 +31,7 @@ class OrderController extends AbstractController
         $cartItems = $cartRepository->findByUser($user);
 
         if (empty($cartItems)) {
-            $this->addFlash('error', 'Your cart is empty.');
+            $this->addFlash('error', 'Savatchangiz bo\'sh.');
             return $this->redirectToRoute('app_cart_index');
         }
 

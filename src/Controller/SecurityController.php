@@ -60,7 +60,7 @@ class SecurityController extends AbstractController
             $em->persist($user);
             $em->flush();
 
-            $this->addFlash('success', 'Account created successfully! Please log in.');
+            $this->addFlash('success', 'Hisob muvaffaqiyatli yaratildi! Iltimos, tizimga kiring.');
             return $this->redirectToRoute('app_login');
         }
 

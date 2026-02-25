@@ -42,14 +42,14 @@ class ProductCrudController extends AbstractController
             $em->persist($product);
             $em->flush();
 
-            $this->addFlash('success', 'Product created successfully!');
+            $this->addFlash('success', 'Mahsulot muvaffaqiyatli yaratildi!');
             return $this->redirectToRoute('admin_product_index');
         }
 
         return $this->render('admin/product/form.html.twig', [
             'form' => $form->createView(),
             'product' => $product,
-            'title' => 'Add New Product',
+            'title' => 'Yangi mahsulot qo\'shish',
         ]);
     }
 
@@ -67,14 +67,14 @@ class ProductCrudController extends AbstractController
             $this->handleImageUpload($form, $product, $slugger, 'products');
             $em->flush();
 
-            $this->addFlash('success', 'Product updated successfully!');
+            $this->addFlash('success', 'Mahsulot muvaffaqiyatli yangilandi!');
             return $this->redirectToRoute('admin_product_index');
         }
 
         return $this->render('admin/product/form.html.twig', [
             'form' => $form->createView(),
             'product' => $product,
-            'title' => 'Edit Product',
+            'title' => 'Mahsulotni tahrirlash',
         ]);
     }
 
@@ -94,7 +94,7 @@ class ProductCrudController extends AbstractController
             }
             $em->remove($product);
             $em->flush();
-            $this->addFlash('success', 'Product deleted.');
+            $this->addFlash('success', 'Mahsulot o\'chirildi.');
         }
 
         return $this->redirectToRoute('admin_product_index');
@@ -109,8 +109,8 @@ class ProductCrudController extends AbstractController
         if ($this->isCsrfTokenValid('toggle_product_' . $product->getId(), $request->request->get('_token'))) {
             $product->setStatus(!$product->isStatus());
             $em->flush();
-            $status = $product->isStatus() ? 'activated' : 'deactivated';
-            $this->addFlash('success', "Product {$status}.");
+            $status = $product->isStatus() ? 'faollashtirildi' : 'nofaollashtirildi';
+            $this->addFlash('success', "Mahsulot {$status}.");
         }
 
         return $this->redirectToRoute('admin_product_index');
@@ -138,7 +138,7 @@ class ProductCrudController extends AbstractController
                 }
                 $product->setImage($newFilename);
             } catch (FileException $e) {
-                $this->addFlash('error', 'Failed to upload image.');
+                $this->addFlash('error', 'Rasmni yuklash muvaffaqiyatsiz bo\'ldi.');
             }
         }
     }

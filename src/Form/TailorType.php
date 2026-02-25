@@ -18,23 +18,23 @@ class TailorType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Tailor Name',
+                'label' => 'Tikuvchi ismi',
                 'attr' => [
-                    'placeholder' => 'Enter tailor name',
+                    'placeholder' => 'Tikuvchi ismini kiriting',
                     'class' => 'input-field',
                 ],
             ])
             ->add('description', TextareaType::class, [
-                'label' => 'Experience & Description',
+                'label' => 'Tajriba va tavsif',
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'Describe their experience...',
+                    'placeholder' => 'Tajribasini tasvirlang...',
                     'class' => 'input-field',
                     'rows' => 4,
                 ],
             ])
             ->add('price', MoneyType::class, [
-                'label' => 'Service Price (optional)',
+                'label' => 'Xizmat narxi (ixtiyoriy)',
                 'currency' => 'UZS',
                 'required' => false,
                 'attr' => [
@@ -43,14 +43,14 @@ class TailorType extends AbstractType
                 ],
             ])
             ->add('imageFile', FileType::class, [
-                'label' => 'Profile Image',
+                'label' => 'Profil rasmi',
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [
                     new File([
                         'maxSize' => '5M',
                         'mimeTypes' => ['image/jpeg', 'image/png', 'image/webp'],
-                        'mimeTypesMessage' => 'Please upload a valid image (JPEG, PNG, or WebP).',
+                        'mimeTypesMessage' => 'Iltimos, haqiqiy rasm yuklang (JPEG, PNG yoki WebP).',
                     ]),
                 ],
                 'attr' => ['class' => 'input-field', 'accept' => 'image/*'],
