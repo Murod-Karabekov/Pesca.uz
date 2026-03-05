@@ -54,6 +54,13 @@ class ProductType extends AbstractType
                 'placeholder' => 'Kategoriya tanlang...',
                 'attr' => ['class' => 'input-field'],
             ])
+            ->add('gender', ChoiceType::class, [
+                'label' => 'Jins',
+                'choices' => array_flip(Product::GENDERS),
+                'required' => false,
+                'placeholder' => 'Tanlang...',
+                'attr' => ['class' => 'input-field'],
+            ])
             ->add('size', ChoiceType::class, [
                 'label' => 'Mavjud o\'lchamlar',
                 'choices' => array_combine(Product::SIZES, Product::SIZES),

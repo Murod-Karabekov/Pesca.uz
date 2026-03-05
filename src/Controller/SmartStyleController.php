@@ -42,8 +42,13 @@ class SmartStyleController extends AbstractController
 
         $skinTone = $data['skinTone'] ?? null;
         $faceShape = $data['faceShape'] ?? null;
+        $gender = $data['gender'] ?? null;
 
         // Validatsiya
+        if (!$gender || !in_array($gender, UserProfile::GENDERS)) {
+            return $this->json(['error' => 'Noto\'g\'ri jins.'], 400);
+        }
+
         if (!$skinTone || !in_array($skinTone, UserProfile::SKIN_TONES)) {
             return $this->json(['error' => 'Noto\'g\'ri teri rangi.'], 400);
         }
@@ -63,6 +68,7 @@ class SmartStyleController extends AbstractController
 
         $profile->setSkinTone($skinTone);
         $profile->setFaceShape($faceShape);
+        $profile->setGender($gender);
         $profile->setAnalyzedAt(new \DateTimeImmutable());
 
         $em->persist($profile);

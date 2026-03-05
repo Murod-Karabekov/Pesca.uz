@@ -25,11 +25,18 @@ class SmartStyleService
 
         $skinTone = $profile->getSkinTone();
         $faceShape = $profile->getFaceShape();
+        $gender = $profile->getGender();
         $products = $this->productRepository->findActive();
 
         $recommendations = [];
 
         foreach ($products as $product) {
+            // Gender filter: faqat mos jins yoki unisex mahsulotlar
+            $productGender = $product->getGender();
+            if ($productGender && $productGender !== 'unisex' && $productGender !== $gender) {
+                continue;
+            }
+
             $score = $product->getMatchScore($skinTone, $faceShape);
 
             if ($score >= $minScore) {

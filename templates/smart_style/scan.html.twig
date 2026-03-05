@@ -18,20 +18,38 @@
 
         {# ─── Camera Container ─── #}
         <div id="smart-style-app">
+            {# Step 0: Gender Selection #}
+            <div id="step-gender" class="card p-6 md:p-8">
+                <h2 class="text-lg font-display font-semibold text-brand-dark mb-2 text-center">Jinsingizni tanlang</h2>
+                <p class="text-sm text-brand-medium mb-6 text-center">Sizga mos kiyimlarni ko'rsatish uchun</p>
+                <div class="grid grid-cols-2 gap-4 max-w-sm mx-auto">
+                    <button type="button" data-gender="male"
+                            class="gender-btn group flex flex-col items-center gap-3 p-6 rounded-2xl border-2 border-beige-200 hover:border-peach-400 hover:bg-peach-50 transition-all duration-200">
+                        <span class="text-4xl group-hover:scale-110 transition-transform">👨</span>
+                        <span class="font-display font-semibold text-brand-dark">Erkak</span>
+                    </button>
+                    <button type="button" data-gender="female"
+                            class="gender-btn group flex flex-col items-center gap-3 p-6 rounded-2xl border-2 border-beige-200 hover:border-peach-400 hover:bg-peach-50 transition-all duration-200">
+                        <span class="text-4xl group-hover:scale-110 transition-transform">👩</span>
+                        <span class="font-display font-semibold text-brand-dark">Ayol</span>
+                    </button>
+                </div>
+            </div>
+
             {# Step 1: Camera / Upload #}
-            <div id="step-camera" class="card p-6 md:p-8">
-                <div class="relative mx-auto w-64 h-64 md:w-80 md:h-80 mb-6">
+            <div id="step-camera" class="hidden card p-6 md:p-8">
+                <div class="relative mx-auto mb-6" style="width: 280px; height: 280px;">
                     {# Camera preview #}
-                    <video id="camera-preview" class="w-full h-full object-cover rounded-full hidden" autoplay playsinline></video>
+                    <video id="camera-preview" class="absolute inset-0 w-full h-full object-cover rounded-full hidden" autoplay playsinline></video>
 
                     {# Image preview #}
-                    <img id="image-preview" class="w-full h-full object-cover rounded-full hidden" alt="Preview">
+                    <img id="image-preview" class="absolute inset-0 w-full h-full object-cover rounded-full hidden" alt="Preview">
 
                     {# Placeholder #}
-                    <div id="camera-placeholder" class="w-full h-full rounded-full bg-beige-100 flex items-center justify-center border-4 border-dashed border-beige-300">
-                        <div class="text-center">
-                            <div class="text-5xl mb-2">😊</div>
-                            <p class="text-sm text-brand-medium">Yuzingizni shu yerga</p>
+                    <div id="camera-placeholder" class="absolute inset-0 w-full h-full rounded-full bg-beige-100 flex items-center justify-center border-4 border-dashed border-beige-300">
+                        <div class="text-center p-4">
+                            <div class="text-5xl mb-3">😊</div>
+                            <p class="text-sm text-brand-medium leading-tight">Yuzingizni<br>shu yerga</p>
                         </div>
                     </div>
 
@@ -128,6 +146,7 @@
         const RESULTS_URL = '{{ path('app_smart_style_results') }}';
 
         // Elements
+        const stepGender = document.getElementById('step-gender');
         const cameraPreview = document.getElementById('camera-preview');
         const imagePreview = document.getElementById('image-preview');
         const placeholder = document.getElementById('camera-placeholder');
@@ -146,6 +165,27 @@
 
         let stream = null;
         let capturedImageData = null;
+        let selectedGender = null;
+
+        // ─── Gender Selection ───
+        document.querySelectorAll('.gender-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                selectedGender = btn.dataset.gender;
+                // Highlight selected
+                document.querySelectorAll('.gender-btn').forEach(b => {
+                    b.classList.remove('border-peach-500', 'bg-peach-50');
+                    b.classList.add('border-beige-200');
+                });
+                btn.classList.remove('border-beige-200');
+                btn.classList.add('border-peach-500', 'bg-peach-50');
+
+                // Go to camera step after short delay
+                setTimeout(() => {
+                    stepGender.classList.add('hidden');
+                    stepCamera.classList.remove('hidden');
+                }, 300);
+            });
+        });
 
         // ─── Camera ───
         document.getElementById('btn-camera').addEventListener('click', async () => {
@@ -222,7 +262,12 @@
         // Retry
         document.getElementById('btn-retry').addEventListener('click', () => {
             stepError.classList.add('hidden');
-            stepCamera.classList.remove('hidden');
+            stepGender.classList.remove('hidden');
+            selectedGender = null;
+            document.querySelectorAll('.gender-btn').forEach(b => {
+                b.classList.remove('border-peach-500', 'bg-peach-50');
+                b.classList.add('border-beige-200');
+            });
             resetToStart();
         });
 
@@ -275,7 +320,7 @@
                 const response = await fetch(ANALYZE_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ skinTone, faceShape })
+                    body: JSON.stringify({ skinTone, faceShape, gender: selectedGender })
                 });
 
                 const result = await response.json();

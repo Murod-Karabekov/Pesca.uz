@@ -14,6 +14,12 @@ class Product
 {
     public const SIZES = ['XS', 'S', 'M', 'L', 'XL'];
 
+    public const GENDERS = [
+        'male' => 'Erkak',
+        'female' => 'Ayol',
+        'unisex' => 'Unisex',
+    ];
+
     public const SKIN_TONES = [
         'light' => 'Light (Oq teri)',
         'warm_medium' => 'Warm Medium (Iliq bug\'doy)',
@@ -60,6 +66,9 @@ class Product
 
     #[ORM\ManyToOne(inversedBy: 'products')]
     private ?Category $category = null;
+
+    #[ORM\Column(length: 10, nullable: true)]
+    private ?string $gender = null;
 
     #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $skinTones = null;
@@ -186,6 +195,17 @@ class Product
     public function setCategory(?Category $category): static
     {
         $this->category = $category;
+        return $this;
+    }
+
+    public function getGender(): ?string
+    {
+        return $this->gender;
+    }
+
+    public function setGender(?string $gender): static
+    {
+        $this->gender = $gender;
         return $this;
     }
 

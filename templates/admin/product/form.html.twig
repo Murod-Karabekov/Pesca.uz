@@ -60,7 +60,13 @@
         <h3 class="text-lg font-display font-semibold text-brand-dark mb-4">
             ✨ SmartStyle sozlamalari
         </h3>
-        <p class="text-xs text-brand-medium mb-4">Bu mahsulot qaysi teri rangi va yuz shakliga mos keladi?</p>
+        <p class="text-xs text-brand-medium mb-4">Bu mahsulot qaysi jins, teri rangi va yuz shakliga mos keladi?</p>
+
+        <div class="mb-6">
+            {{ form_label(form.gender, null, {'label_attr': {'class': 'block text-sm font-medium text-brand-dark mb-2'}}) }}
+            {{ form_widget(form.gender) }}
+            {{ form_errors(form.gender) }}
+        </div>
 
         <div class="mb-6">
             <label class="block text-sm font-medium text-brand-dark mb-3">Mos teri tonlari</label>

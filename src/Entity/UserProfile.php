@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: UserProfileRepository::class)]
 class UserProfile
 {
+    public const GENDERS = ['male', 'female'];
     public const SKIN_TONES = ['light', 'warm_medium', 'cool_medium', 'dark'];
     public const FACE_SHAPES = ['oval', 'round', 'square', 'heart', 'oblong', 'diamond'];
 
@@ -19,6 +20,9 @@ class UserProfile
     #[ORM\OneToOne(inversedBy: 'profile')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
+
+    #[ORM\Column(length: 10, nullable: true)]
+    private ?string $gender = null;
 
     #[ORM\Column(length: 20, nullable: true)]
     private ?string $skinTone = null;
@@ -78,9 +82,29 @@ class UserProfile
         return $this;
     }
 
+    public function getGender(): ?string
+    {
+        return $this->gender;
+    }
+
+    public function setGender(?string $gender): static
+    {
+        $this->gender = $gender;
+        return $this;
+    }
+
+    public function getGenderLabel(): string
+    {
+        return match ($this->gender) {
+            'male' => 'Erkak',
+            'female' => 'Ayol',
+            default => 'Aniqlanmagan',
+        };
+    }
+
     public function isAnalyzed(): bool
     {
-        return $this->skinTone !== null && $this->faceShape !== null;
+        return $this->gender !== null && $this->skinTone !== null && $this->faceShape !== null;
     }
 
     public function getSkinToneLabel(): string
@@ -112,6 +136,7 @@ class UserProfile
      */
     public function clear(): static
     {
+        $this->gender = null;
         $this->skinTone = null;
         $this->faceShape = null;
         $this->analyzedAt = null;
