@@ -9,7 +9,7 @@
 </div>
 
 {# ─── Stats Cards ─── #}
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
     <div class="card p-6">
         <div class="flex items-center gap-4">
             <div class="w-12 h-12 bg-peach-100 rounded-xl flex items-center justify-center">
@@ -34,6 +34,20 @@
             <div>
                 <p class="text-2xl font-display font-bold text-brand-dark">{{ activeProductCount }}</p>
                 <p class="text-sm text-brand-medium">Faol mahsulotlar</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="card p-6">
+        <div class="flex items-center gap-4">
+            <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center">
+                <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>
+                </svg>
+            </div>
+            <div>
+                <p class="text-2xl font-display font-bold text-brand-dark">{{ categoryCount }}</p>
+                <p class="text-sm text-brand-medium">Kategoriyalar</p>
             </div>
         </div>
     </div>
@@ -65,6 +79,18 @@
             </div>
         </div>
     </div>
+
+    <div class="card p-6">
+        <div class="flex items-center gap-4">
+            <div class="w-12 h-12 bg-pink-100 rounded-xl flex items-center justify-center">
+                <span class="text-xl">✨</span>
+            </div>
+            <div>
+                <p class="text-2xl font-display font-bold text-brand-dark">{{ smartStyleUsers }}</p>
+                <p class="text-sm text-brand-medium">SmartStyle foydalanuvchilar</p>
+            </div>
+        </div>
+    </div>
 </div>
 
 {# ─── Quick Actions ─── #}
@@ -72,6 +98,7 @@
     <h3 class="font-display font-semibold text-lg text-brand-dark mb-4">Tezkor amallar</h3>
     <div class="flex flex-wrap gap-3">
         <a href="{{ path('admin_product_new') }}" class="btn-primary text-sm">Mahsulot qo'shish</a>
+        <a href="{{ path('admin_category_new') }}" class="btn-secondary text-sm">Kategoriya qo'shish</a>
         <a href="{{ path('admin_tailor_new') }}" class="btn-secondary text-sm">Tikuvchi qo'shish</a>
         <a href="{{ path('admin_user_index') }}" class="btn-secondary text-sm">Foydalanuvchilarni boshqarish</a>
     </div>

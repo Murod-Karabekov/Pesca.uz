@@ -2,8 +2,10 @@
 
 namespace App\Controller\Admin;
 
+use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
 use App\Repository\TailorRepository;
+use App\Repository\UserProfileRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,13 +20,17 @@ class DashboardController extends AbstractController
     public function index(
         ProductRepository $productRepository,
         TailorRepository $tailorRepository,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        CategoryRepository $categoryRepository,
+        UserProfileRepository $userProfileRepository
     ): Response {
         return $this->render('admin/dashboard.html.twig', [
             'productCount' => $productRepository->count([]),
             'activeProductCount' => $productRepository->count(['status' => true]),
             'tailorCount' => $tailorRepository->count([]),
             'userCount' => $userRepository->count([]),
+            'categoryCount' => $categoryRepository->count([]),
+            'smartStyleUsers' => $userProfileRepository->count([]),
         ]);
     }
 }

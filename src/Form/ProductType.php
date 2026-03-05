@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Category;
 use App\Entity\Product;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -44,11 +46,35 @@ class ProductType extends AbstractType
                     'rows' => 4,
                 ],
             ])
+            ->add('category', EntityType::class, [
+                'label' => 'Kategoriya',
+                'class' => Category::class,
+                'choice_label' => 'name',
+                'required' => false,
+                'placeholder' => 'Kategoriya tanlang...',
+                'attr' => ['class' => 'input-field'],
+            ])
             ->add('size', ChoiceType::class, [
                 'label' => 'Mavjud o\'lchamlar',
                 'choices' => array_combine(Product::SIZES, Product::SIZES),
                 'multiple' => true,
                 'expanded' => true,
+                'attr' => ['class' => 'flex flex-wrap gap-3'],
+            ])
+            ->add('skinTones', ChoiceType::class, [
+                'label' => 'Mos teri tonlari (SmartStyle)',
+                'choices' => array_flip(Product::SKIN_TONES),
+                'multiple' => true,
+                'expanded' => true,
+                'required' => false,
+                'attr' => ['class' => 'flex flex-wrap gap-3'],
+            ])
+            ->add('faceShapes', ChoiceType::class, [
+                'label' => 'Mos yuz shakllari (SmartStyle)',
+                'choices' => array_flip(Product::FACE_SHAPES),
+                'multiple' => true,
+                'expanded' => true,
+                'required' => false,
                 'attr' => ['class' => 'flex flex-wrap gap-3'],
             ])
             ->add('imageFile', FileType::class, [

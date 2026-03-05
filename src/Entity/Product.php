@@ -14,6 +14,22 @@ class Product
 {
     public const SIZES = ['XS', 'S', 'M', 'L', 'XL'];
 
+    public const SKIN_TONES = [
+        'light' => 'Light (Oq teri)',
+        'warm_medium' => 'Warm Medium (Iliq bug\'doy)',
+        'cool_medium' => 'Cool Medium (Sovuq bug\'doy)',
+        'dark' => 'Dark (To\'q teri)',
+    ];
+
+    public const FACE_SHAPES = [
+        'oval' => 'Oval',
+        'round' => 'Round (Dumaloq)',
+        'square' => 'Square (To\'rtburchak)',
+        'heart' => 'Heart (Yurak)',
+        'oblong' => 'Oblong (Cho\'ziq)',
+        'diamond' => 'Diamond (Olmos)',
+    ];
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -41,6 +57,15 @@ class Product
 
     #[ORM\Column]
     private bool $status = true;
+
+    #[ORM\ManyToOne(inversedBy: 'products')]
+    private ?Category $category = null;
+
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $skinTones = null;
+
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $faceShapes = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
@@ -151,6 +176,58 @@ class Product
     {
         $this->createdAt = $createdAt;
         return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): static
+    {
+        $this->category = $category;
+        return $this;
+    }
+
+    public function getSkinTones(): ?array
+    {
+        return $this->skinTones;
+    }
+
+    public function setSkinTones(?array $skinTones): static
+    {
+        $this->skinTones = $skinTones;
+        return $this;
+    }
+
+    public function getFaceShapes(): ?array
+    {
+        return $this->faceShapes;
+    }
+
+    public function setFaceShapes(?array $faceShapes): static
+    {
+        $this->faceShapes = $faceShapes;
+        return $this;
+    }
+
+    /**
+     * SmartStyle match score hisoblash
+     */
+    public function getMatchScore(string $skinTone, string $faceShape): int
+    {
+        $score = 0;
+        $skinMatch = $this->skinTones && in_array($skinTone, $this->skinTones);
+        $faceMatch = $this->faceShapes && in_array($faceShape, $this->faceShapes);
+
+        if ($skinMatch) {
+            $score += 60;
+        }
+        if ($faceMatch) {
+            $score += 40;
+        }
+
+        return $score;
     }
 
     /** @return Collection<int, Cart> */

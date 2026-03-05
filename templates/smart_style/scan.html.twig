@@ -1,0 +1,414 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Skanerlash — SmartStyle{% endblock %}
+
+{% block body %}
+<section class="py-12 md:py-16">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        {# ─── Header ─── #}
+        <div class="mb-8">
+            <a href="{{ path('app_smart_style_index') }}" class="inline-flex items-center gap-2 text-sm text-brand-medium hover:text-peach-600 transition-colors mb-4">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+                Orqaga
+            </a>
+            <h1 class="text-2xl md:text-3xl font-display font-bold text-brand-dark">📸 Skanerlash</h1>
+            <p class="text-brand-medium text-sm mt-2">Yuzingizni doira ichiga joylashtiring</p>
+        </div>
+
+        {# ─── Camera Container ─── #}
+        <div id="smart-style-app">
+            {# Step 1: Camera / Upload #}
+            <div id="step-camera" class="card p-6 md:p-8">
+                <div class="relative mx-auto w-64 h-64 md:w-80 md:h-80 mb-6">
+                    {# Camera preview #}
+                    <video id="camera-preview" class="w-full h-full object-cover rounded-full hidden" autoplay playsinline></video>
+
+                    {# Image preview #}
+                    <img id="image-preview" class="w-full h-full object-cover rounded-full hidden" alt="Preview">
+
+                    {# Placeholder #}
+                    <div id="camera-placeholder" class="w-full h-full rounded-full bg-beige-100 flex items-center justify-center border-4 border-dashed border-beige-300">
+                        <div class="text-center">
+                            <div class="text-5xl mb-2">😊</div>
+                            <p class="text-sm text-brand-medium">Yuzingizni shu yerga</p>
+                        </div>
+                    </div>
+
+                    {# Scanning overlay #}
+                    <div id="scan-overlay" class="hidden absolute inset-0 rounded-full border-4 border-peach-500 animate-pulse"></div>
+                </div>
+
+                {# Buttons #}
+                <div id="camera-buttons" class="space-y-3">
+                    <button id="btn-camera" type="button"
+                            class="w-full btn-primary justify-center py-4 text-base">
+                        📷 Kamerani ochish
+                    </button>
+                    <label class="w-full btn-secondary justify-center py-3 cursor-pointer block text-center">
+                        🖼 Galereyadan yuklash
+                        <input id="file-input" type="file" accept="image/*" class="hidden">
+                    </label>
+                </div>
+
+                {# Capture & Analyze buttons (hidden initially) #}
+                <div id="capture-buttons" class="hidden space-y-3">
+                    <button id="btn-capture" type="button"
+                            class="w-full btn-primary justify-center py-4 text-base">
+                        📸 Suratga olish
+                    </button>
+                    <button id="btn-cancel-camera" type="button"
+                            class="w-full btn-secondary justify-center py-3">
+                        ✕ Bekor qilish
+                    </button>
+                </div>
+
+                {# Analyze button (after capture/upload) #}
+                <div id="analyze-buttons" class="hidden space-y-3">
+                    <button id="btn-analyze" type="button"
+                            class="w-full btn-primary justify-center py-4 text-base">
+                        ✨ Tahlil qilish
+                    </button>
+                    <button id="btn-retake" type="button"
+                            class="w-full btn-secondary justify-center py-3">
+                        🔄 Qayta olish
+                    </button>
+                </div>
+            </div>
+
+            {# Step 2: Loading #}
+            <div id="step-loading" class="hidden card p-8 md:p-12 text-center">
+                <div class="mb-6">
+                    <div class="w-24 h-24 mx-auto rounded-full bg-peach-50 flex items-center justify-center mb-4">
+                        <svg class="w-12 h-12 text-peach-500 animate-spin" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                    </div>
+                </div>
+                <h2 class="text-xl font-display font-bold text-brand-dark mb-3">Tahlil qilinmoqda...</h2>
+                <div class="w-full bg-beige-200 rounded-full h-2 mb-4 max-w-xs mx-auto">
+                    <div id="progress-bar" class="bg-peach-500 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+                <p id="loading-text" class="text-sm text-brand-medium">Model yuklanmoqda...</p>
+            </div>
+
+            {# Step 3: Error #}
+            <div id="step-error" class="hidden card p-8 md:p-12 text-center">
+                <div class="text-5xl mb-4">😕</div>
+                <h2 class="text-xl font-display font-bold text-brand-dark mb-3">Xatolik</h2>
+                <p id="error-text" class="text-sm text-brand-medium mb-6">Yuzni aniqlab bo'lmadi. Iltimos, qaytadan urinib ko'ring.</p>
+                <button id="btn-retry" type="button" class="btn-primary">Qayta urinish</button>
+            </div>
+        </div>
+
+        {# Privacy note #}
+        <div class="mt-6 text-center">
+            <p class="text-xs text-brand-medium flex items-center justify-center gap-2">
+                <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg>
+                Rasmingiz serverga yuborilmaydi. Barcha tahlil brauzeringizda amalga oshiriladi.
+            </p>
+        </div>
+
+        {# Hidden canvas for processing #}
+        <canvas id="processing-canvas" class="hidden"></canvas>
+    </div>
+</section>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core@4.17.0/dist/tf-core.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter@4.17.0/dist/tf-converter.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl@4.17.0/dist/tf-backend-webgl.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/face-landmarks-detection@1.0.5/dist/face-landmarks-detection.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const ANALYZE_URL = '{{ path('app_smart_style_analyze') }}';
+        const RESULTS_URL = '{{ path('app_smart_style_results') }}';
+
+        // Elements
+        const cameraPreview = document.getElementById('camera-preview');
+        const imagePreview = document.getElementById('image-preview');
+        const placeholder = document.getElementById('camera-placeholder');
+        const scanOverlay = document.getElementById('scan-overlay');
+        const cameraButtons = document.getElementById('camera-buttons');
+        const captureButtons = document.getElementById('capture-buttons');
+        const analyzeButtons = document.getElementById('analyze-buttons');
+        const stepCamera = document.getElementById('step-camera');
+        const stepLoading = document.getElementById('step-loading');
+        const stepError = document.getElementById('step-error');
+        const progressBar = document.getElementById('progress-bar');
+        const loadingText = document.getElementById('loading-text');
+        const errorText = document.getElementById('error-text');
+        const canvas = document.getElementById('processing-canvas');
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+
+        let stream = null;
+        let capturedImageData = null;
+
+        // ─── Camera ───
+        document.getElementById('btn-camera').addEventListener('click', async () => {
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: 'user', width: 640, height: 640 }
+                });
+                cameraPreview.srcObject = stream;
+                cameraPreview.classList.remove('hidden');
+                placeholder.classList.add('hidden');
+                cameraButtons.classList.add('hidden');
+                captureButtons.classList.remove('hidden');
+            } catch (err) {
+                alert('Kameraga ruxsat berilmadi. Iltimos, galereyadan rasm yuklang.');
+            }
+        });
+
+        // Capture photo
+        document.getElementById('btn-capture').addEventListener('click', () => {
+            canvas.width = cameraPreview.videoWidth;
+            canvas.height = cameraPreview.videoHeight;
+            ctx.drawImage(cameraPreview, 0, 0);
+            capturedImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+            // Show captured image
+            imagePreview.src = canvas.toDataURL('image/jpeg');
+            imagePreview.classList.remove('hidden');
+            cameraPreview.classList.add('hidden');
+            stopCamera();
+
+            captureButtons.classList.add('hidden');
+            analyzeButtons.classList.remove('hidden');
+        });
+
+        // Cancel camera
+        document.getElementById('btn-cancel-camera').addEventListener('click', () => {
+            stopCamera();
+            cameraPreview.classList.add('hidden');
+            placeholder.classList.remove('hidden');
+            captureButtons.classList.add('hidden');
+            cameraButtons.classList.remove('hidden');
+        });
+
+        // File upload
+        document.getElementById('file-input').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const img = new Image();
+                img.onload = () => {
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    ctx.drawImage(img, 0, 0);
+                    capturedImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+                    imagePreview.src = event.target.result;
+                    imagePreview.classList.remove('hidden');
+                    placeholder.classList.add('hidden');
+                    cameraButtons.classList.add('hidden');
+                    analyzeButtons.classList.remove('hidden');
+                };
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+
+        // Retake
+        document.getElementById('btn-retake').addEventListener('click', () => {
+            resetToStart();
+        });
+
+        // Retry
+        document.getElementById('btn-retry').addEventListener('click', () => {
+            stepError.classList.add('hidden');
+            stepCamera.classList.remove('hidden');
+            resetToStart();
+        });
+
+        // ─── Analyze ───
+        document.getElementById('btn-analyze').addEventListener('click', async () => {
+            stepCamera.classList.add('hidden');
+            stepLoading.classList.remove('hidden');
+            updateProgress(10, 'Model yuklanmoqda...');
+
+            try {
+                // Load TensorFlow.js model (v1.x API)
+                await tf.setBackend('webgl');
+                await tf.ready();
+
+                const model = faceLandmarksDetection.SupportedModels.MediaPipeFaceMesh;
+                const detector = await faceLandmarksDetection.createDetector(model, {
+                    runtime: 'tfjs',
+                    refineLandmarks: true,
+                    maxFaces: 1,
+                });
+                updateProgress(40, 'Yuz aniqlanmoqda...');
+
+                // Put image data back to canvas for detection
+                canvas.width = capturedImageData.width;
+                canvas.height = capturedImageData.height;
+                ctx.putImageData(capturedImageData, 0, 0);
+
+                // Detect face (v1.x: pass element directly)
+                const predictions = await detector.estimateFaces(canvas);
+
+                if (!predictions || predictions.length === 0) {
+                    showError('Yuz aniqlanmadi. Iltimos, yuzingiz aniq ko\'rinadigan rasm ishlating.');
+                    return;
+                }
+
+                updateProgress(60, 'Yuz shakli aniqlanmoqda...');
+                const face = predictions[0];
+                // v1.x: keypoints are {x, y, z?, name?} objects
+                const keypoints = face.keypoints;
+
+                // Calculate face shape
+                const faceShape = calculateFaceShape(keypoints);
+                updateProgress(80, 'Teri rangi aniqlanmoqda...');
+
+                // Calculate skin tone
+                const skinTone = calculateSkinTone(keypoints, capturedImageData);
+                updateProgress(95, 'Natijalar saqlanmoqda...');
+
+                // Send results to server
+                const response = await fetch(ANALYZE_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ skinTone, faceShape })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    updateProgress(100, 'Tayyor!');
+                    setTimeout(() => {
+                        window.location.href = RESULTS_URL;
+                    }, 500);
+                } else {
+                    showError(result.error || 'Serverda xatolik yuz berdi.');
+                }
+            } catch (err) {
+                console.error('SmartStyle error:', err);
+                showError('Tahlil qilishda xatolik: ' + err.message);
+            }
+        });
+
+        // ─── Face Shape Calculation ───
+        function calculateFaceShape(keypoints) {
+            // Key face landmarks (MediaPipe FaceMesh indices)
+            // v1.x keypoints are {x, y, z?, name?} objects
+            const jawLeft = keypoints[234];    // Left jaw
+            const jawRight = keypoints[454];   // Right jaw
+            const chin = keypoints[152];       // Chin
+            const forehead = keypoints[10];    // Forehead top
+            const cheekLeft = keypoints[123];  // Left cheekbone
+            const cheekRight = keypoints[352]; // Right cheekbone
+            const foreheadLeft = keypoints[67];
+            const foreheadRight = keypoints[297];
+
+            // Distances (using .x, .y properties)
+            const faceHeight = distance(forehead, chin);
+            const jawWidth = distance(jawLeft, jawRight);
+            const foreheadWidth = distance(foreheadLeft, foreheadRight);
+            const cheekWidth = distance(cheekLeft, cheekRight);
+
+            const ratio = faceHeight / jawWidth;
+            const jawToForehead = jawWidth / foreheadWidth;
+
+            // Classification
+            if (ratio > 1.6) return 'oblong';
+            if (ratio < 1.1 && jawToForehead > 0.9) return 'round';
+            if (jawToForehead > 1.05 && ratio < 1.4) return 'square';
+            if (foreheadWidth > jawWidth * 1.15) return 'heart';
+            if (cheekWidth > foreheadWidth * 1.1 && cheekWidth > jawWidth * 1.1) return 'diamond';
+            return 'oval';
+        }
+
+        // ─── Skin Tone Calculation ───
+        function calculateSkinTone(keypoints, imageData) {
+            const data = imageData.data;
+            const width = imageData.width;
+
+            // Sample skin pixels from cheek areas
+            const samplePoints = [
+                keypoints[117], // Left cheek
+                keypoints[346], // Right cheek
+                keypoints[187], // Left under eye
+                keypoints[411], // Right under eye
+            ];
+
+            let totalR = 0, totalG = 0, totalB = 0, count = 0;
+
+            samplePoints.forEach(point => {
+                const x = Math.round(point.x);
+                const y = Math.round(point.y);
+
+                // Sample 5x5 pixel area around each point
+                for (let dx = -2; dx <= 2; dx++) {
+                    for (let dy = -2; dy <= 2; dy++) {
+                        const px = x + dx;
+                        const py = y + dy;
+                        if (px >= 0 && px < width && py >= 0 && py < imageData.height) {
+                            const idx = (py * width + px) * 4;
+                            totalR += data[idx];
+                            totalG += data[idx + 1];
+                            totalB += data[idx + 2];
+                            count++;
+                        }
+                    }
+                }
+            });
+
+            const avgR = totalR / count;
+            const avgG = totalG / count;
+            const avgB = totalB / count;
+
+            // Brightness and warmth
+            const brightness = (avgR * 299 + avgG * 587 + avgB * 114) / 1000;
+            const warmth = avgR - avgB;
+
+            // Classification (4 categories)
+            if (brightness > 180) return 'light';
+            if (brightness > 130) {
+                return warmth > 25 ? 'warm_medium' : 'cool_medium';
+            }
+            return 'dark';
+        }
+
+        // ─── Helpers ───
+        function distance(a, b) {
+            return Math.sqrt(
+                Math.pow(a.x - b.x, 2) +
+                Math.pow(a.y - b.y, 2)
+            );
+        }
+
+        function updateProgress(percent, text) {
+            progressBar.style.width = percent + '%';
+            loadingText.textContent = text;
+        }
+
+        function showError(message) {
+            stepLoading.classList.add('hidden');
+            stepError.classList.remove('hidden');
+            errorText.textContent = message;
+        }
+
+        function stopCamera() {
+            if (stream) {
+                stream.getTracks().forEach(t => t.stop());
+                stream = null;
+            }
+        }
+
+        function resetToStart() {
+            imagePreview.classList.add('hidden');
+            placeholder.classList.remove('hidden');
+            analyzeButtons.classList.add('hidden');
+            cameraButtons.classList.remove('hidden');
+            capturedImageData = null;
+        }
+    });
+    </script>
+{% endblock %}

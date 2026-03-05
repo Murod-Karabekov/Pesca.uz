@@ -46,6 +46,9 @@
                     <a href="{{ path('app_product_index') }}" class="text-sm font-medium text-brand-medium hover:text-peach-600 transition-colors">Kolleksiya</a>
                     <a href="{{ path('app_tailor_index') }}" class="text-sm font-medium text-brand-medium hover:text-peach-600 transition-colors">Premium xizmat</a>
                     {% if app.user %}
+                        <a href="{{ path('app_smart_style_index') }}" class="text-sm font-medium text-peach-600 hover:text-peach-700 transition-colors flex items-center gap-1">
+                            <span>✨</span> SmartStyle
+                        </a>
                         <a href="{{ path('app_cart_index') }}" class="text-sm font-medium text-brand-medium hover:text-peach-600 transition-colors relative">
                             Savatcha
                         </a>
@@ -74,6 +77,7 @@
                 <a href="{{ path('app_product_index') }}" class="block text-sm font-medium text-brand-medium hover:text-peach-600">Kolleksiya</a>
                 <a href="{{ path('app_tailor_index') }}" class="block text-sm font-medium text-brand-medium hover:text-peach-600">Premium xizmat</a>
                 {% if app.user %}
+                    <a href="{{ path('app_smart_style_index') }}" class="block text-sm font-medium text-peach-600 hover:text-peach-700">✨ SmartStyle</a>
                     <a href="{{ path('app_cart_index') }}" class="block text-sm font-medium text-brand-medium hover:text-peach-600">Savatcha</a>
                     {% if is_granted('ROLE_ADMIN') %}
                         <a href="{{ path('admin_dashboard') }}" class="block text-sm font-medium text-peach-600">Admin</a>
