@@ -39,7 +39,8 @@ RUN apk add --no-cache \
         intl \
         opcache \
         mbstring \
-        gd
+        gd \
+        bcmath
 
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer

@@ -164,11 +164,6 @@
             <p class="text-xs text-brand-medium mb-1">{{ product.category.icon }} {{ product.category.name }}</p>
         {% endif %}
         <p class="text-peach-600 font-display font-bold text-lg">{{ product.price|number_format(0, '.', ' ') }} so'm</p>
-        <div class="flex flex-wrap gap-1 mt-2">
-            {% for s in product.size %}
-                <span class="px-2 py-0.5 text-xs bg-beige-100 text-brand-medium rounded">{{ s }}</span>
-            {% endfor %}
-        </div>
     </div>
 </a>
 {% endmacro %}

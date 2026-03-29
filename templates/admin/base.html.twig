@@ -29,7 +29,7 @@
 
     <div class="flex min-h-screen">
         {# ─── Sidebar ─── #}
-        <aside class="hidden lg:flex lg:flex-col w-64 bg-brand-dark text-white">
+        <aside class="hidden lg:flex lg:flex-col w-64 bg-brand-dark text-white sticky top-0 h-screen overflow-y-auto">
             <div class="p-6 border-b border-white/10">
                 <a href="{{ path('admin_dashboard') }}" class="flex items-center gap-2">
                     <span class="text-2xl font-display font-bold">Pesca</span>
@@ -65,15 +65,6 @@
                     Mahsulotlar
                 </a>
 
-                <a href="{{ path('admin_tailor_index') }}"
-                   class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors
-                          {{ app.request.attributes.get('_route') starts with 'admin_tailor' ? 'bg-white/10 text-white' : 'text-brand-muted hover:bg-white/5 hover:text-white' }}">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L9.121 9.121m0 5.758a3 3 0 10-4.243 4.243 3 3 0 004.243-4.243z"/>
-                    </svg>
-                    Tikuvchilar
-                </a>
-
                 <a href="{{ path('admin_user_index') }}"
                    class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors
                           {{ app.request.attributes.get('_route') starts with 'admin_user' ? 'bg-white/10 text-white' : 'text-brand-muted hover:bg-white/5 hover:text-white' }}">
@@ -81,6 +72,15 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
                     </svg>
                     Foydalanuvchilar
+                </a>
+
+                <a href="{{ path('admin_withdrawal_index') }}"
+                   class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors
+                          {{ app.request.attributes.get('_route') starts with 'admin_withdrawal' ? 'bg-white/10 text-white' : 'text-brand-muted hover:bg-white/5 hover:text-white' }}">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    Yechish so'rovlari
                 </a>
             </nav>
 
@@ -115,7 +115,6 @@
             <nav class="lg:hidden bg-white border-b border-beige-200 px-4 py-2 flex gap-1 overflow-x-auto">
                 <a href="{{ path('admin_dashboard') }}" class="px-3 py-2 text-xs font-medium rounded-lg whitespace-nowrap {{ app.request.attributes.get('_route') starts with 'admin_dashboard' ? 'bg-peach-100 text-peach-700' : 'text-brand-medium' }}">Boshqaruv paneli</a>
                 <a href="{{ path('admin_product_index') }}" class="px-3 py-2 text-xs font-medium rounded-lg whitespace-nowrap {{ app.request.attributes.get('_route') starts with 'admin_product' ? 'bg-peach-100 text-peach-700' : 'text-brand-medium' }}">Mahsulotlar</a>
-                <a href="{{ path('admin_tailor_index') }}" class="px-3 py-2 text-xs font-medium rounded-lg whitespace-nowrap {{ app.request.attributes.get('_route') starts with 'admin_tailor' ? 'bg-peach-100 text-peach-700' : 'text-brand-medium' }}">Tikuvchilar</a>
                 <a href="{{ path('admin_user_index') }}" class="px-3 py-2 text-xs font-medium rounded-lg whitespace-nowrap {{ app.request.attributes.get('_route') starts with 'admin_user' ? 'bg-peach-100 text-peach-700' : 'text-brand-medium' }}">Foydalanuvchilar</a>
             </nav>
 

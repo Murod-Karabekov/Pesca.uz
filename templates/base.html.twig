@@ -44,7 +44,7 @@
                 <div class="hidden md:flex items-center gap-8">
                     <a href="{{ path('app_home') }}" class="text-sm font-medium text-brand-medium hover:text-peach-600 transition-colors">Bosh sahifa</a>
                     <a href="{{ path('app_product_index') }}" class="text-sm font-medium text-brand-medium hover:text-peach-600 transition-colors">Kolleksiya</a>
-                    <a href="{{ path('app_tailor_index') }}" class="text-sm font-medium text-brand-medium hover:text-peach-600 transition-colors">Premium xizmat</a>
+                    <a href="{{ path('app_hamkorlik_index') }}" class="text-sm font-medium text-brand-medium hover:text-peach-600 transition-colors">Hamkorlik</a>
                     {% if app.user %}
                         <a href="{{ path('app_smart_style_index') }}" class="text-sm font-medium text-peach-600 hover:text-peach-700 transition-colors flex items-center gap-1">
                             <span>✨</span> SmartStyle
@@ -55,7 +55,10 @@
                         {% if is_granted('ROLE_ADMIN') %}
                             <a href="{{ path('admin_dashboard') }}" class="text-sm font-medium text-peach-600 hover:text-peach-700 transition-colors">Admin</a>
                         {% endif %}
-                        <a href="{{ path('app_logout') }}" class="btn-secondary text-sm !py-2 !px-4">Chiqish</a>
+                        <a href="{{ path('app_profile_index') }}" class="flex items-center gap-2 px-3 py-1.5 bg-beige-100 rounded-full hover:bg-beige-200 transition-colors">
+                            <span class="w-7 h-7 bg-gradient-to-br from-peach-400 to-peach-600 rounded-full flex items-center justify-center text-xs font-bold text-white">{{ app.user.fullName|first|upper }}</span>
+                            <span class="text-sm font-medium text-brand-dark">{{ app.user.fullName|split(' ')[0] }}</span>
+                        </a>
                     {% else %}
                         <a href="{{ path('app_login') }}" class="btn-primary text-sm !py-2 !px-4">Kirish</a>
                     {% endif %}
@@ -75,13 +78,15 @@
             <div class="px-4 py-4 space-y-3">
                 <a href="{{ path('app_home') }}" class="block text-sm font-medium text-brand-medium hover:text-peach-600">Bosh sahifa</a>
                 <a href="{{ path('app_product_index') }}" class="block text-sm font-medium text-brand-medium hover:text-peach-600">Kolleksiya</a>
-                <a href="{{ path('app_tailor_index') }}" class="block text-sm font-medium text-brand-medium hover:text-peach-600">Premium xizmat</a>
+                <a href="{{ path('app_hamkorlik_index') }}" class="block text-sm font-medium text-brand-medium hover:text-peach-600">Hamkorlik</a>
                 {% if app.user %}
                     <a href="{{ path('app_smart_style_index') }}" class="block text-sm font-medium text-peach-600 hover:text-peach-700">✨ SmartStyle</a>
                     <a href="{{ path('app_cart_index') }}" class="block text-sm font-medium text-brand-medium hover:text-peach-600">Savatcha</a>
                     {% if is_granted('ROLE_ADMIN') %}
                         <a href="{{ path('admin_dashboard') }}" class="block text-sm font-medium text-peach-600">Admin</a>
                     {% endif %}
+                    <hr class="border-beige-200">
+                    <a href="{{ path('app_profile_index') }}" class="block text-sm font-medium text-brand-dark hover:text-peach-600">👤 Shaxsiy kabinet</a>
                     <a href="{{ path('app_logout') }}" class="block text-sm font-medium text-red-500">Chiqish</a>
                 {% else %}
                     <a href="{{ path('app_login') }}" class="block btn-primary text-sm text-center">Kirish</a>
@@ -109,7 +114,6 @@
                     <h4 class="font-semibold text-sm uppercase tracking-wider mb-4">Tezkor havolalar</h4>
                     <ul class="space-y-2 text-sm text-brand-muted">
                         <li><a href="{{ path('app_product_index') }}" class="hover:text-peach-400 transition-colors">Kolleksiya</a></li>
-                        <li><a href="{{ path('app_tailor_index') }}" class="hover:text-peach-400 transition-colors">Premium xizmat</a></li>
                     </ul>
                 </div>
                 <div>
@@ -123,5 +127,14 @@
         </div>
     </footer>
     {% endblock %}
+
+    {# ─── Floating Telegram Button ─── #}
+    <a href="https://t.me/pescauz" target="_blank" rel="noopener noreferrer"
+       class="fixed bottom-6 right-6 z-40 group" title="Telegram kanal">
+        <span class="absolute -inset-1 bg-[#27A7E7]/20 rounded-full animate-ping"></span>
+        <span class="relative flex items-center justify-center w-14 h-14 bg-[#27A7E7] hover:bg-[#1e96d1] text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+        </span>
+    </a>
 </body>
 </html>

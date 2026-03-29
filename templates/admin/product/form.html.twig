@@ -38,23 +38,6 @@
         {{ form_errors(form.category) }}
     </div>
 
-    <div>
-        <label class="block text-sm font-medium text-brand-dark mb-3">Mavjud o'lchamlar</label>
-        <div class="flex flex-wrap gap-3">
-            {% for child in form.size %}
-            <label class="cursor-pointer">
-                {{ form_widget(child, {'attr': {'class': 'sr-only peer'}}) }}
-                <span class="inline-flex items-center justify-center w-14 h-14 rounded-xl border-2 border-beige-300 text-sm font-medium text-brand-medium
-                             peer-checked:border-peach-500 peer-checked:bg-peach-50 peer-checked:text-peach-700
-                             hover:border-peach-300 transition-all duration-200">
-                    {{ child.vars.label }}
-                </span>
-            </label>
-            {% endfor %}
-        </div>
-        {{ form_errors(form.size) }}
-    </div>
-
     {# ─── SmartStyle Settings ─── #}
     <div class="border-t border-beige-200 pt-6 mt-6">
         <h3 class="text-lg font-display font-semibold text-brand-dark mb-4">

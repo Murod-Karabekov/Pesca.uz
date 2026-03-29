@@ -36,6 +36,7 @@ class Product
         'diamond' => 'Diamond (Olmos)',
     ];
 
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -75,6 +76,7 @@ class Product
 
     #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $faceShapes = null;
+
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
@@ -230,6 +232,8 @@ class Product
         $this->faceShapes = $faceShapes;
         return $this;
     }
+
+
 
     /**
      * SmartStyle match score hisoblash

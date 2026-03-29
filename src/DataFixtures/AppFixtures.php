@@ -3,7 +3,6 @@
 namespace App\DataFixtures;
 
 use App\Entity\Product;
-use App\Entity\Tailor;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -51,21 +50,6 @@ class AppFixtures extends Fixture
             $product->setSize($data['size']);
             $product->setStatus(true);
             $manager->persist($product);
-        }
-
-        // ─── Sample Tailors ───
-        $tailors = [
-            ['name' => 'Aziza Karimova', 'description' => '15 years of experience in medical clothing tailoring. Specializes in custom-fit lab coats and surgical wear. Known for impeccable attention to detail.', 'price' => '250000'],
-            ['name' => 'Rustam Aliyev', 'description' => 'Master tailor with expertise in premium medical uniforms. Trained in European tailoring techniques. Creates bespoke medical wear for clinics and hospitals.', 'price' => '350000'],
-            ['name' => 'Dilnoza Ergasheva', 'description' => 'Fashion-forward medical clothing designer. Combines modern aesthetics with professional requirements. Specializes in women\'s medical wear.', 'price' => '300000'],
-        ];
-
-        foreach ($tailors as $data) {
-            $tailor = new Tailor();
-            $tailor->setName($data['name']);
-            $tailor->setDescription($data['description']);
-            $tailor->setPrice($data['price']);
-            $manager->persist($tailor);
         }
 
         $manager->flush();

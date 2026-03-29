@@ -61,13 +61,6 @@ class ProductType extends AbstractType
                 'placeholder' => 'Tanlang...',
                 'attr' => ['class' => 'input-field'],
             ])
-            ->add('size', ChoiceType::class, [
-                'label' => 'Mavjud o\'lchamlar',
-                'choices' => array_combine(Product::SIZES, Product::SIZES),
-                'multiple' => true,
-                'expanded' => true,
-                'attr' => ['class' => 'flex flex-wrap gap-3'],
-            ])
             ->add('skinTones', ChoiceType::class, [
                 'label' => 'Mos teri tonlari (SmartStyle)',
                 'choices' => array_flip(Product::SKIN_TONES),

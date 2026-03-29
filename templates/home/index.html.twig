@@ -24,8 +24,8 @@
                     <a href="{{ path('app_product_index') }}" class="btn-primary text-base px-8 py-4">
                         Kolleksiyani ko'rish
                     </a>
-                    <a href="{{ path('app_tailor_index') }}" class="btn-secondary text-base px-8 py-4">
-                        Premium xizmat
+                    <a href="{{ path('app_hamkorlik_index') }}" class="btn-secondary text-base px-8 py-4">
+                        Hamkorlik
                     </a>
                 </div>
             </div>
@@ -110,11 +110,10 @@
                 <div class="p-5">
                     <h3 class="font-semibold text-brand-dark mb-1 group-hover:text-peach-600 transition-colors">{{ product.name }}</h3>
                     <p class="text-peach-600 font-display font-bold text-lg">{{ product.price|number_format(0, '.', ' ') }} so'm</p>
-                    <div class="flex flex-wrap gap-1 mt-3">
-                        {% for s in product.size %}
-                            <span class="px-2 py-0.5 text-xs bg-beige-100 text-brand-medium rounded-md">{{ s }}</span>
-                        {% endfor %}
-                    </div>
+                    <p class="text-xs text-brand-muted mt-2 flex items-center gap-1">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        Barcha o'lchamlarga mos
+                    </p>
                 </div>
             </a>
             {% endfor %}
@@ -126,42 +125,5 @@
 </section>
 {% endif %}
 
-{# ─── Tailors Section ─── #}
-{% if tailors|length > 0 %}
-<section class="py-16 md:py-24 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-12">
-            <h2 class="text-3xl md:text-4xl font-display font-bold text-brand-dark mb-4">Premium tikuvchilik xizmati</h2>
-            <p class="text-brand-medium max-w-2xl mx-auto">Maxsus tibbiy kiyim tajribasi uchun mutaxassis tikuvchilarimiz bilan ishlang.</p>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {% for tailor in tailors %}
-            <div class="card p-6 text-center">
-                <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-beige-100 overflow-hidden">
-                    {% if tailor.imageSrc %}
-                        <img src="{{ tailor.imageSrc }}" alt="{{ tailor.name }}" class="w-full h-full object-cover">
-                    {% else %}
-                        <div class="w-full h-full flex items-center justify-center">
-                            <svg class="w-10 h-10 text-beige-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                            </svg>
-                        </div>
-                    {% endif %}
-                </div>
-                <h3 class="font-display font-semibold text-lg text-brand-dark mb-2">{{ tailor.name }}</h3>
-                {% if tailor.description %}
-                    <p class="text-brand-medium text-sm mb-4 line-clamp-3">{{ tailor.description }}</p>
-                {% endif %}
-                {% if tailor.price %}
-                    <p class="text-peach-600 font-bold font-display mb-4">{{ tailor.price|number_format(0, '.', ' ') }} so'mdan</p>
-                {% endif %}
-            </div>
-            {% endfor %}
-        </div>
-        <div class="text-center mt-10">
-            <a href="{{ path('app_tailor_index') }}" class="btn-primary">Premium xizmatni ko'rish →</a>
-        </div>
-    </div>
-</section>
-{% endif %}
+
 {% endblock %}

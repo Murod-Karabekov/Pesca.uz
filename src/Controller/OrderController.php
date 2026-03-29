@@ -41,7 +41,6 @@ class OrderController extends AbstractController
                 $user->getFullName(),
                 $user->getPhone(),
                 $item->getProduct()->getName(),
-                $item->getSize(),
                 $item->getQuantity()
             );
         }

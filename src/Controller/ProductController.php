@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,21 +14,25 @@ use Symfony\Component\Routing\Attribute\Route;
 class ProductController extends AbstractController
 {
     #[Route('', name: 'index')]
-    public function index(Request $request, ProductRepository $productRepository): Response
+    public function index(Request $request, ProductRepository $productRepository, CategoryRepository $categoryRepository): Response
     {
-        $size = $request->query->get('size');
+        $categorySlug = $request->query->get('category');
+        $category = null;
 
-        if ($size && in_array($size, Product::SIZES)) {
-            $products = $productRepository->findActiveBySize($size);
+        if ($categorySlug) {
+            $category = $categoryRepository->findBySlug($categorySlug);
+        }
+
+        if ($category) {
+            $products = $productRepository->findActiveByCategory($category);
         } else {
             $products = $productRepository->findActive();
-            $size = null;
         }
 
         return $this->render('product/index.html.twig', [
             'products' => $products,
-            'sizes' => Product::SIZES,
-            'currentSize' => $size,
+            'categories' => $categoryRepository->findAllOrdered(),
+            'currentCategory' => $category,
         ]);
     }
 

@@ -34,4 +34,17 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     {
         return $this->findOneBy(['phone' => $phone]);
     }
+
+    /**
+     * @return User[]
+     */
+    public function searchByPhone(string $phone): array
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.phone LIKE :phone')
+            ->setParameter('phone', '%' . $phone . '%')
+            ->orderBy('u.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 }

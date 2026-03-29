@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Naqd yechish — Moliya{% endblock %}
+
+{% block body %}
+<div class="max-w-xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <a href="{{ path('app_finance_index') }}" class="text-sm text-brand-medium hover:text-peach-600 mb-6 inline-flex items-center gap-1">
+        ← Moliya bo'limiga qaytish
+    </a>
+
+    <div class="bg-white rounded-2xl shadow-lg overflow-hidden mt-4">
+        <div class="bg-gradient-to-br from-purple-500 to-purple-700 text-white p-6 text-center">
+            <h1 class="text-2xl font-display font-bold">💸 Naqd yechish</h1>
+            <div class="mt-3">
+                <span class="text-sm opacity-80">Joriy balans:</span>
+                <div class="text-3xl font-bold">{{ balance|number_format(0, '.', ' ') }} <span class="text-lg opacity-80">so'm</span></div>
+            </div>
+        </div>
+
+        <div class="p-6">
+            {% if balance < minAmount %}
+                <div class="bg-red-50 border border-red-200 rounded-xl p-4 text-center mb-6">
+                    <p class="text-red-700 font-medium">Mablag' yetarli emas</p>
+                    <p class="text-sm text-red-600 mt-1">
+                        Minimal summa: <strong>{{ minAmount|number_format(0, '.', ' ') }} so'm</strong>
+                    </p>
+                    <p class="text-sm text-red-600">
+                        Yana <strong>{{ (minAmount - balance)|number_format(0, '.', ' ') }} so'm</strong> kerak
+                    </p>
+                </div>
+            {% else %}
+                <form method="post" action="{{ path('app_finance_withdraw') }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token('withdraw') }}">
+
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-brand-dark mb-1">Summa (so'm)</label>
+                            <input type="number" name="amount" min="{{ minAmount }}" max="{{ balance }}" step="1000"
+                                   value="{{ minAmount }}"
+                                   class="input-field" required
+                                   placeholder="Kamida {{ minAmount|number_format(0, '.', ' ') }}">
+                            <p class="text-xs text-brand-light mt-1">Minimal: {{ minAmount|number_format(0, '.', ' ') }} so'm</p>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-brand-dark mb-1">Karta raqami</label>
+                            <input type="text" name="card_number" id="card-number-input"
+                                   class="input-field tracking-widest text-lg" required
+                                   maxlength="19" inputmode="numeric" autocomplete="cc-number"
+                                   placeholder="0000 0000 0000 0000">
+                            <p class="text-xs text-brand-light mt-1">Humo yoki UzCard karta raqamingizni kiriting</p>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-brand-dark mb-1">Karta egasining ismi</label>
+                            <input type="text" name="card_holder_name"
+                                   class="input-field" required
+                                   placeholder=" ISMINGIZ FAMILIYANGIZ">
+                        </div>
+                    </div>
+
+                    <button type="submit"
+                            class="w-full mt-6 py-3 bg-purple-600 text-white rounded-xl font-semibold hover:bg-purple-700 transition-colors">
+                        Yechish so'rovini yuborish
+                    </button>
+                </form>
+            {% endif %}
+
+            <div class="mt-6 bg-beige-50 rounded-xl p-4 text-xs text-brand-light">
+                <p class="font-medium text-brand-dark mb-2">ℹ️ Qoidalar:</p>
+                <ul class="space-y-1 list-disc list-inside">
+                    <li>Minimal yechish summasi: 5,000,000 so'm</li>
+                    <li>So'rov admin tomonidan tasdiqlanishi kerak</li>
+                    <li>Pul 24-48 soat ichida o'tkaziladi</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const input = document.getElementById('card-number-input');
+    if (!input) return;
+
+    input.addEventListener('input', function(e) {
+        let value = this.value.replace(/\D/g, '');
+        if (value.length > 16) value = value.slice(0, 16);
+        this.value = value.replace(/(\d{4})(?=\d)/g, '$1 ');
+    });
+
+    input.addEventListener('keydown', function(e) {
+        if (e.key === 'Backspace' && this.value.endsWith(' ')) {
+            e.preventDefault();
+            this.value = this.value.slice(0, -2);
+        }
+    });
+});
+</script>
+{% endblock %}

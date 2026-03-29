@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ma'lumotlarni tahrirlash{% endblock %}
+
+{% block body %}
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="mb-8">
+        <a href="{{ path('app_profile_index') }}" class="text-sm text-brand-medium hover:text-peach-600 inline-flex items-center gap-1 mb-4">
+            ← Profilga qaytish
+        </a>
+        <h1 class="text-3xl font-display font-bold text-brand-dark">Ma'lumotlarni tahrirlash</h1>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {# Sidebar #}
+        <div class="space-y-4">
+            <div class="bg-white rounded-2xl shadow-sm border border-beige-200 overflow-hidden">
+                <a href="{{ path('app_profile_index') }}"
+                   class="flex items-center gap-3 px-5 py-3.5 text-sm font-medium text-brand-medium hover:bg-beige-50 transition-colors border-l-4 border-transparent">
+                    <span>👤</span> Umumiy
+                </a>
+                <a href="{{ path('app_profile_edit') }}"
+                   class="flex items-center gap-3 px-5 py-3.5 text-sm font-medium bg-peach-50 text-peach-700 border-l-4 border-peach-500">
+                    <span>✏️</span> Ma'lumotlarni tahrirlash
+                </a>
+                <a href="{{ path('app_profile_password') }}"
+                   class="flex items-center gap-3 px-5 py-3.5 text-sm font-medium text-brand-medium hover:bg-beige-50 transition-colors border-l-4 border-transparent">
+                    <span>🔒</span> Parolni o'zgartirish
+                </a>
+                {% if user.hasMembership %}
+                <a href="{{ path('app_finance_index') }}"
+                   class="flex items-center gap-3 px-5 py-3.5 text-sm font-medium text-brand-medium hover:bg-beige-50 transition-colors border-l-4 border-transparent">
+                    <span>💰</span> Moliya bo'limi
+                </a>
+                {% endif %}
+            </div>
+        </div>
+
+        {# Form #}
+        <div class="lg:col-span-2">
+            <div class="bg-white rounded-2xl shadow-sm border border-beige-200 p-6">
+                <h3 class="font-display font-semibold text-lg text-brand-dark mb-6">✏️ Shaxsiy ma'lumotlar</h3>
+
+                <form method="post" action="{{ path('app_profile_edit') }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token('profile_edit') }}">
+
+                    <div class="space-y-5">
+                        <div>
+                            <label for="full_name" class="block text-sm font-medium text-brand-dark mb-1.5">To'liq ism</label>
+                            <input type="text" id="full_name" name="full_name"
+                                   value="{{ user.fullName }}"
+                                   class="input-field" required
+                                   placeholder="Ismingiz va familiyangiz">
+                        </div>
+
+                        <div>
+                            <label for="phone" class="block text-sm font-medium text-brand-dark mb-1.5">Telefon raqam</label>
+                            <input type="tel" id="phone" name="phone"
+                                   value="{{ user.phone }}"
+                                   class="input-field" required
+                                   placeholder="+998901234567"
+                                   pattern="\+998\d{9}">
+                            <p class="text-xs text-brand-light mt-1">Format: +998XXXXXXXXX</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-3 mt-8">
+                        <button type="submit" class="btn-primary">Saqlash</button>
+                        <a href="{{ path('app_profile_index') }}" class="btn-secondary">Bekor qilish</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

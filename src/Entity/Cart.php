@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CartRepository::class)]
-#[ORM\UniqueConstraint(name: 'user_product_size_unique', columns: ['user_id', 'product_id', 'size'])]
+#[ORM\UniqueConstraint(name: 'user_product_unique', columns: ['user_id', 'product_id'])]
 class Cart
 {
     #[ORM\Id]
@@ -26,10 +26,6 @@ class Cart
     #[ORM\Column]
     #[Assert\Positive]
     private int $quantity = 1;
-
-    #[ORM\Column(length: 10)]
-    #[Assert\NotBlank]
-    private ?string $size = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
@@ -74,17 +70,6 @@ class Cart
     public function setQuantity(int $quantity): static
     {
         $this->quantity = $quantity;
-        return $this;
-    }
-
-    public function getSize(): ?string
-    {
-        return $this->size;
-    }
-
-    public function setSize(string $size): static
-    {
-        $this->size = $size;
         return $this;
     }
 

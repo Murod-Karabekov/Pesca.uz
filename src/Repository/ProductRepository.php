@@ -32,13 +32,13 @@ class ProductRepository extends ServiceEntityRepository
     /**
      * @return Product[]
      */
-    public function findActiveBySize(string $size): array
+    public function findActiveByCategory(\App\Entity\Category $category): array
     {
         return $this->createQueryBuilder('p')
             ->where('p.status = :status')
-            ->andWhere('JSON_CONTAINS(p.size, :size) = 1')
+            ->andWhere('p.category = :category')
             ->setParameter('status', true)
-            ->setParameter('size', json_encode($size))
+            ->setParameter('category', $category)
             ->orderBy('p.createdAt', 'DESC')
             ->getQuery()
             ->getResult();

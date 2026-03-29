@@ -1,0 +1,110 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Moliya bo'limi{% endblock %}
+
+{% block body %}
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="flex items-center justify-between mb-8">
+        <div>
+            <h1 class="text-3xl font-display font-bold text-brand-dark">💰 Moliya bo'limi</h1>
+            <p class="text-sm text-brand-medium mt-1">
+                Tarifingiz:
+                <span class="inline-flex items-center gap-1 px-2 py-0.5 bg-{{ user.currentPlanColor }}-100 text-{{ user.currentPlanColor }}-700 rounded-full text-xs font-semibold">
+                    {{ user.currentPlanLabel }}
+                </span>
+            </p>
+        </div>
+        <a href="{{ path('app_finance_referral') }}" class="btn-secondary text-sm !py-2 !px-4">🔗 Referral</a>
+    </div>
+
+    {# Balans kartochkalari #}
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div class="bg-white rounded-xl shadow-sm border border-beige-200 p-5">
+            <div class="text-xs text-brand-light uppercase tracking-wider mb-1">Bonus balans</div>
+            <div class="text-2xl font-bold text-brand-dark">{{ stats.balance|number_format(0, '.', ' ') }}</div>
+            <div class="text-xs text-brand-light">so'm</div>
+        </div>
+        <div class="bg-white rounded-xl shadow-sm border border-beige-200 p-5">
+            <div class="text-xs text-brand-light uppercase tracking-wider mb-1">Jami ishlab topilgan</div>
+            <div class="text-2xl font-bold text-green-600">+{{ stats.totalEarned|number_format(0, '.', ' ') }}</div>
+            <div class="text-xs text-brand-light">so'm</div>
+        </div>
+        <div class="bg-white rounded-xl shadow-sm border border-beige-200 p-5">
+            <div class="text-xs text-brand-light uppercase tracking-wider mb-1">Mahsulotdan</div>
+            <div class="text-2xl font-bold text-blue-600">{{ stats.productEarned|number_format(0, '.', ' ') }}</div>
+            <div class="text-xs text-brand-light">so'm</div>
+        </div>
+        <div class="bg-white rounded-xl shadow-sm border border-beige-200 p-5">
+            <div class="text-xs text-brand-light uppercase tracking-wider mb-1">Tarifdan</div>
+            <div class="text-2xl font-bold text-purple-600">{{ stats.planEarned|number_format(0, '.', ' ') }}</div>
+            <div class="text-xs text-brand-light">so'm</div>
+        </div>
+    </div>
+
+    {# Jamoa statistikasi #}
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        <div class="bg-white rounded-xl shadow-sm border border-beige-200 p-6">
+            <h3 class="font-semibold text-brand-dark mb-4">👥 Mening jamoam</h3>
+            <div class="text-3xl font-bold text-brand-dark mb-3">{{ stats.totalReferrals }}</div>
+            <div class="text-xs text-brand-light mb-4">ta odam</div>
+
+            {% for planSlug, data in stats.referralsByPlan %}
+                <div class="flex items-center justify-between text-sm py-2 border-t border-beige-100">
+                    <span class="text-brand-medium">
+                        {% if planSlug == 'free' %}❄️ Free{% elseif planSlug == 'start' %}🟡 Start{% elseif planSlug == 'premium' %}🔵 Premium{% else %}🟣 VIP{% endif %}
+                        davrida
+                    </span>
+                    <span class="font-medium text-brand-dark">{{ data.count }} ta ({{ data.productPercent }}%/{{ data.planPercent }}%)</span>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-beige-200 p-6">
+            <h3 class="font-semibold text-brand-dark mb-4">📋 So'nggi tranzaksiyalar</h3>
+            {% if stats.transactions|length > 0 %}
+                <div class="space-y-2 max-h-80 overflow-y-auto">
+                    {% for tx in stats.transactions %}
+                        <div class="flex items-center justify-between text-sm py-2 border-b border-beige-50">
+                            <div>
+                                {% if tx.type in ['product_referral', 'plan_referral', 'admin_topup', 'withdrawal_refunded'] %}
+                                    <span class="text-green-600 font-medium">+{{ tx.amount|number_format(0, '.', ' ') }}</span>
+                                {% elseif tx.type in ['spent', 'withdrawn', 'admin_deduct', 'plan_payment'] %}
+                                    <span class="text-red-600 font-medium">-{{ tx.amount|number_format(0, '.', ' ') }}</span>
+                                {% else %}
+                                    <span class="text-brand-medium font-medium">{{ tx.amount|number_format(0, '.', ' ') }}</span>
+                                {% endif %}
+                                <span class="text-brand-light ml-2">{{ tx.typeLabel }}</span>
+                            </div>
+                            <div class="text-xs text-brand-light">
+                                {{ tx.createdAt|date('d.m.Y H:i') }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-sm text-brand-light text-center py-8">Hali tranzaksiyalar yo'q</p>
+            {% endif %}
+        </div>
+    </div>
+
+    {# Naqd yechish tugmasi #}
+    <div class="bg-white rounded-xl shadow-sm border border-beige-200 p-6 text-center">
+        {% if user.isVip %}
+            <a href="{{ path('app_finance_withdraw') }}"
+               class="inline-flex items-center gap-2 px-8 py-3 bg-purple-600 text-white rounded-xl font-semibold hover:bg-purple-700 transition-colors">
+                💸 Naqd yechish
+            </a>
+            <p class="text-xs text-brand-light mt-2">Minimal summa: 5,000,000 so'm</p>
+        {% else %}
+            <div class="py-4">
+                <p class="text-brand-medium mb-2">💸 Bonusni naqd yechish faqat <strong>VIP</strong> a'zolar uchun</p>
+                <p class="text-xs text-brand-light mb-4">Hozirgi tarifingiz: {{ user.currentPlanLabel }}</p>
+                <a href="{{ path('app_hamkorlik_show', {slug: 'vip'}) }}"
+                   class="inline-flex items-center gap-2 px-6 py-2 bg-purple-100 text-purple-700 rounded-xl text-sm font-medium hover:bg-purple-200 transition-colors">
+                    ⬆️ VIP ga o'tish
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

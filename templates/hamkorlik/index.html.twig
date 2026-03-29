@@ -1,0 +1,217 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hamkorlik — Tariflar{% endblock %}
+
+{% block body %}
+<div class="bg-beige-50 py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1 class="text-4xl font-display font-bold text-brand-dark mb-4">Hamkorlik</h1>
+        <p class="text-lg text-brand-medium max-w-2xl mx-auto">Pesca bilan hamkorlik qiling va daromad toping! Tarifga a'zo bo'ling, maxsus imkoniyatlarga ega bo'ling.</p>
+
+        {% if app.user and currentPlan != 'free' %}
+            <div class="mt-6 inline-flex items-center gap-2 bg-white rounded-full px-6 py-2 shadow-sm">
+                <span class="text-sm text-brand-medium">Sizning tarifingiz:</span>
+                <span class="font-bold text-peach-600">{{ app.user.currentPlanLabel }}</span>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 pb-16">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+        {% for plan in plans %}
+            <div class="flex flex-col rounded-2xl shadow-lg border-2 overflow-hidden transition-all hover:shadow-xl
+                {% if plan.slug == 'vip' %} bg-amber-50 border-amber-400 {% elseif plan.slug == 'premium' %} bg-white border-blue-300 {% else %} bg-white border-green-300 {% endif %}
+                {% if currentPlan == plan.slug %} ring-4 ring-peach-300 {% endif %}">
+
+                {# Header #}
+                <div class="p-6 text-center
+                    {% if plan.slug == 'vip' %} bg-amber-100
+                    {% elseif plan.slug == 'premium' %} bg-blue-50
+                    {% else %} bg-green-50 {% endif %}">
+
+                    <div class="text-3xl mb-2">
+                        {% if plan.slug == 'vip' %}&#x1F451;{% elseif plan.slug == 'premium' %}&#x1F48E;{% else %}&#x1F7E2;{% endif %}
+                    </div>
+                    <h3 class="text-2xl font-display font-bold
+                        {% if plan.slug == 'vip' %} text-amber-700
+                        {% elseif plan.slug == 'premium' %} text-blue-700
+                        {% else %} text-green-700 {% endif %}">{{ plan.name }}</h3>
+                    <div class="mt-3">
+                        <span class="text-3xl font-bold text-brand-dark">{{ plan.price|number_format(0, '.', ' ') }}</span>
+                        <span class="text-sm text-brand-medium"> so'm</span>
+                    </div>
+                </div>
+
+                {# Imkoniyatlar #}
+                <div class="p-6 space-y-3 flex-1">
+                    <div class="flex items-center gap-2 text-sm">
+                        <span class="text-green-500">✅</span>
+                        <span>👑 {{ plan.clothingCount }} ta maxsus kiyim tikib beriladi</span>
+                    </div>
+
+                    <div class="flex items-center gap-2 text-sm">
+                        <span class="text-green-500">✅</span>
+                        <span>🎨 Pesca MK 2027 ga tekin yo'llanma</span>
+                    </div>
+
+                    {% if plan.hasDesign %}
+                        <div class="flex items-center gap-2 text-sm">
+                            <span class="text-green-500">✅</span>
+                            <span>Shaxsiy dizayn</span>
+                        </div>
+                    {% endif %}
+
+                    <div class="flex items-center gap-2 text-sm">
+                        <span class="text-green-500">✅</span>
+                        <span>Moliya bo'limi</span>
+                    </div>
+
+                    <div class="flex items-center gap-2 text-sm">
+                        <span class="text-green-500">✅</span>
+                        <span>🎓 Yopiq guruhda masterklasslar</span>
+                    </div>
+
+                    {% if plan.slug == 'vip' %}
+                        <div class="flex items-center gap-2 text-sm">
+                            <span class="text-green-500">✅</span>
+                            <span>✈️ Chet elga sayohat yutib olish imkoniyati</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm">
+                            <span class="text-green-500">✅</span>
+                            <span>🎁 Qimmatli mukofotlar va bonuslar</span>
+                        </div>
+                    {% endif %}
+
+                    <hr class="my-4">
+
+                    <div class="text-sm font-semibold text-brand-dark mb-2">Daromad (har bir qo'shgan odamingizdan):</div>
+                    <div class="flex items-center gap-2 text-sm">
+                        <span class="text-green-500">✅</span>
+                        <span>Mahsulot xarididan: <strong>{{ plan.productReferralPercent }}%</strong></span>
+                    </div>
+                    <div class="flex items-center gap-2 text-sm">
+                        <span class="text-green-500">✅</span>
+                        <span>Tarif to'lovidan: <strong>{{ plan.planReferralPercent }}%</strong></span>
+                    </div>
+
+                    {% if plan.canWithdraw %}
+                        <div class="flex items-center gap-2 text-sm text-green-600 font-medium">
+                            <span class="text-green-500">✅</span>
+                            <span>Naqd yechish mumkin</span>
+                        </div>
+                    {% endif %}
+                </div>
+
+                {# Tugma #}
+                <div class="p-6 pt-0">
+                    {% if currentPlan == plan.slug %}
+                        <div class="w-full py-3.5 bg-green-50 text-green-700 text-center rounded-xl font-medium text-sm border border-green-200">
+                            ✅ Joriy tarifingiz
+                        </div>
+                    {% elseif app.user and not app.user.canAccessProductLevel(plan.slug) == false %}
+                        <a href="{{ path('app_hamkorlik_show', {slug: plan.slug}) }}"
+                           class="block w-full py-3.5 text-center rounded-xl font-bold text-sm transition-all shadow-md hover:shadow-lg
+                                  {% if plan.slug == 'vip' %} bg-gradient-to-r from-amber-500 to-amber-600 text-white hover:from-amber-600 hover:to-amber-700
+                                  {% elseif plan.slug == 'premium' %} bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:from-blue-600 hover:to-blue-700
+                                  {% else %} bg-gradient-to-r from-green-500 to-green-600 text-white hover:from-green-600 hover:to-green-700 {% endif %}">
+                            Batafsil ko'rish →
+                        </a>
+                    {% else %}
+                        <a href="{{ path('app_hamkorlik_show', {slug: plan.slug}) }}"
+                           class="block w-full py-3.5 text-center rounded-xl font-bold text-sm transition-all shadow-md hover:shadow-lg
+                                  {% if plan.slug == 'vip' %} bg-gradient-to-r from-amber-500 to-amber-600 text-white hover:from-amber-600 hover:to-amber-700
+                                  {% elseif plan.slug == 'premium' %} bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:from-blue-600 hover:to-blue-700
+                                  {% else %} bg-gradient-to-r from-green-500 to-green-600 text-white hover:from-green-600 hover:to-green-700 {% endif %}">
+                            A'zo bo'lish →
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    {# Qo'shimcha ma'lumot — FAQ Accordion #}
+    <div class="mt-12 bg-white rounded-2xl shadow-md p-8">
+        <h2 class="text-2xl font-display font-bold text-brand-dark mb-6 text-center">Ko'p beriladigan savollar</h2>
+        <div class="max-w-3xl mx-auto divide-y divide-beige-200" id="faq-accordion">
+            <div class="faq-item">
+                <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between py-4 text-left group">
+                    <span class="font-semibold text-brand-dark group-hover:text-peach-600 transition-colors">Tarif muddati bormi?</span>
+                    <svg class="faq-icon w-5 h-5 text-brand-medium transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+                <div class="faq-answer hidden pb-4 text-sm text-brand-medium">
+                    Yo'q! Barcha tariflar cheksiz muddatga amal qiladi. Bir marta obuna bo'lsangiz, doimiy foydalanasiz.
+                </div>
+            </div>
+            <div class="faq-item">
+                <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between py-4 text-left group">
+                    <span class="font-semibold text-brand-dark group-hover:text-peach-600 transition-colors">Bonus bilan tovar olsa bo'ladimi?</span>
+                    <svg class="faq-icon w-5 h-5 text-brand-medium transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+                <div class="faq-answer hidden pb-4 text-sm text-brand-medium">
+                    Ha! Barcha foydalanuvchilar bonuslarini tovar olishda ishlatishi mumkin.
+                </div>
+            </div>
+            <div class="faq-item">
+                <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between py-4 text-left group">
+                    <span class="font-semibold text-brand-dark group-hover:text-peach-600 transition-colors">Naqd pul yechish mumkinmi?</span>
+                    <svg class="faq-icon w-5 h-5 text-brand-medium transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+                <div class="faq-answer hidden pb-4 text-sm text-brand-medium">
+                    Faqat VIP a'zolar bonuslarini naqd yechishi mumkin (minimal summa: 5,000,000 so'm).
+                </div>
+            </div>
+            <div class="faq-item">
+                <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between py-4 text-left group">
+                    <span class="font-semibold text-brand-dark group-hover:text-peach-600 transition-colors">Referral qanday ishlaydi?</span>
+                    <svg class="faq-icon w-5 h-5 text-brand-medium transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+                <div class="faq-answer hidden pb-4 text-sm text-brand-medium">
+                    Sizning havolangiz orqali kelgan har bir mijozning xarididan va tarif to'lovidan foiz olasiz. Foiz miqdori sizning tarifingizga bog'liq.
+                </div>
+            </div>
+            <div class="faq-item">
+                <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between py-4 text-left group">
+                    <span class="font-semibold text-brand-dark group-hover:text-peach-600 transition-colors">Daromad qanday hisoblanadi?</span>
+                    <svg class="faq-icon w-5 h-5 text-brand-medium transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+                <div class="faq-answer hidden pb-4 text-sm text-brand-medium">
+                    Siz qo'shgan har bir odam mahsulot xarid qilganda yoki tarifga obuna bo'lganda, sizga foiz hisoblanadi. Foiz miqdori siz uni qo'shgan paytdagi tarifingizga qarab belgilanadi.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const answer = item.querySelector('.faq-answer');
+    const icon = item.querySelector('.faq-icon');
+    const isOpen = !answer.classList.contains('hidden');
+
+    // Close all
+    document.querySelectorAll('#faq-accordion .faq-item').forEach(function(el) {
+        el.querySelector('.faq-answer').classList.add('hidden');
+        el.querySelector('.faq-icon').classList.remove('rotate-180');
+    });
+
+    // Open clicked (if it was closed)
+    if (!isOpen) {
+        answer.classList.remove('hidden');
+        icon.classList.add('rotate-180');
+    }
+}
+</script>
+{% endblock %}

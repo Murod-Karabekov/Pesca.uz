@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationType;
+use App\Service\ReferralService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,13 +39,31 @@ class SecurityController extends AbstractController
     }
 
     #[Route('/register', name: 'app_register')]
+    #[Route('/register/{refCode}', name: 'app_register_referral')]
     public function register(
         Request $request,
         UserPasswordHasherInterface $passwordHasher,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        ReferralService $referralService,
+        ?string $refCode = null
     ): Response {
         if ($this->getUser()) {
             return $this->redirectToRoute('app_home');
+        }
+
+        // Session/query param orqali ham referral code olish mumkin
+        if ($refCode === null) {
+            $refCode = $request->query->get('ref');
+        }
+        if ($refCode !== null) {
+            $request->getSession()->set('referral_code', $refCode);
+        }
+        $refCode = $refCode ?? $request->getSession()->get('referral_code');
+
+        // Referrer'ni topish
+        $referrer = null;
+        if ($refCode) {
+            $referrer = $referralService->findReferrerByCode($refCode);
         }
 
         $user = new User();
@@ -60,12 +79,21 @@ class SecurityController extends AbstractController
             $em->persist($user);
             $em->flush();
 
+            // Referral bog'lanish yaratish
+            if ($referrer !== null && $referrer->getId() !== $user->getId()) {
+                $referralService->registerReferral($referrer, $user);
+            }
+
+            // Session'dan referral code ni o'chirish
+            $request->getSession()->remove('referral_code');
+
             $this->addFlash('success', 'Hisob muvaffaqiyatli yaratildi! Iltimos, tizimga kiring.');
             return $this->redirectToRoute('app_login');
         }
 
         return $this->render('security/register.html.twig', [
             'registrationForm' => $form->createView(),
+            'referrer' => $referrer,
         ]);
     }
 }

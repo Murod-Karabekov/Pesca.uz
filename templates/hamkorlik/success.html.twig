@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Muvaffaqiyatli a'zo bo'ldingiz!{% endblock %}
+
+{% block body %}
+<div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
+    <div class="bg-white rounded-2xl shadow-lg p-12">
+        <div class="text-6xl mb-6">🎉</div>
+        <h1 class="text-3xl font-display font-bold text-brand-dark mb-4">Tabriklaymiz!</h1>
+        <p class="text-lg text-brand-medium mb-2">
+            Siz <strong class="text-peach-600">{{ plan.name }}</strong> tarifga muvaffaqiyatli a'zo bo'ldingiz!
+        </p>
+        <p class="text-sm text-brand-light mb-8">Endi maxsus imkoniyatlardan foydalanishingiz mumkin.</p>
+
+        <div class="space-y-3">
+            <a href="{{ path('app_finance_index') }}" class="block w-full py-3 bg-peach-500 text-white rounded-xl font-medium hover:bg-peach-600 transition-colors">
+                💰 Moliya bo'limiga o'tish
+            </a>
+            <a href="{{ path('app_finance_referral') }}" class="block w-full py-3 bg-brand-dark text-white rounded-xl font-medium hover:bg-brand-dark/90 transition-colors">
+                🔗 Referral linkimni olish
+            </a>
+            <a href="{{ path('app_product_index') }}" class="block w-full py-3 bg-beige-100 text-brand-dark rounded-xl font-medium hover:bg-beige-200 transition-colors">
+                🛍️ Xarid qilish
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

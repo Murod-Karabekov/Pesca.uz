@@ -40,14 +40,8 @@ class CartController extends AbstractController
             return $this->redirectToRoute('app_product_show', ['id' => $product->getId()]);
         }
 
-        $size = $request->request->get('size');
-        if (!$size || !in_array($size, $product->getSize())) {
-            $this->addFlash('error', 'Iltimos, to\'g\'ri o\'lchamni tanlang.');
-            return $this->redirectToRoute('app_product_show', ['id' => $product->getId()]);
-        }
-
         // Check if item already in cart
-        $existingItem = $cartRepository->findExistingCartItem($this->getUser(), $product->getId(), $size);
+        $existingItem = $cartRepository->findExistingCartItem($this->getUser(), $product->getId());
 
         if ($existingItem) {
             $existingItem->setQuantity($existingItem->getQuantity() + 1);
@@ -55,7 +49,6 @@ class CartController extends AbstractController
             $cartItem = new Cart();
             $cartItem->setUser($this->getUser());
             $cartItem->setProduct($product);
-            $cartItem->setSize($size);
             $cartItem->setQuantity(1);
             $em->persist($cartItem);
         }

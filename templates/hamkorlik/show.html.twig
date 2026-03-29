@@ -1,0 +1,133 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ plan.name }} tarif — Hamkorlik{% endblock %}
+
+{% block body %}
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <a href="{{ path('app_hamkorlik_index') }}" class="text-sm text-brand-medium hover:text-peach-600 mb-6 inline-flex items-center gap-1">
+        ← Tariflarga qaytish
+    </a>
+
+    <div class="bg-white rounded-2xl shadow-lg overflow-hidden mt-4">
+        {# Header #}
+        <div class="p-8 text-center
+            {% if plan.slug == 'vip' %} bg-gradient-to-br from-purple-500 to-purple-700 text-white
+            {% elseif plan.slug == 'premium' %} bg-gradient-to-br from-blue-500 to-blue-700 text-white
+            {% else %} bg-gradient-to-br from-yellow-400 to-yellow-600 text-white {% endif %}">
+
+            <div class="text-5xl mb-3">
+                {% if plan.slug == 'vip' %}💎{% elseif plan.slug == 'premium' %}🔵{% else %}🟡{% endif %}
+            </div>
+            <h1 class="text-3xl font-display font-bold">{{ plan.name }} TARIF</h1>
+            <div class="mt-4">
+                <span class="text-4xl font-bold">{{ plan.price|number_format(0, '.', ' ') }}</span>
+                <span class="text-lg opacity-80"> so'm</span>
+            </div>
+        </div>
+
+        <div class="p-8">
+            {# Sizga beriladi #}
+            <h2 class="text-lg font-semibold text-brand-dark mb-4">✅ Sizga beriladi:</h2>
+            <div class="space-y-3 mb-8">
+                <div class="flex items-center gap-3 text-brand-medium">
+                    <span class="flex-shrink-0 w-8 h-8 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-sm">✓</span>
+                    <span>👑 {{ plan.clothingCount }} ta maxsus kiyim tikib beriladi</span>
+                </div>
+                <div class="flex items-center gap-3 text-brand-medium">
+                    <span class="flex-shrink-0 w-8 h-8 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-sm">✓</span>
+                    <span>🎨 Pesca MK 2027 ga tekin yo'llanma</span>
+                </div>
+                {% if plan.hasDesign %}
+                    <div class="flex items-center gap-3 text-brand-medium">
+                        <span class="flex-shrink-0 w-8 h-8 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-sm">✓</span>
+                        <span>Shaxsiy dizayn xizmati</span>
+                    </div>
+                {% endif %}
+                <div class="flex items-center gap-3 text-brand-medium">
+                    <span class="flex-shrink-0 w-8 h-8 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-sm">✓</span>
+                    <span>{{ plan.interfaceType == 'start' ? 'Start' : 'Premium' }} interfeys</span>
+                </div>
+                <div class="flex items-center gap-3 text-brand-medium">
+                    <span class="flex-shrink-0 w-8 h-8 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-sm">✓</span>
+                    <span>Moliya bo'limi ochiladi</span>
+                </div>
+                <div class="flex items-center gap-3 text-brand-medium">
+                    <span class="flex-shrink-0 w-8 h-8 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-sm">✓</span>
+                    <span>🎓 Yopiq guruhda masterklasslar</span>
+                </div>
+                {% if plan.slug == 'vip' %}
+                    <div class="flex items-center gap-3 text-brand-medium">
+                        <span class="flex-shrink-0 w-8 h-8 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-sm">✓</span>
+                        <span>✈️ Chet elga sayohat yutib olish imkoniyati</span>
+                    </div>
+                    <div class="flex items-center gap-3 text-brand-medium">
+                        <span class="flex-shrink-0 w-8 h-8 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-sm">✓</span>
+                        <span>🎁 Qimmatli mukofotlar va bonuslar</span>
+                    </div>
+                {% endif %}
+            </div>
+
+            {# Daromad #}
+            <h2 class="text-lg font-semibold text-brand-dark mb-4">💰 Daromad:</h2>
+            <div class="grid grid-cols-2 gap-4 mb-8">
+                <div class="bg-beige-50 rounded-xl p-4 text-center">
+                    <div class="text-2xl font-bold text-brand-dark">{{ plan.productReferralPercent }}%</div>
+                    <div class="text-xs text-brand-medium mt-1">Mahsulotdan</div>
+                </div>
+                <div class="bg-beige-50 rounded-xl p-4 text-center">
+                    <div class="text-2xl font-bold text-brand-dark">{{ plan.planReferralPercent }}%</div>
+                    <div class="text-xs text-brand-medium mt-1">Tarifdan</div>
+                </div>
+            </div>
+
+            {% if plan.canWithdraw %}
+                <div class="bg-green-50 border border-green-200 rounded-xl p-4 mb-8 text-center">
+                    <span class="text-green-700 font-medium">💸 Bonusni naqd yechish mumkin (min 5,000,000 so'm)</span>
+                </div>
+            {% else %}
+                <div class="bg-gray-50 border border-gray-200 rounded-xl p-4 mb-8 text-center">
+                    <span class="text-gray-500">❌ Naqd yechish mumkin emas <span class="text-xs">(faqat VIP uchun)</span></span>
+                </div>
+            {% endif %}
+
+            {# A'zo bo'lish tugmasi #}
+            {% if app.user %}
+                {% if canUpgrade %}
+                    {# Balans ko'rsatish #}
+                    <div class="mb-4 bg-emerald-50 border border-emerald-200 rounded-xl p-4 flex items-center justify-between">
+                        <span class="text-sm text-emerald-700">💳 Sizning umumiy balansingiz:</span>
+                        <span class="text-lg font-bold text-emerald-700">{{ app.user.generalBalance|number_format(0, '.', ' ') }} so'm</span>
+                    </div>
+
+                    {% if app.user.generalBalance >= plan.price %}
+                    <form method="post" action="{{ path('app_hamkorlik_subscribe', {slug: plan.slug}) }}">
+                        <input type="hidden" name="_token" value="{{ csrf_token('subscribe_' ~ plan.slug) }}">
+                        <input type="hidden" name="payment_method" value="balance">
+
+                        <button type="submit"
+                                class="w-full py-4 rounded-xl font-bold text-lg transition-colors
+                                {% if plan.slug == 'vip' %} bg-purple-600 text-white hover:bg-purple-700
+                                {% elseif plan.slug == 'premium' %} bg-blue-600 text-white hover:bg-blue-700
+                                {% else %} bg-yellow-500 text-white hover:bg-yellow-600 {% endif %}">
+                            💳 A'zo bo'lish — {{ plan.price|number_format(0, '.', ' ') }} so'm
+                        </button>
+                    </form>
+                    {% else %}
+                    <div class="w-full py-4 bg-red-50 text-red-600 text-center rounded-xl font-medium">
+                        ⚠️ Balansda yetarli mablag' yo'q. Kerakli summa: {{ plan.price|number_format(0, '.', ' ') }} so'm
+                    </div>
+                    {% endif %}
+                {% else %}
+                    <div class="w-full py-4 bg-green-50 text-green-700 text-center rounded-xl font-medium">
+                        ✅ Siz allaqachon bu tarif yoki undan yuqori tarifga a'zosiz
+                    </div>
+                {% endif %}
+            {% else %}
+                <a href="{{ path('app_login') }}" class="block w-full py-4 text-center rounded-xl font-bold text-lg bg-peach-500 text-white hover:bg-peach-600 transition-colors">
+                    Avval tizimga kiring
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,95 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Referral — Moliya{% endblock %}
+
+{% block body %}
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <a href="{{ path('app_finance_index') }}" class="text-sm text-brand-medium hover:text-peach-600 mb-6 inline-flex items-center gap-1">
+        ← Moliya bo'limiga qaytish
+    </a>
+
+    <h1 class="text-3xl font-display font-bold text-brand-dark mb-8 mt-4">🔗 Referral havolam</h1>
+
+    {# Referral link #}
+    <div class="bg-white rounded-xl shadow-sm border border-beige-200 p-6 mb-8">
+        <h3 class="font-semibold text-brand-dark mb-4">Sizning havola:</h3>
+        <div class="flex items-center gap-3">
+            <input type="text" readonly id="referral-link"
+                   value="{{ app.request.schemeAndHttpHost }}/register/{{ user.referralCode }}"
+                   class="flex-1 input-field bg-beige-50 text-brand-dark font-mono text-sm">
+            <button onclick="copyReferralLink()" class="px-4 py-2 bg-peach-500 text-white rounded-xl text-sm font-medium hover:bg-peach-600 transition-colors">
+                📋 Nusxalash
+            </button>
+        </div>
+        <p class="text-xs text-brand-light mt-3">Shu havola orqali ro'yxatdan o'tgan har bir odam sizning referalingiz bo'ladi.</p>
+    </div>
+
+    {# Hozirgi foizlarim #}
+    <div class="bg-white rounded-xl shadow-sm border border-beige-200 p-6 mb-8">
+        <h3 class="font-semibold text-brand-dark mb-4">📊 Hozirgi foizlaringiz (yangi referallar uchun):</h3>
+        <div class="grid grid-cols-2 gap-4">
+            <div class="bg-beige-50 rounded-xl p-4 text-center">
+                <div class="text-2xl font-bold text-brand-dark">{{ plan.productReferralPercent }}%</div>
+                <div class="text-xs text-brand-medium mt-1">Mahsulotdan</div>
+            </div>
+            <div class="bg-beige-50 rounded-xl p-4 text-center">
+                <div class="text-2xl font-bold text-brand-dark">{{ plan.planReferralPercent }}%</div>
+                <div class="text-xs text-brand-medium mt-1">Tarifdan</div>
+            </div>
+        </div>
+        <div class="mt-4 bg-blue-50 border border-blue-200 rounded-xl p-3 text-xs text-blue-700">
+            ❄️ <strong>Freeze qoidasi:</strong> Siz hozir qo'shgan odamlar shu foizda "muzlatiladi". Tarif o'zgartirganingizda eski referallar eski foizda qoladi.
+        </div>
+    </div>
+
+    {# Mening jamoam #}
+    <div class="bg-white rounded-xl shadow-sm border border-beige-200 p-6">
+        <h3 class="font-semibold text-brand-dark mb-4">👥 Taklif qilganlarim ({{ stats.totalReferrals }} ta)</h3>
+        {% if stats.referralLinks|length > 0 %}
+            <div class="space-y-2">
+                {% for link in stats.referralLinks %}
+                    <div class="flex items-center justify-between text-sm py-3 border-b border-beige-50">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 bg-beige-100 rounded-full flex items-center justify-center text-xs font-bold text-brand-dark">
+                                {{ link.referred.fullName|first|upper }}
+                            </div>
+                            <div>
+                                <div class="font-medium text-brand-dark">{{ link.referred.fullName }}</div>
+                                <div class="text-xs text-brand-light">
+                                    {% if link.referred.currentPlan != 'free' %}
+                                        <span class="text-{{ link.referred.currentPlanColor }}-600">{{ link.referred.currentPlanLabel }}</span> a'zo
+                                    {% else %}
+                                        Oddiy foydalanuvchi
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-xs text-brand-light">
+                                ❄️ {{ link.referrerPlanAtTime|upper }} davrida
+                            </div>
+                            <div class="text-xs font-medium">
+                                {{ link.productPercent }}% / {{ link.planPercent }}%
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-sm text-brand-light text-center py-8">Hali referallaringiz yo'q. Havolangizni ulashing!</p>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+function copyReferralLink() {
+    const input = document.getElementById('referral-link');
+    input.select();
+    navigator.clipboard.writeText(input.value).then(() => {
+        const btn = input.nextElementSibling;
+        btn.textContent = '✅ Nusxalandi!';
+        setTimeout(() => btn.textContent = '📋 Nusxalash', 2000);
+    });
+}
+</script>
+{% endblock %}
