@@ -3,7 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Repository\CategoryRepository;
-use App\Repository\MembershipPlanRepository;
+use App\Repository\OrderRepository;
 use App\Repository\ProductRepository;
 use App\Repository\UserProfileRepository;
 use App\Repository\UserRepository;
@@ -21,6 +21,7 @@ class DashboardController extends AbstractController
     #[Route('', name: 'dashboard')]
     public function index(
         ProductRepository $productRepository,
+        OrderRepository $orderRepository,
         UserRepository $userRepository,
         CategoryRepository $categoryRepository,
         UserProfileRepository $userProfileRepository,
@@ -39,6 +40,8 @@ class DashboardController extends AbstractController
             'categoryCount' => $categoryRepository->count([]),
             'smartStyleUsers' => $userProfileRepository->count([]),
             'memberCount' => $memberCount,
+            'orderCount' => $orderRepository->count([]),
+            'pendingOrderPayments' => $orderRepository->count(['paymentStatus' => 'pending']),
             'pendingWithdrawals' => count($withdrawalRepository->findPending()),
         ]);
     }

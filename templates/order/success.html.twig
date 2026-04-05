@@ -14,6 +14,9 @@
         <p class="text-brand-medium leading-relaxed mb-8">
             Buyurtmangiz uchun rahmat. So'rovingiz muvaffaqiyatli yuborildi. Tafsilotlarni tasdiqlash uchun tez orada siz bilan bog'lanamiz.
         </p>
+        <div class="inline-flex items-center px-4 py-2 bg-beige-100 rounded-full text-sm font-semibold text-brand-dark mb-8">
+            Buyurtma raqami: #{{ order.id }}
+        </div>
         <div class="flex flex-wrap gap-4 justify-center">
             <a href="{{ path('app_product_index') }}" class="btn-primary">Xaridni davom ettirish</a>
             <a href="{{ path('app_home') }}" class="btn-secondary">Bosh sahifaga qaytish</a>

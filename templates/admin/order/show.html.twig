@@ -1,0 +1,163 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Buyurtma #{{ order.id }}{% endblock %}
+
+{% block admin_body %}
+<div class="mb-6 flex items-center justify-between gap-4 flex-wrap">
+    <div>
+        <h1 class="text-2xl md:text-3xl font-display font-bold text-brand-dark">Buyurtma #{{ order.id }}</h1>
+        <p class="text-brand-medium mt-1">{{ order.createdAt|date('d.m.Y H:i') }} da yaratilgan</p>
+    </div>
+    <a href="{{ path('admin_order_index') }}" class="btn-secondary text-sm">← Buyurtmalar ro'yxati</a>
+</div>
+
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-8">
+    <div class="card p-6 xl:col-span-2">
+        <h3 class="font-display font-semibold text-lg text-brand-dark mb-4">Mijoz ma'lumotlari</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+            <div>
+                <p class="text-brand-light">To'liq ism</p>
+                <p class="font-medium text-brand-dark">{{ order.customerFullName }}</p>
+            </div>
+            <div>
+                <p class="text-brand-light">Telefon</p>
+                <p class="font-medium text-brand-dark">{{ order.customerPhone }}</p>
+            </div>
+            <div>
+                <p class="text-brand-light">Lokatsiya</p>
+                <p class="font-medium text-brand-dark">{{ order.locationLabel }}</p>
+            </div>
+            <div>
+                <p class="text-brand-light">Jami summa</p>
+                <p class="font-semibold text-brand-dark">{{ order.subtotalAmount|number_format(0, '.', ' ') }} so'm</p>
+            </div>
+        </div>
+
+        {% if order.notes %}
+        <div class="mt-4 p-4 bg-beige-50 rounded-xl">
+            <p class="text-xs uppercase tracking-wider text-brand-light mb-2">Mijoz izohi</p>
+            <p class="text-sm text-brand-dark">{{ order.notes }}</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="card p-6">
+        <h3 class="font-display font-semibold text-lg text-brand-dark mb-4">Holatlar</h3>
+        <div class="space-y-3 text-sm">
+            <div class="flex items-center justify-between gap-2">
+                <span class="text-brand-light">Order</span>
+                <span class="badge bg-blue-100 text-blue-700">{{ order.orderStatusLabel }}</span>
+            </div>
+            <div class="flex items-center justify-between gap-2">
+                <span class="text-brand-light">To'lov</span>
+                {% set paymentColor = order.paymentStatus == 'approved' ? 'green' : (order.paymentStatus == 'rejected' ? 'red' : 'yellow') %}
+                <span class="badge bg-{{ paymentColor }}-100 text-{{ paymentColor }}-700">{{ order.paymentStatusLabel }}</span>
+            </div>
+            {% if order.approvedAt %}
+            <div>
+                <p class="text-brand-light">Ko'rib chiqilgan vaqt</p>
+                <p class="font-medium text-brand-dark">{{ order.approvedAt|date('d.m.Y H:i') }}</p>
+            </div>
+            {% endif %}
+            {% if order.approvedByAdmin %}
+            <div>
+                <p class="text-brand-light">Admin</p>
+                <p class="font-medium text-brand-dark">{{ order.approvedByAdmin.fullName }}</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="card p-6 mb-8">
+    <h3 class="font-display font-semibold text-lg text-brand-dark mb-4">Buyurtma tarkibi</h3>
+    <div class="space-y-4">
+        {% for item in order.items %}
+            <div class="border border-beige-200 rounded-xl p-4 flex flex-col md:flex-row gap-4 md:items-center">
+                <div class="w-20 h-20 rounded-xl overflow-hidden bg-beige-100 flex-shrink-0">
+                    {% if item.productImageSnapshot %}
+                        <img src="{{ item.productImageSnapshot }}" alt="{{ item.productNameSnapshot }}" class="w-full h-full object-cover">
+                    {% else %}
+                        <div class="w-full h-full flex items-center justify-center text-beige-300">No image</div>
+                    {% endif %}
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="font-semibold text-brand-dark">{{ item.productNameSnapshot }}</p>
+                    <p class="text-sm text-brand-medium mt-1">{{ item.unitPrice|number_format(0, '.', ' ') }} so'm x {{ item.quantity }} dona</p>
+                </div>
+                <div class="text-right">
+                    <p class="font-semibold text-brand-dark">{{ item.lineTotal|number_format(0, '.', ' ') }} so'm</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div class="card p-6">
+        <h3 class="font-display font-semibold text-lg text-brand-dark mb-4">Tikuvchi uchun copy</h3>
+        <textarea id="tailor-copy" class="input-field !h-56 !font-mono !text-xs">Buyurtma #{{ order.id }}
+Mijoz: {{ order.customerFullName }}
+Telefon: {{ order.customerPhone }}
+Lokatsiya: {{ order.locationLabel }}
+
+Mahsulotlar:
+{% for item in order.items %}- {{ item.productNameSnapshot }} | {{ item.quantity }} dona
+    Rasm: {% if item.productImageSnapshot %}{{ item.productImageSnapshot starts with 'http' ? item.productImageSnapshot : absolute_url(item.productImageSnapshot) }}{% else %}Rasm yo'q{% endif %}
+{% endfor %}
+{% if order.notes %}
+Izoh: {{ order.notes }}
+{% endif %}</textarea>
+        <button type="button" id="copy-tailor" class="btn-primary mt-3 text-sm">Matnni nusxalash</button>
+    </div>
+
+    <div class="card p-6">
+        <h3 class="font-display font-semibold text-lg text-brand-dark mb-4">To'lovni ko'rib chiqish</h3>
+
+        {% if order.canApprovePayment %}
+            <form method="post" action="{{ path('admin_order_approve_payment', {id: order.id}) }}" class="space-y-3 mb-4">
+                <input type="hidden" name="_token" value="{{ csrf_token('approve_order_' ~ order.id) }}">
+                <textarea name="note" class="input-field !h-24" placeholder="Admin izohi (tasdiq)">To'lov tasdiqlandi</textarea>
+                <button type="submit" class="btn-primary w-full">To'lovni tasdiqlash</button>
+            </form>
+
+            <form method="post" action="{{ path('admin_order_reject_payment', {id: order.id}) }}" class="space-y-3">
+                <input type="hidden" name="_token" value="{{ csrf_token('reject_order_' ~ order.id) }}">
+                <textarea name="note" class="input-field !h-24" placeholder="Rad etish sababi">To'lov rad etildi</textarea>
+                <button type="submit" class="btn-danger w-full">To'lovni rad etish</button>
+            </form>
+        {% else %}
+            <div class="p-4 rounded-xl bg-beige-100 text-sm text-brand-medium">
+                Bu buyurtma uchun to'lov qarori allaqachon qabul qilingan.
+            </div>
+        {% endif %}
+
+        {% if order.adminNote %}
+            <div class="mt-4 p-4 rounded-xl bg-beige-50">
+                <p class="text-xs uppercase tracking-wider text-brand-light mb-2">So'nggi admin izohi</p>
+                <p class="text-sm text-brand-dark">{{ order.adminNote }}</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    document.getElementById('copy-tailor')?.addEventListener('click', async function () {
+        const textarea = document.getElementById('tailor-copy');
+        if (!textarea) {
+            return;
+        }
+
+        try {
+            await navigator.clipboard.writeText(textarea.value);
+            this.textContent = 'Nusxalandi!';
+            setTimeout(() => {
+                this.textContent = 'Matnni nusxalash';
+            }, 1500);
+        } catch (e) {
+            textarea.select();
+            document.execCommand('copy');
+        }
+    });
+</script>
+{% endblock %}

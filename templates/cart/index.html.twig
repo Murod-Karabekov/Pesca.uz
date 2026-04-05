@@ -70,6 +70,17 @@
             </div>
             <form method="post" action="{{ path('app_order_place') }}">
                 <input type="hidden" name="_token" value="{{ csrf_token('order_place') }}">
+                <div class="space-y-3 mb-5">
+                    <label for="location_code" class="block text-sm font-medium text-brand-dark">Lokatsiya</label>
+                    <select id="location_code" name="location_code" class="input-field" required>
+                        <option value="">Tanlang...</option>
+                        <option value="jizzakh_city">Jizzax shahar</option>
+                        <option value="dustlik_district">Do'stlik tumani</option>
+                    </select>
+
+                    <label for="notes" class="block text-sm font-medium text-brand-dark">Qo'shimcha izoh (ixtiyoriy)</label>
+                    <textarea id="notes" name="notes" class="input-field !h-24" maxlength="1000" placeholder="Masalan: aniq manzil, qo'ng'iroq vaqti, qo'shimcha eslatma"></textarea>
+                </div>
                 <button type="submit" class="btn-primary w-full text-center text-base py-4">
                     Buyurtma berish
                 </button>

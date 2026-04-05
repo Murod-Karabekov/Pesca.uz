@@ -74,6 +74,15 @@
                     Foydalanuvchilar
                 </a>
 
+                <a href="{{ path('admin_order_index') }}"
+                   class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors
+                          {{ app.request.attributes.get('_route') starts with 'admin_order' ? 'bg-white/10 text-white' : 'text-brand-muted hover:bg-white/5 hover:text-white' }}">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                    Buyurtmalar
+                </a>
+
                 <a href="{{ path('admin_withdrawal_index') }}"
                    class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors
                           {{ app.request.attributes.get('_route') starts with 'admin_withdrawal' ? 'bg-white/10 text-white' : 'text-brand-muted hover:bg-white/5 hover:text-white' }}">
@@ -116,6 +125,7 @@
                 <a href="{{ path('admin_dashboard') }}" class="px-3 py-2 text-xs font-medium rounded-lg whitespace-nowrap {{ app.request.attributes.get('_route') starts with 'admin_dashboard' ? 'bg-peach-100 text-peach-700' : 'text-brand-medium' }}">Boshqaruv paneli</a>
                 <a href="{{ path('admin_product_index') }}" class="px-3 py-2 text-xs font-medium rounded-lg whitespace-nowrap {{ app.request.attributes.get('_route') starts with 'admin_product' ? 'bg-peach-100 text-peach-700' : 'text-brand-medium' }}">Mahsulotlar</a>
                 <a href="{{ path('admin_user_index') }}" class="px-3 py-2 text-xs font-medium rounded-lg whitespace-nowrap {{ app.request.attributes.get('_route') starts with 'admin_user' ? 'bg-peach-100 text-peach-700' : 'text-brand-medium' }}">Foydalanuvchilar</a>
+                <a href="{{ path('admin_order_index') }}" class="px-3 py-2 text-xs font-medium rounded-lg whitespace-nowrap {{ app.request.attributes.get('_route') starts with 'admin_order' ? 'bg-peach-100 text-peach-700' : 'text-brand-medium' }}">Buyurtmalar</a>
             </nav>
 
             {# Page Content #}
