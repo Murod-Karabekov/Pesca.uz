@@ -18,7 +18,11 @@ echo "✅ MySQL is ready!"
 # Install dependencies if vendor is empty (first run with volume mount)
 if [ ! -f vendor/autoload.php ]; then
     echo "📦 Installing Composer dependencies..."
-    composer install --no-interaction --optimize-autoloader
+    if [ "${APP_ENV}" = "prod" ]; then
+        composer install --no-interaction --no-dev --optimize-autoloader
+    else
+        composer install --no-interaction --optimize-autoloader
+    fi
 fi
 
 echo "📦 Running migrations..."
@@ -35,7 +39,7 @@ try {
 }
 " 2>/dev/null || echo "0")
 
-if [ "$USER_COUNT" = "0" ]; then
+if [ "$USER_COUNT" = "0" ] && [ "${APP_ENV}" != "prod" ]; then
     echo "🌱 Loading fixtures..."
     php bin/console doctrine:fixtures:load --no-interaction --append || true
 fi

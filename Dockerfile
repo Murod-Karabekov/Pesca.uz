@@ -51,8 +51,8 @@ WORKDIR /var/www/html
 # Copy composer files first for better caching
 COPY composer.json composer.lock symfony.lock ./
 
-# Install PHP dependencies (include dev for fixtures)
-RUN composer install --optimize-autoloader --no-scripts --no-interaction
+# Install PHP dependencies optimized for production image layers
+RUN composer install --no-dev --optimize-autoloader --classmap-authoritative --no-scripts --no-interaction
 
 # Copy the rest of the application
 COPY . .

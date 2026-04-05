@@ -77,10 +77,6 @@ MESSENGER_TRANSPORT_DSN=doctrine://default?auto_setup=0
 
 # ── Mailer ──
 MAILER_DSN=null://null
-
-# ── Google Forms ──
-GOOGLE_FORM_ORDER_URL=https://docs.google.com/forms/d/e/1FAIpQLSdXtL47VNe_2RehIEiazay5LV-pqJzgGN7pHNjC60dcX_3SFA/formResponse
-GOOGLE_FORM_TAILOR_URL=https://docs.google.com/forms/d/e/1FAIpQLSepEJxRCC4MWvz3JRrVV2fRIH4W9t51CTb5KNT1sSNuWy8npA/formResponse
 ENVEOF
 
     echo "✅ .env.prod.local yaratildi (parollar avtomatik generatsiya qilindi)"
