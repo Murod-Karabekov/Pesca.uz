@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hamyonni to'ldirish — Moliya{% endblock %}
+
+{% block body %}
+<div class="max-w-xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="mb-6 flex items-center justify-between gap-3">
+        <a href="{{ path('app_finance_index') }}" class="text-sm text-brand-medium hover:text-peach-600 inline-flex items-center gap-1">
+            ← Moliya bo'limiga qaytish
+        </a>
+        <a href="{{ path('app_finance_topup_history') }}" class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-beige-300 text-brand-medium hover:text-peach-700 hover:border-peach-300 hover:bg-peach-50 text-sm transition-colors">
+            🕘 Tarix
+        </a>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-lg overflow-hidden mt-4">
+        <div class="bg-gradient-to-br from-emerald-500 to-emerald-700 text-white p-6 text-center">
+            <h1 class="text-2xl font-display font-bold">💳 Hamyonni to'ldirish</h1>
+            <p class="text-sm opacity-90 mt-2">So'rov yuborasiz, admin siz bilan bog'lanib to'lovni tasdiqlagach balansingizga pul tushadi</p>
+        </div>
+
+        <div class="p-6">
+            <form method="post" action="{{ path('app_finance_topup') }}">
+                <input type="hidden" name="_token" value="{{ csrf_token('wallet_topup') }}">
+
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-brand-dark mb-1">Summa (so'm)</label>
+                        <input type="number" name="amount" min="{{ minAmount }}" step="1000"
+                               class="input-field" required
+                               placeholder="Kamida {{ minAmount|number_format(0, '.', ' ') }}">
+                        <p class="text-xs text-brand-light mt-1">Minimal summa: {{ minAmount|number_format(0, '.', ' ') }} so'm</p>
+                    </div>
+                </div>
+
+                <button type="submit"
+                        class="w-full mt-6 py-3 bg-emerald-600 text-white rounded-xl font-semibold hover:bg-emerald-700 transition-colors">
+                    To'ldirish so'rovini yuborish
+                </button>
+            </form>
+
+            <div class="mt-6 bg-beige-50 rounded-xl p-4 text-xs text-brand-light">
+                <p class="font-medium text-brand-dark mb-2">ℹ️ Eslatma:</p>
+                <ul class="space-y-1 list-disc list-inside">
+                    <li>To'lov turi: karta orqali</li>
+                    <li>So'rov yuborilgach admin sizning profilingizdagi telefon orqali bog'lanadi</li>
+                    <li>Click/to'lov tasdiqlangach admin panelda tasdiqlaydi</li>
+                    <li>Tasdiqlangandan keyin mablag' umumiy balansga qo'shiladi</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

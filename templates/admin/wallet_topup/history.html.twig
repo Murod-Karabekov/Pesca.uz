@@ -1,0 +1,90 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Top-up tarixi{% endblock %}
+
+{% block admin_body %}
+<div class="mb-8 flex items-start justify-between gap-4">
+    <div>
+        <h1 class="text-2xl md:text-3xl font-display font-bold text-brand-dark">Top-up tarixi</h1>
+        <p class="text-brand-medium mt-1">Tasdiqlangan yoki rad etilgan so'rovlar arxivi</p>
+    </div>
+    <a
+        href="{{ path('admin_wallet_topup_index') }}"
+        class="inline-flex items-center justify-center w-10 h-10 rounded-xl border border-beige-300 text-brand-medium hover:text-peach-700 hover:border-peach-300 hover:bg-peach-50 transition-colors"
+        title="Yangi top-up so'rovlari"
+        aria-label="Yangi top-up so'rovlari"
+    >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+    </a>
+</div>
+
+<div class="card p-5 mb-6">
+    <form method="get" action="{{ path('admin_wallet_topup_history') }}" class="flex flex-col md:flex-row gap-3">
+        <div class="flex-1 relative">
+            <input
+                type="text"
+                name="q"
+                value="{{ query }}"
+                placeholder="Telefon yoki ism bo'yicha qidiring"
+                class="input-field w-full pl-10"
+            >
+            <svg class="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-brand-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+        </div>
+        <button type="submit" class="btn-primary">Qidirish</button>
+        {% if query %}
+            <a href="/admin/wallet-topups/history" class="btn-secondary text-center">Tozalash</a>
+        {% endif %}
+    </form>
+</div>
+
+{% if requests|length > 0 %}
+    <div class="bg-white rounded-xl shadow-sm border border-beige-200 overflow-hidden">
+        <table class="min-w-full">
+            <thead class="bg-beige-50">
+                <tr>
+                    <th class="px-4 py-3 text-left text-xs font-semibold text-brand-medium uppercase">Foydalanuvchi</th>
+                    <th class="px-4 py-3 text-left text-xs font-semibold text-brand-medium uppercase">Summa</th>
+                    <th class="px-4 py-3 text-left text-xs font-semibold text-brand-medium uppercase">To'lov</th>
+                    <th class="px-4 py-3 text-left text-xs font-semibold text-brand-medium uppercase">Holat</th>
+                    <th class="px-4 py-3 text-left text-xs font-semibold text-brand-medium uppercase">Qaror vaqti</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-beige-100">
+                {% for item in requests %}
+                    <tr class="hover:bg-beige-50/50 transition-colors">
+                        <td class="px-4 py-3">
+                            <div class="text-sm font-medium text-brand-dark">{{ item.user.fullName }}</div>
+                            <div class="text-xs text-brand-light">{{ item.user.phone }}</div>
+                        </td>
+                        <td class="px-4 py-3">
+                            <span class="text-sm font-bold text-brand-dark">{{ item.amount|number_format(0, '.', ' ') }} so'm</span>
+                        </td>
+                        <td class="px-4 py-3 text-xs text-brand-dark">
+                            <div>{{ item.methodLabel }}</div>
+                            <div class="text-brand-light">User: {{ item.user.fullName }}</div>
+                        </td>
+                        <td class="px-4 py-3">
+                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium
+                                {% if item.status == 'approved' %} bg-green-100 text-green-800
+                                {% else %} bg-red-100 text-red-800 {% endif %}">
+                                {{ item.statusLabel }}
+                            </span>
+                        </td>
+                        <td class="px-4 py-3 text-sm text-brand-light">
+                            {{ item.processedAt ? item.processedAt|date('d.m.Y H:i') : '-' }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div class="card p-12 text-center">
+        <p class="text-brand-medium">Tarixda top-up so'rovlari topilmadi.</p>
+    </div>
+{% endif %}
+{% endblock %}

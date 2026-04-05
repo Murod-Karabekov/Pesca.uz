@@ -91,6 +91,16 @@
                     </svg>
                     Yechish so'rovlari
                 </a>
+
+                <a href="{{ path('admin_wallet_topup_index') }}"
+                   class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors
+                          {{ app.request.attributes.get('_route') starts with 'admin_wallet_topup' ? 'bg-white/10 text-white' : 'text-brand-muted hover:bg-white/5 hover:text-white' }}">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 9V7a5 5 0 00-10 0v2m-2 0h14a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2v-8a2 2 0 012-2zm7 5h.01"/>
+                    </svg>
+                    Hamyon to'ldirish
+                </a>
+
             </nav>
 
             <div class="p-4 border-t border-white/10">
@@ -126,6 +136,7 @@
                 <a href="{{ path('admin_product_index') }}" class="px-3 py-2 text-xs font-medium rounded-lg whitespace-nowrap {{ app.request.attributes.get('_route') starts with 'admin_product' ? 'bg-peach-100 text-peach-700' : 'text-brand-medium' }}">Mahsulotlar</a>
                 <a href="{{ path('admin_user_index') }}" class="px-3 py-2 text-xs font-medium rounded-lg whitespace-nowrap {{ app.request.attributes.get('_route') starts with 'admin_user' ? 'bg-peach-100 text-peach-700' : 'text-brand-medium' }}">Foydalanuvchilar</a>
                 <a href="{{ path('admin_order_index') }}" class="px-3 py-2 text-xs font-medium rounded-lg whitespace-nowrap {{ app.request.attributes.get('_route') starts with 'admin_order' ? 'bg-peach-100 text-peach-700' : 'text-brand-medium' }}">Buyurtmalar</a>
+                <a href="{{ path('admin_wallet_topup_index') }}" class="px-3 py-2 text-xs font-medium rounded-lg whitespace-nowrap {{ app.request.attributes.get('_route') starts with 'admin_wallet_topup' ? 'bg-peach-100 text-peach-700' : 'text-brand-medium' }}">Top-up</a>
             </nav>
 
             {# Page Content #}

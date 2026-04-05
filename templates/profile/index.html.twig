@@ -125,6 +125,13 @@
                     <div class="text-xs opacity-60 mt-4">{{ user.fullName }} • Referral daromadlar</div>
                 </div>
 
+                <div class="mt-4 flex items-center justify-end">
+                    <a href="{{ path('app_finance_topup') }}"
+                       class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-lg text-sm font-medium hover:bg-emerald-700 transition-colors">
+                        💳 Hamyonni to'ldirish
+                    </a>
+                </div>
+
                 {% if not user.hasMembership %}
                     <div class="mt-4 bg-beige-50 rounded-xl p-4 text-center">
                         <p class="text-sm text-brand-medium mb-2">Hamkorlik tarifiga a'zo bo'ling va bonus ishlab toping!</p>

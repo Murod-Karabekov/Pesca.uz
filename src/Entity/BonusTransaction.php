@@ -18,6 +18,7 @@ class BonusTransaction
     public const TYPE_ADMIN_TOPUP = 'admin_topup';
     public const TYPE_ADMIN_DEDUCT = 'admin_deduct';
     public const TYPE_PLAN_PAYMENT = 'plan_payment';
+    public const TYPE_WALLET_TOPUP_APPROVED = 'wallet_topup_approved';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -192,6 +193,7 @@ class BonusTransaction
             self::TYPE_ADMIN_TOPUP => 'Admin tomonidan to\'ldirildi',
             self::TYPE_ADMIN_DEDUCT => 'Admin tomonidan yechildi',
             self::TYPE_PLAN_PAYMENT => 'Tarif uchun to\'lov',
+            self::TYPE_WALLET_TOPUP_APPROVED => 'Hamyon to\'ldirish tasdiqlandi',
             default => $this->type ?? '',
         };
     }

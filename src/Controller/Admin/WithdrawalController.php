@@ -20,8 +20,20 @@ class WithdrawalController extends AbstractController
     public function index(WithdrawalRepository $repo): Response
     {
         return $this->render('admin/withdrawal/index.html.twig', [
-            'withdrawals' => $repo->findAll(),
-            'pendingCount' => count($repo->findPending()),
+            'withdrawals' => $repo->findNewRequests(),
+            'historyCount' => $repo->countHistoryRequests(),
+        ]);
+    }
+
+    #[Route('/history', name: 'history')]
+    public function history(Request $request, WithdrawalRepository $repo): Response
+    {
+        $query = trim((string) $request->query->get('q', ''));
+
+        return $this->render('admin/withdrawal/history.html.twig', [
+            'withdrawals' => $repo->findHistoryRequests($query),
+            'query' => $query,
+            'newCount' => $repo->countNewRequests(),
         ]);
     }
 

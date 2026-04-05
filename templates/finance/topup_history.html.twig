@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Top-up tarixi — Moliya{% endblock %}
+
+{% block body %}
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="mb-6 flex items-center justify-between gap-3">
+        <a href="{{ path('app_finance_topup') }}" class="text-sm text-brand-medium hover:text-peach-600 inline-flex items-center gap-1">
+            ← Hamyonni to'ldirishga qaytish
+        </a>
+        <a href="{{ path('app_finance_index') }}" class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-beige-300 text-brand-medium hover:text-peach-700 hover:border-peach-300 hover:bg-peach-50 text-sm transition-colors">
+            💰 Moliya bo'limi
+        </a>
+    </div>
+
+    <div class="mb-6">
+        <h1 class="text-2xl md:text-3xl font-display font-bold text-brand-dark">Hamyon to'ldirish tarixi</h1>
+        <p class="text-brand-medium mt-1">Siz yuborgan top-up so'rovlar holati</p>
+    </div>
+
+    {% if requests|length > 0 %}
+        <div class="bg-white rounded-xl shadow-sm border border-beige-200 overflow-hidden">
+            <table class="min-w-full">
+                <thead class="bg-beige-50">
+                    <tr>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-brand-medium uppercase">Summa</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-brand-medium uppercase">To'lov turi</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-brand-medium uppercase">Holat</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-brand-medium uppercase">Yuborilgan</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-brand-medium uppercase">Qaror vaqti</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-beige-100">
+                    {% for item in requests %}
+                        <tr class="hover:bg-beige-50/50 transition-colors">
+                            <td class="px-4 py-3 text-sm font-bold text-brand-dark">{{ item.amount|number_format(0, '.', ' ') }} so'm</td>
+                            <td class="px-4 py-3 text-sm text-brand-medium">{{ item.methodLabel }}</td>
+                            <td class="px-4 py-3">
+                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium
+                                    {% if item.status == 'pending' %} bg-yellow-100 text-yellow-800
+                                    {% elseif item.status == 'approved' %} bg-green-100 text-green-800
+                                    {% else %} bg-red-100 text-red-800 {% endif %}">
+                                    {{ item.statusLabel }}
+                                </span>
+                            </td>
+                            <td class="px-4 py-3 text-sm text-brand-light">{{ item.createdAt|date('d.m.Y H:i') }}</td>
+                            <td class="px-4 py-3 text-sm text-brand-light">{{ item.processedAt ? item.processedAt|date('d.m.Y H:i') : '-' }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="bg-white rounded-xl shadow-sm border border-beige-200 p-12 text-center">
+            <p class="text-brand-light">Hali top-up so'rovlari yo'q.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

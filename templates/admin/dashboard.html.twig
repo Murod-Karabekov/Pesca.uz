@@ -125,6 +125,18 @@
             </div>
         </div>
     </div>
+
+    <div class="card p-6">
+        <div class="flex items-center gap-4">
+            <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center">
+                <span class="text-xl">💳</span>
+            </div>
+            <div>
+                <p class="text-2xl font-display font-bold text-brand-dark">{{ pendingWalletTopups|default(0) }}</p>
+                <p class="text-sm text-brand-medium">Kutilayotgan top-up so'rovlar</p>
+            </div>
+        </div>
+    </div>
 </div>
 
 {# ─── Quick Actions ─── #}
@@ -136,6 +148,7 @@
         <a href="{{ path('admin_user_index') }}" class="btn-secondary text-sm">Foydalanuvchilarni boshqarish</a>
         <a href="{{ path('admin_order_index') }}" class="btn-secondary text-sm">Buyurtmalarni boshqarish</a>
         <a href="{{ path('admin_withdrawal_index') }}" class="btn-secondary text-sm">💸 Yechish so'rovlari</a>
+        <a href="{{ path('admin_wallet_topup_index') }}" class="btn-secondary text-sm">💳 Top-up so'rovlari</a>
     </div>
 </div>
 {% endblock %}

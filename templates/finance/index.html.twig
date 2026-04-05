@@ -66,7 +66,7 @@
                     {% for tx in stats.transactions %}
                         <div class="flex items-center justify-between text-sm py-2 border-b border-beige-50">
                             <div>
-                                {% if tx.type in ['product_referral', 'plan_referral', 'admin_topup', 'withdrawal_refunded'] %}
+                                {% if tx.type in ['product_referral', 'plan_referral', 'admin_topup', 'withdrawal_refunded', 'wallet_topup_approved'] %}
                                     <span class="text-green-600 font-medium">+{{ tx.amount|number_format(0, '.', ' ') }}</span>
                                 {% elseif tx.type in ['spent', 'withdrawn', 'admin_deduct', 'plan_payment'] %}
                                     <span class="text-red-600 font-medium">-{{ tx.amount|number_format(0, '.', ' ') }}</span>
@@ -87,16 +87,23 @@
         </div>
     </div>
 
-    {# Naqd yechish tugmasi #}
-    <div class="bg-white rounded-xl shadow-sm border border-beige-200 p-6 text-center">
-        {% if user.isVip %}
-            <a href="{{ path('app_finance_withdraw') }}"
-               class="inline-flex items-center gap-2 px-8 py-3 bg-purple-600 text-white rounded-xl font-semibold hover:bg-purple-700 transition-colors">
-                💸 Naqd yechish
+    {# Hamyon operatsiyalari #}
+    <div class="bg-white rounded-xl shadow-sm border border-beige-200 p-6 mb-8">
+        <div class="flex flex-wrap items-center justify-center gap-3 mb-4">
+            <a href="{{ path('app_finance_topup') }}"
+               class="inline-flex items-center gap-2 px-8 py-3 bg-emerald-600 text-white rounded-xl font-semibold hover:bg-emerald-700 transition-colors">
+                💳 Hamyonni to'ldirish
             </a>
-            <p class="text-xs text-brand-light mt-2">Minimal summa: 5,000,000 so'm</p>
-        {% else %}
-            <div class="py-4">
+            {% if user.isVip %}
+                <a href="{{ path('app_finance_withdraw') }}"
+                   class="inline-flex items-center gap-2 px-8 py-3 bg-purple-600 text-white rounded-xl font-semibold hover:bg-purple-700 transition-colors">
+                    💸 Naqd yechish
+                </a>
+            {% endif %}
+        </div>
+
+        {% if not user.isVip %}
+            <div class="py-2 text-center">
                 <p class="text-brand-medium mb-2">💸 Bonusni naqd yechish faqat <strong>VIP</strong> a'zolar uchun</p>
                 <p class="text-xs text-brand-light mb-4">Hozirgi tarifingiz: {{ user.currentPlanLabel }}</p>
                 <a href="{{ path('app_hamkorlik_show', {slug: 'vip'}) }}"
@@ -104,6 +111,34 @@
                     ⬆️ VIP ga o'tish
                 </a>
             </div>
+        {% endif %}
+    </div>
+
+    {# So'nggi top-up so'rovlar #}
+    <div class="bg-white rounded-xl shadow-sm border border-beige-200 p-6">
+        <h3 class="font-semibold text-brand-dark mb-4">🧾 So'nggi to'ldirish so'rovlari</h3>
+        {% if topupRequests|length > 0 %}
+            <div class="space-y-2">
+                {% for topup in topupRequests %}
+                    <div class="flex flex-wrap items-center justify-between gap-2 text-sm py-2 border-b border-beige-100 last:border-b-0">
+                        <div class="text-brand-dark font-medium">
+                            {{ topup.amount|number_format(0, '.', ' ') }} so'm
+                            <span class="text-brand-light font-normal">• {{ topup.methodLabel }}</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium
+                                {% if topup.status == 'pending' %} bg-yellow-100 text-yellow-800
+                                {% elseif topup.status == 'approved' %} bg-green-100 text-green-800
+                                {% else %} bg-red-100 text-red-800 {% endif %}">
+                                {{ topup.statusLabel }}
+                            </span>
+                            <span class="text-xs text-brand-light">{{ topup.createdAt|date('d.m.Y H:i') }}</span>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-sm text-brand-light">Hali to'ldirish so'rovlari yo'q.</p>
         {% endif %}
     </div>
 </div>

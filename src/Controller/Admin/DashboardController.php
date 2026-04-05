@@ -7,6 +7,7 @@ use App\Repository\OrderRepository;
 use App\Repository\ProductRepository;
 use App\Repository\UserProfileRepository;
 use App\Repository\UserRepository;
+use App\Repository\WalletTopupRequestRepository;
 use App\Repository\WithdrawalRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,6 +27,7 @@ class DashboardController extends AbstractController
         CategoryRepository $categoryRepository,
         UserProfileRepository $userProfileRepository,
         WithdrawalRepository $withdrawalRepository,
+        WalletTopupRequestRepository $walletTopupRequestRepository,
         EntityManagerInterface $em,
     ): Response {
         // Tarif a'zolari soni
@@ -43,6 +45,7 @@ class DashboardController extends AbstractController
             'orderCount' => $orderRepository->count([]),
             'pendingOrderPayments' => $orderRepository->count(['paymentStatus' => 'pending']),
             'pendingWithdrawals' => count($withdrawalRepository->findPending()),
+            'pendingWalletTopups' => count($walletTopupRequestRepository->findPending()),
         ]);
     }
 }
