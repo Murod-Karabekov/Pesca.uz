@@ -65,6 +65,15 @@
                     Mahsulotlar
                 </a>
 
+                <a href="{{ path('admin_announcement_index') }}"
+                   class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors
+                          {{ app.request.attributes.get('_route') starts with 'admin_announcement' ? 'bg-white/10 text-white' : 'text-brand-muted hover:bg-white/5 hover:text-white' }}">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 8h10M7 12h6m-8 8h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    </svg>
+                    E'lonlar
+                </a>
+
                 <a href="{{ path('admin_user_index') }}"
                    class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors
                           {{ app.request.attributes.get('_route') starts with 'admin_user' ? 'bg-white/10 text-white' : 'text-brand-muted hover:bg-white/5 hover:text-white' }}">
@@ -134,6 +143,7 @@
             <nav class="lg:hidden bg-white border-b border-beige-200 px-4 py-2 flex gap-1 overflow-x-auto">
                 <a href="{{ path('admin_dashboard') }}" class="px-3 py-2 text-xs font-medium rounded-lg whitespace-nowrap {{ app.request.attributes.get('_route') starts with 'admin_dashboard' ? 'bg-peach-100 text-peach-700' : 'text-brand-medium' }}">Boshqaruv paneli</a>
                 <a href="{{ path('admin_product_index') }}" class="px-3 py-2 text-xs font-medium rounded-lg whitespace-nowrap {{ app.request.attributes.get('_route') starts with 'admin_product' ? 'bg-peach-100 text-peach-700' : 'text-brand-medium' }}">Mahsulotlar</a>
+                <a href="{{ path('admin_announcement_index') }}" class="px-3 py-2 text-xs font-medium rounded-lg whitespace-nowrap {{ app.request.attributes.get('_route') starts with 'admin_announcement' ? 'bg-peach-100 text-peach-700' : 'text-brand-medium' }}">E'lonlar</a>
                 <a href="{{ path('admin_user_index') }}" class="px-3 py-2 text-xs font-medium rounded-lg whitespace-nowrap {{ app.request.attributes.get('_route') starts with 'admin_user' ? 'bg-peach-100 text-peach-700' : 'text-brand-medium' }}">Foydalanuvchilar</a>
                 <a href="{{ path('admin_order_index') }}" class="px-3 py-2 text-xs font-medium rounded-lg whitespace-nowrap {{ app.request.attributes.get('_route') starts with 'admin_order' ? 'bg-peach-100 text-peach-700' : 'text-brand-medium' }}">Buyurtmalar</a>
                 <a href="{{ path('admin_wallet_topup_index') }}" class="px-3 py-2 text-xs font-medium rounded-lg whitespace-nowrap {{ app.request.attributes.get('_route') starts with 'admin_wallet_topup' ? 'bg-peach-100 text-peach-700' : 'text-brand-medium' }}">Top-up</a>

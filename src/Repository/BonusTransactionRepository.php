@@ -68,6 +68,20 @@ class BonusTransactionRepository extends ServiceEntityRepository
         return $result ?? '0.00';
     }
 
+    public function hasProductReferralForOrder(int $orderId): bool
+    {
+        $count = (int) $this->createQueryBuilder('bt')
+            ->select('COUNT(bt.id)')
+            ->where('bt.type = :type')
+            ->andWhere('bt.sourceOrderId = :orderId')
+            ->setParameter('type', BonusTransaction::TYPE_PRODUCT_REFERRAL)
+            ->setParameter('orderId', $orderId)
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        return $count > 0;
+    }
+
     /**
      * Tarifdan ishlab topilgan
      */

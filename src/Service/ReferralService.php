@@ -6,6 +6,7 @@ use App\Entity\BonusTransaction;
 use App\Entity\MembershipPlan;
 use App\Entity\ReferralLink;
 use App\Entity\User;
+use App\Repository\BonusTransactionRepository;
 use App\Repository\BonusWalletRepository;
 use App\Repository\MembershipPlanRepository;
 use App\Repository\ReferralLinkRepository;
@@ -18,6 +19,7 @@ class ReferralService
         private ReferralLinkRepository $referralLinkRepo,
         private MembershipPlanRepository $planRepo,
         private BonusWalletRepository $walletRepo,
+        private BonusTransactionRepository $bonusTransactionRepo,
     ) {
     }
 
@@ -64,6 +66,10 @@ class ReferralService
             return;
         }
 
+        if ($orderId !== null && $this->bonusTransactionRepo->hasProductReferralForOrder($orderId)) {
+            return;
+        }
+
         $productPercent = $referralLink->getProductPercent();
 
         if (bccomp($productPercent, '0', 2) <= 0) {
@@ -98,7 +104,6 @@ class ReferralService
         $transaction->setReferrerPlanAtTime($referralLink->getReferrerPlanAtTime());
 
         $this->em->persist($transaction);
-        $this->em->flush();
     }
 
     /**

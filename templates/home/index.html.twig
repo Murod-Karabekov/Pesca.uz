@@ -51,39 +51,170 @@
 </section>
 
 {# ─── Features Section ─── #}
-<section class="py-16 md:py-24 bg-white">
+{% if announcements|length > 0 %}
+<section class="py-10 md:py-12 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="text-center p-8 rounded-2xl bg-beige-50 hover:bg-beige-100 transition-colors duration-300">
-                <div class="w-16 h-16 mx-auto mb-6 bg-peach-100 rounded-2xl flex items-center justify-center">
-                    <svg class="w-8 h-8 text-peach-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
-                    </svg>
-                </div>
-                <h3 class="text-lg font-display font-semibold mb-3">Premium sifat</h3>
-                <p class="text-brand-medium text-sm leading-relaxed">Ish kuningiz davomida uzoq muddatli qulaylik uchun eng yaxshi materiallardan tayyorlangan.</p>
-            </div>
-            <div class="text-center p-8 rounded-2xl bg-beige-50 hover:bg-beige-100 transition-colors duration-300">
-                <div class="w-16 h-16 mx-auto mb-6 bg-peach-100 rounded-2xl flex items-center justify-center">
-                    <svg class="w-8 h-8 text-peach-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-                    </svg>
-                </div>
-                <h3 class="text-lg font-display font-semibold mb-3">G'amxo'rlik bilan yaratilgan</h3>
-                <p class="text-brand-medium text-sm leading-relaxed">Har bir tikuv muhim. Dizaynlarimiz estetik va funksionallikni birinchi o'ringa qo'yadi.</p>
-            </div>
-            <div class="text-center p-8 rounded-2xl bg-beige-50 hover:bg-beige-100 transition-colors duration-300">
-                <div class="w-16 h-16 mx-auto mb-6 bg-peach-100 rounded-2xl flex items-center justify-center">
-                    <svg class="w-8 h-8 text-peach-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-                    </svg>
-                </div>
-                <h3 class="text-lg font-display font-semibold mb-3">Professional standart</h3>
-                <p class="text-brand-medium text-sm leading-relaxed">Tibbiyot mutaxassislari uchun eng yuqori sanoat standartlariga javob beradi.</p>
-            </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            {% for announcement in announcements %}
+                {% set previewLength = 140 %}
+                {% set fullBody = announcement.body %}
+                {% set hasMore = fullBody|length > previewLength %}
+                {% set previewBody = hasMore ? fullBody|slice(0, previewLength) ~ '...' : fullBody %}
+                {% set modalId = 'announcement_modal_' ~ announcement.id %}
+
+                <article
+                    class="group relative rounded-3xl border-2 border-beige-300 bg-gradient-to-br from-white via-beige-50 to-peach-50 shadow-md shadow-peach-100/30 overflow-hidden cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-peach-300"
+                    role="button"
+                    tabindex="0"
+                    onclick="document.getElementById('{{ modalId }}').showModal()"
+                    onkeydown="if(event.key==='Enter' || event.key===' '){event.preventDefault();document.getElementById('{{ modalId }}').showModal();}"
+                    aria-label="{{ announcement.title }} e'lonini ochish"
+                >
+                    <div class="absolute right-3 top-3 z-20 inline-flex items-center gap-1 rounded-full border border-peach-200 bg-white/95 px-2 py-1 text-[11px] font-semibold text-peach-700 shadow-sm">
+                        <span class="w-1.5 h-1.5 rounded-full bg-peach-500"></span>
+                        Ochish
+                    </div>
+
+                    {% if announcement.hasMedia %}
+                        <div class="h-44 bg-white border-b border-beige-200 overflow-hidden">
+                            {% if announcement.mediaType == 'image' %}
+                                <div class="relative h-full w-full p-2">
+                                    <img
+                                        src="{{ announcement.embedUrl }}"
+                                        alt="{{ announcement.title }}"
+                                        class="absolute inset-0 h-full w-full object-cover scale-110 blur-2xl opacity-55"
+                                    >
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-white/15"></div>
+                                    <img
+                                        src="{{ announcement.embedUrl }}"
+                                        alt="{{ announcement.title }}"
+                                        class="relative z-10 h-full w-full object-contain rounded-xl"
+                                    >
+                                </div>
+                            {% else %}
+                                <iframe
+                                    src="{{ announcement.embedUrl }}"
+                                    title="{{ announcement.title }}"
+                                    class="h-full w-full p-2 rounded-xl bg-black"
+                                    loading="lazy"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    referrerpolicy="strict-origin-when-cross-origin"
+                                    allowfullscreen
+                                ></iframe>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+
+                    <div class="p-5">
+                        <h3 class="text-lg font-display font-bold text-brand-dark leading-snug break-words">{{ announcement.title }}</h3>
+                        <p class="mt-2 text-sm text-brand-medium leading-relaxed whitespace-pre-line">{{ previewBody }}</p>
+                    </div>
+                </article>
+
+                <dialog id="{{ modalId }}" class="announcement-modal w-[92vw] max-w-2xl rounded-3xl border border-beige-200 p-0 shadow-2xl" onclick="if (event.target === this) this.close();">
+                        <div class="bg-white">
+                            <div class="flex items-start justify-between gap-3 border-b border-beige-200 px-5 py-4">
+                                <h4 class="text-lg font-display font-bold text-brand-dark leading-snug break-words">{{ announcement.title }}</h4>
+                                <button type="button" onclick="document.getElementById('{{ modalId }}').close()" class="shrink-0 rounded-full border border-beige-200 bg-white p-2 text-brand-medium hover:text-brand-dark hover:border-beige-300" aria-label="Yopish">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <div class="px-5 py-4 max-h-[70vh] overflow-y-auto">
+                                {% if announcement.hasMedia %}
+                                    <div class="mb-4 overflow-hidden rounded-2xl border border-beige-200 bg-white">
+                                        {% if announcement.mediaType == 'image' %}
+                                            <div class="relative h-64 w-full bg-beige-50 p-2">
+                                                <img
+                                                    src="{{ announcement.embedUrl }}"
+                                                    alt="{{ announcement.title }}"
+                                                    class="absolute inset-0 h-full w-full object-cover scale-110 blur-2xl opacity-50"
+                                                >
+                                                <div class="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-white/20"></div>
+                                                <img
+                                                    src="{{ announcement.embedUrl }}"
+                                                    alt="{{ announcement.title }}"
+                                                    class="relative z-10 h-full w-full object-contain rounded-xl"
+                                                >
+                                            </div>
+                                        {% else %}
+                                            <iframe
+                                                src="{{ announcement.embedUrl }}"
+                                                title="{{ announcement.title }}"
+                                                class="h-64 w-full bg-black"
+                                                loading="lazy"
+                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                referrerpolicy="strict-origin-when-cross-origin"
+                                                allowfullscreen
+                                            ></iframe>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+
+                                <div class="text-sm text-brand-medium leading-relaxed whitespace-pre-line">{{ fullBody }}</div>
+
+                                {% if announcement.ctaLabel and announcement.ctaUrl %}
+                                    <div class="mt-5">
+                                        <a href="{{ announcement.ctaUrl }}" class="inline-flex items-center gap-2 rounded-full bg-brand-dark px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-peach-600">
+                                            {{ announcement.ctaLabel }}
+                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                </dialog>
+            {% endfor %}
         </div>
     </div>
 </section>
+{% endif %}
+
+<style>
+    dialog.announcement-modal {
+        opacity: 0;
+        transform: translateY(14px) scale(0.97);
+    }
+
+    dialog.announcement-modal[open] {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        animation: announcement-modal-in 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    dialog.announcement-modal::backdrop {
+        background: rgba(15, 12, 10, 0.62);
+        backdrop-filter: blur(6px);
+    }
+
+    dialog.announcement-modal[open]::backdrop {
+        animation: announcement-backdrop-in 200ms ease-out;
+    }
+
+    @keyframes announcement-modal-in {
+        from {
+            opacity: 0;
+            transform: translateY(14px) scale(0.97);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    @keyframes announcement-backdrop-in {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+</style>
 
 {# ─── Featured Products ─── #}
 {% if featured_products|length > 0 %}

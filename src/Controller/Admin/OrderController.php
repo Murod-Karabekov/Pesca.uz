@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Order;
 use App\Repository\OrderRepository;
+use App\Service\ReferralService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,7 +38,12 @@ class OrderController extends AbstractController
     }
 
     #[Route('/{id}/payment/approve', name: 'approve_payment', requirements: ['id' => '\\d+'], methods: ['POST'])]
-    public function approvePayment(Order $order, Request $request, EntityManagerInterface $em): Response
+    public function approvePayment(
+        Order $order,
+        Request $request,
+        EntityManagerInterface $em,
+        ReferralService $referralService,
+    ): Response
     {
         if (!$this->isCsrfTokenValid('approve_order_' . $order->getId(), $request->request->get('_token'))) {
             $this->addFlash('error', 'Xavfsizlik xatosi.');
@@ -56,6 +62,14 @@ class OrderController extends AbstractController
         $order->setApprovedByAdmin($this->getUser());
         $order->setApprovedAt(new \DateTimeImmutable());
         $order->setAdminNote($note ?: 'To\'lov tasdiqlandi');
+
+        if ($order->getUser() !== null && $order->getId() !== null) {
+            $referralService->processProductReferral(
+                $order->getUser(),
+                $order->getSubtotalAmount(),
+                $order->getId()
+            );
+        }
 
         $em->flush();
 

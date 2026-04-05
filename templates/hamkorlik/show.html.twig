@@ -23,46 +23,52 @@
                 <span class="text-4xl font-bold">{{ plan.price|number_format(0, '.', ' ') }}</span>
                 <span class="text-lg opacity-80"> so'm</span>
             </div>
+            <p class="mt-4 max-w-2xl mx-auto text-sm md:text-base opacity-90">Pesca 2027 uchun ishlab chiqilgan universal formalar, qomatni to'g'ri ko'rsatadigan bichimlar va sizni tayyor mijoz emas, uslub egasiga aylantiradigan yopiq imkoniyatlar shu tarif ichida jamlangan.</p>
         </div>
 
         <div class="p-8">
+            <div class="mb-8 rounded-2xl border border-beige-200 bg-beige-50 p-5">
+                <h2 class="text-lg font-semibold text-brand-dark mb-2">Nega bu tarifni olishadi?</h2>
+                <p class="text-sm text-brand-medium">Chunki Pesca formalarida asosiy urg'u faqat chiroyga emas, qomatga mos tushishiga berilgan. Biz barcha qomatga mukammal yarashadigan universal model yechimlarini 2027 kolleksiyasiga tayyorlayapmiz. Bu tarif sizga shu tizimga birinchi kirish, yopiq bilimlar va daromad mexanikasini beradi.</p>
+            </div>
+
             {# Sizga beriladi #}
             <h2 class="text-lg font-semibold text-brand-dark mb-4">✅ Sizga beriladi:</h2>
             <div class="space-y-3 mb-8">
                 <div class="flex items-center gap-3 text-brand-medium">
                     <span class="flex-shrink-0 w-8 h-8 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-sm">✓</span>
-                    <span>👑 {{ plan.clothingCount }} ta maxsus kiyim tikib beriladi</span>
+                    <span>👑 {{ plan.clothingCount }} ta universal forma modeli siz uchun ajratiladi</span>
                 </div>
                 <div class="flex items-center gap-3 text-brand-medium">
                     <span class="flex-shrink-0 w-8 h-8 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-sm">✓</span>
-                    <span>🎨 Pesca MK 2027 ga tekin yo'llanma</span>
+                    <span>🎨 Pesca 2027 kolleksiyasi bo'yicha yopiq masterklass kirishi</span>
                 </div>
                 {% if plan.hasDesign %}
                     <div class="flex items-center gap-3 text-brand-medium">
                         <span class="flex-shrink-0 w-8 h-8 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-sm">✓</span>
-                        <span>Shaxsiy dizayn xizmati</span>
+                        <span>Shaxsiy qomat va uslubga mos premium dizayn yondashuvi</span>
                     </div>
                 {% endif %}
                 <div class="flex items-center gap-3 text-brand-medium">
                     <span class="flex-shrink-0 w-8 h-8 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-sm">✓</span>
-                    <span>{{ plan.interfaceType == 'start' ? 'Start' : 'Premium' }} interfeys</span>
+                    <span>{{ plan.interfaceType == 'start' ? 'Start' : 'Premium' }} darajadagi yopiq imkoniyatlar paneli</span>
                 </div>
                 <div class="flex items-center gap-3 text-brand-medium">
                     <span class="flex-shrink-0 w-8 h-8 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-sm">✓</span>
-                    <span>Moliya bo'limi ochiladi</span>
+                    <span>Moliya, top-up va daromad nazorati uchun alohida bo'lim ochiladi</span>
                 </div>
                 <div class="flex items-center gap-3 text-brand-medium">
                     <span class="flex-shrink-0 w-8 h-8 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-sm">✓</span>
-                    <span>🎓 Yopiq guruhda masterklasslar</span>
+                    <span>🎓 Yopiq guruhda savdo, uslub va tikuv bo'yicha doimiy masterklasslar</span>
                 </div>
                 {% if plan.slug == 'vip' %}
                     <div class="flex items-center gap-3 text-brand-medium">
                         <span class="flex-shrink-0 w-8 h-8 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-sm">✓</span>
-                        <span>✈️ Chet elga sayohat yutib olish imkoniyati</span>
+                        <span>✈️ Eng faol qatnashuvchilar uchun sayohat va katta sahna imkoniyati</span>
                     </div>
                     <div class="flex items-center gap-3 text-brand-medium">
                         <span class="flex-shrink-0 w-8 h-8 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-sm">✓</span>
-                        <span>🎁 Qimmatli mukofotlar va bonuslar</span>
+                        <span>🎁 Premium sovg'alar, bonuslar va alohida imtiyozlar</span>
                     </div>
                 {% endif %}
             </div>
@@ -72,11 +78,11 @@
             <div class="grid grid-cols-2 gap-4 mb-8">
                 <div class="bg-beige-50 rounded-xl p-4 text-center">
                     <div class="text-2xl font-bold text-brand-dark">{{ plan.productReferralPercent }}%</div>
-                    <div class="text-xs text-brand-medium mt-1">Mahsulotdan</div>
+                    <div class="text-xs text-brand-medium mt-1">Tasdiqlangan mahsulot buyurtmasidan</div>
                 </div>
                 <div class="bg-beige-50 rounded-xl p-4 text-center">
                     <div class="text-2xl font-bold text-brand-dark">{{ plan.planReferralPercent }}%</div>
-                    <div class="text-xs text-brand-medium mt-1">Tarifdan</div>
+                    <div class="text-xs text-brand-medium mt-1">Muvaffaqiyatli tarif obunasidan</div>
                 </div>
             </div>
 
@@ -109,7 +115,7 @@
                                 {% if plan.slug == 'vip' %} bg-purple-600 text-white hover:bg-purple-700
                                 {% elseif plan.slug == 'premium' %} bg-blue-600 text-white hover:bg-blue-700
                                 {% else %} bg-yellow-500 text-white hover:bg-yellow-600 {% endif %}">
-                            💳 A'zo bo'lish — {{ plan.price|number_format(0, '.', ' ') }} so'm
+                            💳 Tarifni faollashtirish — {{ plan.price|number_format(0, '.', ' ') }} so'm
                         </button>
                     </form>
                     {% else %}
