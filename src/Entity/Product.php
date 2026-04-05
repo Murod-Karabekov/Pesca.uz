@@ -56,7 +56,6 @@ class Product
     private ?string $description = null;
 
     #[ORM\Column(type: Types::JSON)]
-    #[Assert\NotBlank(message: 'At least one size must be selected.')]
     private array $size = [];
 
     #[ORM\Column(length: 255, nullable: true)]

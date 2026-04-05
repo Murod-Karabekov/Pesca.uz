@@ -14,6 +14,8 @@
 <div class="card p-6 md:p-8 max-w-2xl">
     {{ form_start(form, {'attr': {'class': 'space-y-6', 'novalidate': 'novalidate', 'enctype': 'multipart/form-data'}}) }}
 
+    {{ form_errors(form) }}
+
     <div>
         {{ form_label(form.name, null, {'label_attr': {'class': 'block text-sm font-medium text-brand-dark mb-2'}}) }}
         {{ form_widget(form.name) }}
