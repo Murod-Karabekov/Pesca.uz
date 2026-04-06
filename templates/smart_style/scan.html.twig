@@ -3,33 +3,33 @@
 {% block title %}Skanerlash — SmartStyle{% endblock %}
 
 {% block body %}
-<section class="py-12 md:py-16">
+<section class="py-6 md:py-10">
     <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {# ─── Header ─── #}
-        <div class="mb-8">
+        <div class="mb-5 md:mb-8">
             <a href="{{ path('app_smart_style_index') }}" class="inline-flex items-center gap-2 text-sm text-brand-medium hover:text-peach-600 transition-colors mb-4">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
                 Orqaga
             </a>
-            <h1 class="text-2xl md:text-3xl font-display font-bold text-brand-dark">📸 Skanerlash</h1>
-            <p class="text-brand-medium text-sm mt-2">Yuzingizni doira ichiga joylashtiring</p>
+            <h1 class="text-2xl md:text-3xl font-display font-bold text-brand-dark">SmartStyle tahlili</h1>
+            <p class="text-brand-medium text-sm mt-1.5">Yuzingizni doira ichiga joylashtiring va bitta tugma bilan davom eting.</p>
         </div>
 
         {# ─── Camera Container ─── #}
         <div id="smart-style-app">
             {# Step 0: Gender Selection #}
-            <div id="step-gender" class="card p-6 md:p-8">
+            <div id="step-gender" class="card p-5 md:p-8">
                 <h2 class="text-lg font-display font-semibold text-brand-dark mb-2 text-center">Jinsingizni tanlang</h2>
                 <p class="text-sm text-brand-medium mb-6 text-center">Sizga mos kiyimlarni ko'rsatish uchun</p>
-                <div class="grid grid-cols-2 gap-4 max-w-sm mx-auto">
+                <div class="grid grid-cols-2 gap-3 max-w-sm mx-auto">
                     <button type="button" data-gender="male"
-                            class="gender-btn group flex flex-col items-center gap-3 p-6 rounded-2xl border-2 border-beige-200 hover:border-peach-400 hover:bg-peach-50 transition-all duration-200">
+                            class="gender-btn group flex flex-col items-center gap-2 p-5 rounded-2xl border-2 border-beige-200 hover:border-peach-400 hover:bg-peach-50 transition-all duration-200">
                         <span class="text-4xl group-hover:scale-110 transition-transform">👨</span>
                         <span class="font-display font-semibold text-brand-dark">Erkak</span>
                     </button>
                     <button type="button" data-gender="female"
-                            class="gender-btn group flex flex-col items-center gap-3 p-6 rounded-2xl border-2 border-beige-200 hover:border-peach-400 hover:bg-peach-50 transition-all duration-200">
+                            class="gender-btn group flex flex-col items-center gap-2 p-5 rounded-2xl border-2 border-beige-200 hover:border-peach-400 hover:bg-peach-50 transition-all duration-200">
                         <span class="text-4xl group-hover:scale-110 transition-transform">👩</span>
                         <span class="font-display font-semibold text-brand-dark">Ayol</span>
                     </button>
@@ -37,8 +37,8 @@
             </div>
 
             {# Step 1: Camera / Upload #}
-            <div id="step-camera" class="hidden card p-6 md:p-8">
-                <div class="relative mx-auto mb-6" style="width: 280px; height: 280px;">
+            <div id="step-camera" class="hidden card p-4 md:p-8">
+                <div class="relative mx-auto mb-5 md:mb-6 w-[250px] h-[250px] sm:w-[280px] sm:h-[280px]">
                     {# Camera preview #}
                     <video id="camera-preview" class="absolute inset-0 w-full h-full object-cover rounded-full hidden" autoplay playsinline></video>
 
@@ -58,21 +58,21 @@
                 </div>
 
                 {# Buttons #}
-                <div id="camera-buttons" class="space-y-3">
+                <div id="camera-buttons" class="space-y-2.5">
                     <button id="btn-camera" type="button"
-                            class="w-full btn-primary justify-center py-4 text-base">
+                            class="w-full btn-primary justify-center py-3.5 text-base">
                         📷 Kamerani ochish
                     </button>
-                    <label class="w-full btn-secondary justify-center py-3 cursor-pointer block text-center">
+                    <label class="w-full btn-secondary justify-center py-3 cursor-pointer block text-center text-sm md:text-base">
                         🖼 Galereyadan yuklash
                         <input id="file-input" type="file" accept="image/*" class="hidden">
                     </label>
                 </div>
 
                 {# Capture & Analyze buttons (hidden initially) #}
-                <div id="capture-buttons" class="hidden space-y-3">
+                <div id="capture-buttons" class="hidden space-y-2.5">
                     <button id="btn-capture" type="button"
-                            class="w-full btn-primary justify-center py-4 text-base">
+                            class="w-full btn-primary justify-center py-3.5 text-base">
                         📸 Suratga olish
                     </button>
                     <button id="btn-cancel-camera" type="button"
@@ -82,9 +82,9 @@
                 </div>
 
                 {# Analyze button (after capture/upload) #}
-                <div id="analyze-buttons" class="hidden space-y-3">
+                <div id="analyze-buttons" class="hidden space-y-2.5">
                     <button id="btn-analyze" type="button"
-                            class="w-full btn-primary justify-center py-4 text-base">
+                            class="w-full btn-primary justify-center py-3.5 text-base">
                         ✨ Tahlil qilish
                     </button>
                     <button id="btn-retake" type="button"
@@ -95,7 +95,7 @@
             </div>
 
             {# Step 2: Loading #}
-            <div id="step-loading" class="hidden card p-8 md:p-12 text-center">
+            <div id="step-loading" class="hidden card p-6 md:p-12 text-center">
                 <div class="mb-6">
                     <div class="w-24 h-24 mx-auto rounded-full bg-peach-50 flex items-center justify-center mb-4">
                         <svg class="w-12 h-12 text-peach-500 animate-spin" fill="none" viewBox="0 0 24 24">
@@ -112,7 +112,7 @@
             </div>
 
             {# Step 3: Error #}
-            <div id="step-error" class="hidden card p-8 md:p-12 text-center">
+            <div id="step-error" class="hidden card p-6 md:p-12 text-center">
                 <div class="text-5xl mb-4">😕</div>
                 <h2 class="text-xl font-display font-bold text-brand-dark mb-3">Xatolik</h2>
                 <p id="error-text" class="text-sm text-brand-medium mb-6">Yuzni aniqlab bo'lmadi. Iltimos, qaytadan urinib ko'ring.</p>
@@ -121,8 +121,8 @@
         </div>
 
         {# Privacy note #}
-        <div class="mt-6 text-center">
-            <p class="text-xs text-brand-medium flex items-center justify-center gap-2">
+        <div class="mt-5 text-center">
+            <p class="text-[11px] md:text-xs text-brand-medium flex items-center justify-center gap-2">
                 <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg>
                 Rasmingiz serverga yuborilmaydi. Barcha tahlil brauzeringizda amalga oshiriladi.
             </p>

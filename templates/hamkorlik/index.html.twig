@@ -3,6 +3,27 @@
 {% block title %}Hamkorlik — Tariflar{% endblock %}
 
 {% block body %}
+<style>
+@keyframes vipGlowPulse {
+    0%, 100% {
+        box-shadow: 0 20px 45px rgba(245, 158, 11, 0.20);
+    }
+    50% {
+        box-shadow: 0 28px 65px rgba(245, 158, 11, 0.34);
+    }
+}
+
+.vip-featured {
+    animation: vipGlowPulse 2.8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .vip-featured {
+        animation: none;
+    }
+}
+</style>
+
 <div class="bg-beige-50 pt-8 pb-12">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {% if app.user and currentPlan != 'free' %}
@@ -18,15 +39,22 @@
     <div class="mb-8 rounded-3xl bg-gradient-to-r from-brand-dark via-brand-dark to-peach-700 px-6 py-7 text-white shadow-lg">
         <div class="max-w-4xl mx-auto text-center">
             <p class="text-sm uppercase tracking-[0.24em] text-white/70 mb-3">Pesca 2027</p>
-            <h2 class="text-2xl md:text-3xl font-display font-bold mb-3">Bu tariflar oddiy obuna emas, bu sizning shaklingizga ishlaydigan tayyor uslub tizimi.</h2>
-            <p class="text-sm md:text-base text-white/85">Har bir tarif ichida universal bichim, masterklass, yopiq hamjamiyat, daromad modeli va sizni ajratib turadigan kolleksiya imkoniyatlari bor. O'zingizga mos darajani tanlang va Pesca bilan birga o'sing.</p>
+            <h2 class="text-2xl md:text-3xl font-display font-bold mb-3">Tarifni tanlang va Pesca tizimida daromad yo'lingizni boshlang.</h2>
+            <p class="text-sm md:text-base text-white/85">START oddiy kirish uchun, PREMIUM barqaror rivojlanish uchun, VIP esa maksimal imkoniyat va status uchun. Qaysi bosqichda bo'lsangiz ham, mos daraja tayyor.</p>
         </div>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
         {% for plan in plans %}
-            <div class="flex flex-col rounded-2xl shadow-lg border-2 overflow-hidden transition-all hover:shadow-xl
-                {% if plan.slug == 'vip' %} bg-amber-50 border-amber-400 {% elseif plan.slug == 'premium' %} bg-white border-blue-300 {% else %} bg-white border-green-300 {% endif %}
+            <div class="flex flex-col rounded-2xl shadow-lg border-2 overflow-hidden transition-all duration-300
+                {% if plan.slug == 'vip' %}
+                    bg-amber-50 border-amber-400 md:order-2 md:scale-[1.03] vip-featured
+                {% elseif plan.slug == 'start' %}
+                    bg-white border-green-300 md:order-1 md:scale-[0.97]
+                {% else %}
+                    bg-white border-blue-300 md:order-3 md:scale-[0.97]
+                {% endif %}
+                hover:shadow-xl
                 {% if currentPlan == plan.slug %} ring-4 ring-peach-300 {% endif %}">
 
                 {# Header #}
@@ -34,6 +62,12 @@
                     {% if plan.slug == 'vip' %} bg-amber-100
                     {% elseif plan.slug == 'premium' %} bg-blue-50
                     {% else %} bg-green-50 {% endif %}">
+
+                    {% if plan.slug == 'vip' %}
+                        <div class="inline-flex items-center gap-2 mb-3 rounded-full bg-amber-500 px-3 py-1 text-xs font-bold text-white uppercase tracking-wide shadow-md">
+                            Eng Tavsiya Etiladi
+                        </div>
+                    {% endif %}
 
                     <div class="text-3xl mb-2">
                         {% if plan.slug == 'vip' %}&#x1F451;{% elseif plan.slug == 'premium' %}&#x1F48E;{% else %}&#x1F7E2;{% endif %}
@@ -50,54 +84,84 @@
 
                 {# Imkoniyatlar #}
                 <div class="p-6 space-y-3 flex-1">
-                    <div class="flex items-center gap-2 text-sm">
-                        <span class="text-green-500">✅</span>
-                        <span>👑 {{ plan.clothingCount }} ta universal forma modelini birinchi bo'lib olasiz</span>
-                    </div>
-
-                    <div class="flex items-center gap-2 text-sm">
-                        <span class="text-green-500">✅</span>
-                        <span>🎨 Pesca 2027 kolleksiyasi bo'yicha yopiq masterklass kirishi</span>
-                    </div>
-
-                    {% if plan.hasDesign %}
+                    {% if plan.slug == 'start' %}
+                        <p class="text-sm text-brand-medium">👉 Pesca orqali pul qilishni past boshlang'ich byudjet bilan boshlamoqchilar uchun</p>
                         <div class="flex items-center gap-2 text-sm">
                             <span class="text-green-500">✅</span>
-                            <span>Shaxsiy qomatga moslashtirilgan dizayn yondashuvi</span>
-                        </div>
-                    {% endif %}
-
-                    <div class="flex items-center gap-2 text-sm">
-                        <span class="text-green-500">✅</span>
-                        <span>Daromad, top-up va yechishlar uchun moliya paneli</span>
-                    </div>
-
-                    <div class="flex items-center gap-2 text-sm">
-                        <span class="text-green-500">✅</span>
-                        <span>🎓 Yopiq guruhda doimiy uslub, savdo va tikuv masterklasslari</span>
-                    </div>
-
-                    {% if plan.slug == 'vip' %}
-                        <div class="flex items-center gap-2 text-sm">
-                            <span class="text-green-500">✅</span>
-                            <span>✈️ Eng faol ishtirokchilar uchun sayohat va katta sahna imkoniyati</span>
+                            <span>👕 1 ta universal forma</span>
                         </div>
                         <div class="flex items-center gap-2 text-sm">
                             <span class="text-green-500">✅</span>
-                            <span>🎁 Premium sovg'alar, yopiq bonuslar va alohida imtiyozlar</span>
+                            <span>🔓 Pesca yopiq tizimiga to'liq kirish</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm">
+                            <span class="text-green-500">✅</span>
+                            <span>🎓 Yopiq bilimlar: savdo, stil va tikuv bo'yicha doimiy darslar</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm">
+                            <span class="text-green-500">✅</span>
+                            <span>💰 Shaxsiy balans: pul kiritish va ishlatish imkoniyati</span>
+                        </div>
+                    {% elseif plan.slug == 'premium' %}
+                        <p class="text-sm text-brand-medium">👉 Barqaror daromad qilishni xohlaganlar uchun</p>
+                        <div class="flex items-center gap-2 text-sm">
+                            <span class="text-green-500">✅</span>
+                            <span>👕 1 ta yangi kolleksiya formasi</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm">
+                            <span class="text-green-500">✅</span>
+                            <span>✂️ Qomatga moslashtirilgan dizayn (sizga maxsus)</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm">
+                            <span class="text-green-500">✅</span>
+                            <span>🎓 Yopiq masterklasslar: sotuv va rivojlanish strategiyalari</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm">
+                            <span class="text-green-500">✅</span>
+                            <span>🔓 Faol a'zolar uchun yopiq community</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm">
+                            <span class="text-green-500">✅</span>
+                            <span>💰 To'liq moliyaviy boshqaruv</span>
+                        </div>
+                    {% else %}
+                        <p class="text-sm text-brand-medium">👉 Jamoa qurib, katta natija va statusga chiqmoqchilar uchun</p>
+                        <div class="flex items-center gap-2 text-sm">
+                            <span class="text-green-500">✅</span>
+                            <span>👑 VIP status — tizimda yuqori daraja</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm">
+                            <span class="text-green-500">✅</span>
+                            <span>👕 1 ta eksklyuziv forma (faqat VIP uchun)</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm">
+                            <span class="text-green-500">✅</span>
+                            <span>✂️ Individual dizayn va premium xizmat</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm">
+                            <span class="text-green-500">✅</span>
+                            <span>🚀 Eng tez bajarilish va ustuvor xizmat</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm">
+                            <span class="text-green-500">✅</span>
+                            <span>🎁 Yopiq bonuslar va maxsus sovg'alar</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm">
+                            <span class="text-green-500">✅</span>
+                            <span>✈️ Eng faol ishtirokchilar uchun sayohat imkoniyatlari</span>
                         </div>
                     {% endif %}
 
                     <hr class="my-4">
 
-                    <div class="text-sm font-semibold text-brand-dark mb-2">Daromad modeli (har bir olib kirgan odamingizdan):</div>
+                    <div class="text-sm font-semibold text-brand-dark mb-2">💸 Qanday pul ishlaysiz:</div>
                     <div class="flex items-center gap-2 text-sm">
                         <span class="text-green-500">✅</span>
-                        <span>Mahsulot to'lovi tasdiqlanganda: <strong>{{ plan.productReferralPercent }}%</strong></span>
+                        <span>Siz taklif qilgan odam tarif olganda: <strong>{{ plan.planReferralPercent }}%</strong></span>
                     </div>
                     <div class="flex items-center gap-2 text-sm">
                         <span class="text-green-500">✅</span>
-                        <span>Tarif obunasi muvaffaqiyatli bo'lganda: <strong>{{ plan.planReferralPercent }}%</strong></span>
+                        <span>Sizning tarmog'ingiz mahsulot olganda: <strong>{{ plan.productReferralPercent }}%</strong></span>
                     </div>
 
                     {% if plan.canWithdraw %}
@@ -106,6 +170,8 @@
                             <span>Bonusni naqdga aylantirish imkoni bor</span>
                         </div>
                     {% endif %}
+
+                    <p class="text-xs text-brand-medium pt-1">Daromad natijasi shaxsiy faollik, jamoa va savdo ko'rsatkichlariga bog'liq.</p>
                 </div>
 
                 {# Tugma #}
@@ -138,8 +204,8 @@
 
     <div class="mt-10 rounded-3xl bg-white px-6 py-8 shadow-md border border-beige-200">
         <div class="max-w-4xl mx-auto text-center">
-            <h2 class="text-2xl font-display font-bold text-brand-dark mb-4">Pesca 2027 universal formalar tizimi</h2>
-            <p class="text-lg text-brand-medium">Pesca 2027 kolleksiyasi uchun yaratilayotgan universal formalar bilan tanishing: qomatni chiroyli ochib beradigan, kundalik va tadbir uslubiga birdek mos tushadigan model yechimlar aynan shu tariflar ichida jamlangan. Tarifga a'zo bo'lsangiz, siz nafaqat daromad modeliga kirasiz, balki barcha qomatga mukammal tushadigan zamonaviy formalarni birinchi bo'lib oladigan yopiq hamjamiyatga qo'shilasiz.</p>
+            <h2 class="text-2xl font-display font-bold text-brand-dark mb-4">Muhim eslatma</h2>
+            <p class="text-lg text-brand-medium">⚠️ Birinchi bosqich uchun joylar cheklangan. Keyingi bosqichda narxlar yangilanishi mumkin.</p>
         </div>
     </div>
 

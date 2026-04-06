@@ -43,4 +43,28 @@ class ProductRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    /**
+     * @return Product[]
+     */
+    public function findActiveByFilters(?\App\Entity\Category $category = null, ?string $gender = null): array
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->where('p.status = :status')
+            ->setParameter('status', true)
+            ->orderBy('p.createdAt', 'DESC');
+
+        if ($category !== null) {
+            $qb->andWhere('p.category = :category')
+                ->setParameter('category', $category);
+        }
+
+        if ($gender !== null) {
+            // Gender filterda unisex mahsulotlar ham ko'rinsin.
+            $qb->andWhere('p.gender IN (:genders)')
+                ->setParameter('genders', [$gender, 'unisex']);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
 }

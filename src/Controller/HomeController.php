@@ -15,6 +15,7 @@ class HomeController extends AbstractController
     {
         return $this->render('home/index.html.twig', [
             'announcements' => $announcementRepository->findActiveOrdered(),
+            'banners' => $announcementRepository->findActiveBannersOrdered(),
             'featured_products' => $productRepository->findBy(['status' => true], ['createdAt' => 'DESC'], 4),
         ]);
     }

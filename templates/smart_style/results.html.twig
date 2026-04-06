@@ -3,7 +3,7 @@
 {% block title %}Natijalar — SmartStyle{% endblock %}
 
 {% block body %}
-<section class="py-12 md:py-16">
+<section class="py-8 md:py-12">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {# ─── Header with Profile ─── #}
@@ -15,26 +15,26 @@
         </div>
 
         {# ─── Profile Summary ─── #}
-        <div class="card p-6 md:p-8 mb-8">
-            <div class="flex flex-col md:flex-row md:items-center gap-6">
-                <div class="flex items-center gap-4 flex-1">
-                    <div class="flex gap-3">
-                        <div class="bg-beige-50 rounded-2xl px-5 py-3 text-center">
+        <div class="card p-4 md:p-8 mb-6 md:mb-8">
+            <div class="flex flex-col md:flex-row md:items-center gap-4 md:gap-6">
+                <div class="flex items-start gap-3 md:gap-4 flex-1">
+                    <div class="flex gap-2 md:gap-3">
+                        <div class="bg-beige-50 rounded-2xl px-3 md:px-5 py-2.5 md:py-3 text-center">
                             <span class="text-2xl">👤</span>
                             <p class="text-xs text-brand-medium mt-1">{{ profile.faceShapeLabel }}</p>
                         </div>
-                        <div class="bg-beige-50 rounded-2xl px-5 py-3 text-center">
+                        <div class="bg-beige-50 rounded-2xl px-3 md:px-5 py-2.5 md:py-3 text-center">
                             <span class="text-2xl">🎨</span>
                             <p class="text-xs text-brand-medium mt-1">{{ profile.skinToneLabel }}</p>
                         </div>
                     </div>
                     <div>
-                        <h1 class="text-xl md:text-2xl font-display font-bold text-brand-dark">Sizga mos kiyimlar</h1>
-                        <p class="text-sm text-brand-medium">{{ recommendations|length }} ta mahsulot topildi</p>
+                        <h1 class="text-lg md:text-2xl font-display font-bold text-brand-dark leading-snug">Sizga mos kiyimlar</h1>
+                        <p class="text-xs md:text-sm text-brand-medium">{{ recommendations|length }} ta mahsulot topildi</p>
                     </div>
                 </div>
                 <div class="flex gap-2">
-                    <a href="{{ path('app_smart_style_scan') }}" class="btn-secondary text-sm !py-2 !px-4">🔄 Qayta skanerlash</a>
+                    <a href="{{ path('app_smart_style_scan') }}" class="btn-secondary text-sm !py-2.5 !px-4 w-full md:w-auto justify-center">🔄 Qayta skanerlash</a>
                 </div>
             </div>
 
@@ -66,7 +66,7 @@
                         🏆 Eng mos
                     </span>
                 </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-6">
                     {% for rec in top_matches %}
                         {{ _self.product_card(rec.product, rec.score, 'green') }}
                     {% endfor %}
@@ -83,7 +83,7 @@
                         👍 Juda mos
                     </span>
                 </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-6">
                     {% for rec in good_matches %}
                         {{ _self.product_card(rec.product, rec.score, 'blue') }}
                     {% endfor %}
@@ -100,7 +100,7 @@
                         👌 Mos
                     </span>
                 </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-6">
                     {% for rec in ok_matches %}
                         {{ _self.product_card(rec.product, rec.score, 'yellow') }}
                     {% endfor %}
@@ -118,7 +118,7 @@
         {% endif %}
 
         {# ─── Bottom Navigation ─── #}
-        <div class="flex flex-col sm:flex-row gap-3 mt-8 pt-8 border-t border-beige-200">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-6 md:mt-8 pt-6 md:pt-8 border-t border-beige-200">
             <a href="{{ path('app_home') }}" class="btn-secondary flex-1 justify-center">
                 🏠 Bosh sahifaga qaytish
             </a>
@@ -158,12 +158,12 @@
     </div>
 
     {# Info #}
-    <div class="p-5">
-        <h3 class="font-semibold text-brand-dark mb-1 group-hover:text-peach-600 transition-colors">{{ product.name }}</h3>
+    <div class="p-3 md:p-5">
+        <h3 class="font-semibold text-brand-dark mb-1 group-hover:text-peach-600 transition-colors text-sm md:text-base leading-snug">{{ product.name }}</h3>
         {% if product.category %}
             <p class="text-xs text-brand-medium mb-1">{{ product.category.icon }} {{ product.category.name }}</p>
         {% endif %}
-        <p class="text-peach-600 font-display font-bold text-lg">{{ product.price|number_format(0, '.', ' ') }} so'm</p>
+        <p class="text-peach-600 font-display font-bold text-sm md:text-lg">{{ product.price|number_format(0, '.', ' ') }} so'm</p>
     </div>
 </a>
 {% endmacro %}

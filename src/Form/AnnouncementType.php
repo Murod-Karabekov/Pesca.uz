@@ -22,6 +22,7 @@ class AnnouncementType extends AbstractType
         $builder
             ->add('title', TextType::class, [
                 'label' => 'Sarlavha',
+                'required' => false,
                 'attr' => [
                     'class' => $inputClass,
                     'placeholder' => 'Masalan: ✨ Pesca 2027 uchun yangi drop chiqdi',
@@ -29,6 +30,7 @@ class AnnouncementType extends AbstractType
             ])
             ->add('body', TextareaType::class, [
                 'label' => 'Matn',
+                'required' => false,
                 'attr' => [
                     'class' => $inputClass,
                     'rows' => 6,
@@ -78,6 +80,19 @@ class AnnouncementType extends AbstractType
             ->add('isActive', CheckboxType::class, [
                 'label' => 'Faol e\'lon',
                 'required' => false,
+            ])
+            ->add('isBanner', CheckboxType::class, [
+                'label' => 'Avtomatik banner (har doim 3 soniyadan keyin chiqadi)',
+                'required' => false,
+            ])
+            ->add('delaySeconds', IntegerType::class, [
+                'label' => 'Banner ekranda turish vaqti (soniya)',
+                'required' => false,
+                'attr' => [
+                    'class' => $inputClass,
+                    'min' => 0,
+                    'placeholder' => 'Masalan: 5 — banner 3 soniyadan keyin chiqib 5 soniya turadi',
+                ],
             ]);
     }
 

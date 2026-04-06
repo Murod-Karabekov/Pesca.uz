@@ -17,22 +17,22 @@ class ProductController extends AbstractController
     public function index(Request $request, ProductRepository $productRepository, CategoryRepository $categoryRepository): Response
     {
         $categorySlug = $request->query->get('category');
+        $gender = $request->query->get('gender');
+        $allowedGenders = ['male', 'female'];
+        $currentGender = in_array($gender, $allowedGenders, true) ? $gender : null;
         $category = null;
 
         if ($categorySlug) {
             $category = $categoryRepository->findBySlug($categorySlug);
         }
 
-        if ($category) {
-            $products = $productRepository->findActiveByCategory($category);
-        } else {
-            $products = $productRepository->findActive();
-        }
+        $products = $productRepository->findActiveByFilters($category, $currentGender);
 
         return $this->render('product/index.html.twig', [
             'products' => $products,
             'categories' => $categoryRepository->findAllOrdered(),
             'currentCategory' => $category,
+            'currentGender' => $currentGender,
         ]);
     }
 

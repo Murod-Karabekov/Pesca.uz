@@ -41,4 +41,20 @@ class AnnouncementRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    /**
+     * @return Announcement[]
+     */
+    public function findActiveBannersOrdered(): array
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.isActive = :isActive')
+            ->andWhere('a.isBanner = :isBanner')
+            ->setParameter('isActive', true)
+            ->setParameter('isBanner', true)
+            ->orderBy('a.sortOrder', 'ASC')
+            ->addOrderBy('a.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 }

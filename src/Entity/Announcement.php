@@ -19,11 +19,11 @@ class Announcement
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private string $title = '';
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $title = null;
 
-    #[ORM\Column(type: Types::TEXT)]
-    private string $body = '';
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $body = null;
 
     #[ORM\Column(length: 20)]
     private string $mediaType = self::MEDIA_TYPE_NONE;
@@ -44,6 +44,12 @@ class Announcement
     private int $sortOrder = 0;
 
     #[ORM\Column]
+    private bool $isBanner = false;
+
+    #[ORM\Column]
+    private int $delaySeconds = 0;
+
+    #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column]
@@ -61,24 +67,24 @@ class Announcement
         return $this->id;
     }
 
-    public function getTitle(): string
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    public function setTitle(string $title): static
+    public function setTitle(?string $title): static
     {
         $this->title = $title;
         $this->touch();
         return $this;
     }
 
-    public function getBody(): string
+    public function getBody(): ?string
     {
         return $this->body;
     }
 
-    public function setBody(string $body): static
+    public function setBody(?string $body): static
     {
         $this->body = $body;
         $this->touch();
@@ -153,6 +159,30 @@ class Announcement
     public function setSortOrder(int $sortOrder): static
     {
         $this->sortOrder = $sortOrder;
+        $this->touch();
+        return $this;
+    }
+
+    public function isBanner(): bool
+    {
+        return $this->isBanner;
+    }
+
+    public function setIsBanner(bool $isBanner): static
+    {
+        $this->isBanner = $isBanner;
+        $this->touch();
+        return $this;
+    }
+
+    public function getDelaySeconds(): int
+    {
+        return $this->delaySeconds;
+    }
+
+    public function setDelaySeconds(int $delaySeconds): static
+    {
+        $this->delaySeconds = max(0, $delaySeconds);
         $this->touch();
         return $this;
     }

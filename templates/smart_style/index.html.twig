@@ -3,40 +3,40 @@
 {% block title %}SmartStyle — Pesca{% endblock %}
 
 {% block body %}
-<section class="py-12 md:py-20">
-    <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+<section class="py-8 md:py-14">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {% if profile and profile.isAnalyzed %}
         {# ─── Natija mavjud ─── #}
-        <div class="text-center mb-10">
-            <div class="inline-flex items-center gap-2 px-4 py-2 bg-green-50 text-green-700 rounded-full text-sm font-medium mb-6">
+        <div class="rounded-3xl border border-green-200 bg-gradient-to-b from-green-50 to-white p-5 md:p-8 mb-6">
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-white text-green-700 rounded-full text-xs font-semibold border border-green-200 mb-4">
                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
                 Profilingiz tayyor
             </div>
-            <h1 class="text-3xl md:text-4xl font-display font-bold text-brand-dark mb-3">Xush kelibsiz!</h1>
-            <p class="text-brand-medium">Sizning SmartStyle profilingiz tayyor. Sizga mos kiyimlarni ko'ring.</p>
+            <h1 class="text-2xl md:text-4xl font-display font-bold text-brand-dark mb-2">SmartStyle profilingiz faol</h1>
+            <p class="text-sm md:text-base text-brand-medium">Endi sizga mos mahsulotlar bir necha soniyada tayyor tavsiya qilib beriladi.</p>
         </div>
 
-        <div class="card p-6 md:p-8 mb-6">
-            <div class="grid grid-cols-3 gap-4 mb-6">
-                <div class="bg-beige-50 rounded-2xl p-5 text-center">
+        <div class="card p-4 md:p-7 mb-5">
+            <div class="grid grid-cols-3 gap-2 md:gap-4 mb-4 md:mb-6">
+                <div class="bg-beige-50 rounded-2xl p-3 md:p-5 text-center">
                     <div class="text-3xl mb-2">{{ profile.gender == 'male' ? '👨' : '👩' }}</div>
                     <p class="text-xs text-brand-medium mb-1">Jins</p>
-                    <p class="font-display font-bold text-brand-dark">{{ profile.genderLabel }}</p>
+                    <p class="font-display font-bold text-brand-dark text-sm md:text-base">{{ profile.genderLabel }}</p>
                 </div>
-                <div class="bg-beige-50 rounded-2xl p-5 text-center">
+                <div class="bg-beige-50 rounded-2xl p-3 md:p-5 text-center">
                     <div class="text-3xl mb-2">👤</div>
                     <p class="text-xs text-brand-medium mb-1">Yuz shakli</p>
-                    <p class="font-display font-bold text-brand-dark">{{ profile.faceShapeLabel }}</p>
+                    <p class="font-display font-bold text-brand-dark text-sm md:text-base">{{ profile.faceShapeLabel }}</p>
                 </div>
-                <div class="bg-beige-50 rounded-2xl p-5 text-center">
+                <div class="bg-beige-50 rounded-2xl p-3 md:p-5 text-center">
                     <div class="text-3xl mb-2">🎨</div>
                     <p class="text-xs text-brand-medium mb-1">Teri rangi</p>
-                    <p class="font-display font-bold text-brand-dark">{{ profile.skinToneLabel }}</p>
+                    <p class="font-display font-bold text-brand-dark text-sm md:text-base">{{ profile.skinToneLabel }}</p>
                 </div>
             </div>
 
-            <p class="text-xs text-brand-medium text-center mb-6">
+            <p class="text-xs text-brand-medium text-center mb-4 md:mb-6">
                 Oxirgi tahlil: {{ profile.analyzedAt|date('d.m.Y, H:i') }}
             </p>
 
@@ -61,35 +61,35 @@
 
         {% else %}
         {# ─── Yangi foydalanuvchi ─── #}
-        <div class="text-center mb-10">
-            <h1 class="text-3xl md:text-4xl font-display font-bold text-brand-dark mb-3">
-                ✨ SmartStyle
-            </h1>
-            <p class="text-brand-medium max-w-lg mx-auto">
-                Sun'iy intellekt yuzingizni tahlil qilib, sizga eng mos kiyimlarni tanlaydi.
-            </p>
+        <div class="relative overflow-hidden rounded-3xl border border-beige-200 bg-gradient-to-b from-white via-beige-50 to-white px-5 py-7 md:px-8 md:py-10 mb-6">
+            <div class="absolute -top-20 -right-20 w-56 h-56 rounded-full bg-peach-200/40 blur-3xl"></div>
+            <div class="relative">
+                <p class="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.15em] uppercase text-brand-muted mb-3">AI Styling</p>
+                <h1 class="text-3xl md:text-4xl font-display font-bold text-brand-dark mb-3">SmartStyle</h1>
+                <p class="text-brand-medium max-w-xl text-sm md:text-base">Sun'iy intellekt asosida yuz shakli, teri rangi va profilingizga mos kolleksiyani tanlang.</p>
+            </div>
         </div>
 
         {# Feature cards #}
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
-            <div class="card p-5 text-center">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-7">
+            <div class="card p-4 md:p-5 text-center">
                 <div class="text-3xl mb-3">📸</div>
                 <h3 class="font-semibold text-brand-dark text-sm mb-1">Skanerlang</h3>
                 <p class="text-xs text-brand-medium">Selfie oling yoki rasm yuklang</p>
             </div>
-            <div class="card p-5 text-center">
+            <div class="card p-4 md:p-5 text-center">
                 <div class="text-3xl mb-3">🧠</div>
                 <h3 class="font-semibold text-brand-dark text-sm mb-1">Tahlil</h3>
                 <p class="text-xs text-brand-medium">AI yuzingizni tahlil qiladi</p>
             </div>
-            <div class="card p-5 text-center">
+            <div class="card p-4 md:p-5 text-center">
                 <div class="text-3xl mb-3">👗</div>
                 <h3 class="font-semibold text-brand-dark text-sm mb-1">Natija</h3>
                 <p class="text-xs text-brand-medium">Sizga mos kiyimlar chiqadi</p>
             </div>
         </div>
 
-        <div class="text-center">
+        <div class="text-center mb-6">
             <a href="{{ path('app_smart_style_scan') }}"
                class="btn-primary inline-flex items-center gap-2 py-4 px-8 text-base">
                 <span>📸</span>
@@ -100,7 +100,7 @@
             </a>
         </div>
 
-        <div class="mt-8 text-center">
+        <div class="text-center">
             <p class="text-xs text-brand-medium flex items-center justify-center gap-2">
                 <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg>
                 Rasmingiz serverga yuborilmaydi. Hamma tahlil telefoningizda amalga oshiriladi.
