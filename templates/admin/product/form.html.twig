@@ -35,6 +35,13 @@
     </div>
 
     <div>
+        {{ form_label(form.size, null, {'label_attr': {'class': 'block text-sm font-medium text-brand-dark mb-2'}}) }}
+        {{ form_widget(form.size) }}
+        {{ form_errors(form.size) }}
+        <p class="text-xs text-brand-medium mt-1">Masalan: 53, 54 yoki X, XL</p>
+    </div>
+
+    <div>
         {{ form_label(form.category, null, {'label_attr': {'class': 'block text-sm font-medium text-brand-dark mb-2'}}) }}
         {{ form_widget(form.category) }}
         {{ form_errors(form.category) }}

@@ -32,13 +32,15 @@ class CartRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findExistingCartItem(User $user, int $productId): ?Cart
+    public function findExistingCartItem(User $user, int $productId, string $size): ?Cart
     {
         return $this->createQueryBuilder('c')
             ->where('c.user = :user')
             ->andWhere('c.product = :product')
+            ->andWhere('c.size = :size')
             ->setParameter('user', $user)
             ->setParameter('product', $productId)
+            ->setParameter('size', mb_strtoupper(trim($size)) ?: 'UNIVERSAL')
             ->getQuery()
             ->getOneOrNullResult();
     }

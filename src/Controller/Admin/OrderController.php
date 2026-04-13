@@ -37,6 +37,14 @@ class OrderController extends AbstractController
         ]);
     }
 
+    #[Route('/{id}', name: 'show', requirements: ['id' => '\\d+'], methods: ['GET'])]
+    public function show(Order $order): Response
+    {
+        return $this->render('admin/order/show.html.twig', [
+            'order' => $order,
+        ]);
+    }
+
     #[Route('/{id}/payment/approve', name: 'approve_payment', requirements: ['id' => '\\d+'], methods: ['POST'])]
     public function approvePayment(
         Order $order,

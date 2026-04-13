@@ -83,7 +83,7 @@
                 </div>
                 <div class="flex-1 min-w-0">
                     <p class="font-semibold text-brand-dark">{{ item.productNameSnapshot }}</p>
-                    <p class="text-sm text-brand-medium mt-1">{{ item.unitPrice|number_format(0, '.', ' ') }} so'm x {{ item.quantity }} dona</p>
+                    <p class="text-sm text-brand-medium mt-1">{{ item.unitPrice|number_format(0, '.', ' ') }} so'm x {{ item.quantity }} dona{% if item.selectedSize %} | O'lcham: {{ item.selectedSize }}{% endif %}</p>
                 </div>
                 <div class="text-right">
                     <p class="font-semibold text-brand-dark">{{ item.lineTotal|number_format(0, '.', ' ') }} so'm</p>
@@ -102,7 +102,7 @@ Telefon: {{ order.customerPhone }}
 Lokatsiya: {{ order.locationLabel }}
 
 Mahsulotlar:
-{% for item in order.items %}- {{ item.productNameSnapshot }} | {{ item.quantity }} dona
+{% for item in order.items %}- {{ item.productNameSnapshot }} | {{ item.quantity }} dona{% if item.selectedSize %} | O'lcham: {{ item.selectedSize }}{% endif %}
     Rasm: {% if item.productImageSnapshot %}{{ item.productImageSnapshot starts with 'http' ? item.productImageSnapshot : absolute_url(item.productImageSnapshot) }}{% else %}Rasm yo'q{% endif %}
 {% endfor %}
 {% if order.notes %}

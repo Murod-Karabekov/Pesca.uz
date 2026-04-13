@@ -45,6 +45,24 @@
                 <form method="post" action="{{ path('app_cart_add', {id: product.id}) }}" class="space-y-6">
                     <input type="hidden" name="_token" value="{{ csrf_token('cart_add_' ~ product.id) }}">
 
+                    {% if product.size|length > 0 %}
+                    <div>
+                        <p class="text-sm font-semibold text-brand-dark mb-3">O'lchamni tanlang</p>
+                        <div class="flex flex-wrap gap-2">
+                            {% for size in product.size %}
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="size" value="{{ size }}" class="sr-only peer" {% if loop.first %}checked{% endif %} required>
+                                    <span class="inline-flex min-w-14 justify-center items-center px-4 py-2.5 rounded-xl border-2 border-beige-300 text-sm font-semibold text-brand-medium bg-white
+                                                 peer-checked:border-peach-500 peer-checked:bg-peach-50 peer-checked:text-peach-700
+                                                 hover:border-peach-300 transition-all duration-200">
+                                        {{ size }}
+                                    </span>
+                                </label>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
                     <button type="submit" class="btn-primary w-full md:w-auto text-base px-10 py-4">
                         Savatga qo'shish
                     </button>

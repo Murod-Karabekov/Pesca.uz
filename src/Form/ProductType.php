@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Category;
 use App\Entity\Product;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -45,6 +46,15 @@ class ProductType extends AbstractType
                     'class' => 'input-field',
                     'rows' => 4,
                 ],
+            ])
+            ->add('size', TextType::class, [
+                'label' => 'O\'lchamlar',
+                'required' => false,
+                'attr' => [
+                    'placeholder' => 'Masalan: 53, 54 yoki X, XL',
+                    'class' => 'input-field',
+                ],
+                'help' => 'O\'lchamlarni vergul bilan ajrating.',
             ])
             ->add('category', EntityType::class, [
                 'label' => 'Kategoriya',
@@ -103,6 +113,34 @@ class ProductType extends AbstractType
                 'label' => 'Faol',
                 'required' => false,
             ]);
+
+        $builder->get('size')->addModelTransformer(new CallbackTransformer(
+            static function (?array $sizes): string {
+                if ($sizes === null || $sizes === []) {
+                    return '';
+                }
+
+                return implode(', ', $sizes);
+            },
+            static function (mixed $sizesInput): array {
+                if (!is_string($sizesInput) || trim($sizesInput) === '') {
+                    return [];
+                }
+
+                $parts = preg_split('/[,\n]+/', $sizesInput) ?: [];
+                $normalized = [];
+
+                foreach ($parts as $part) {
+                    $size = mb_strtoupper(trim($part));
+                    if ($size === '' || in_array($size, $normalized, true)) {
+                        continue;
+                    }
+                    $normalized[] = $size;
+                }
+
+                return $normalized;
+            }
+        ));
     }
 
     public function configureOptions(OptionsResolver $resolver): void

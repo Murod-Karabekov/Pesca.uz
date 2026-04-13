@@ -40,8 +40,22 @@ class CartController extends AbstractController
             return $this->redirectToRoute('app_product_show', ['id' => $product->getId()]);
         }
 
+        $availableSizes = $product->getSize();
+        $selectedSize = mb_strtoupper(trim((string) $request->request->get('size', '')));
+
+        if ($availableSizes !== []) {
+            if ($selectedSize === '' || !in_array($selectedSize, $availableSizes, true)) {
+                $this->addFlash('error', 'Iltimos, o\'lchamni tanlang.');
+                return $this->redirectToRoute('app_product_show', ['id' => $product->getId()]);
+            }
+        }
+
+        if ($selectedSize === '') {
+            $selectedSize = 'UNIVERSAL';
+        }
+
         // Check if item already in cart
-        $existingItem = $cartRepository->findExistingCartItem($this->getUser(), $product->getId());
+        $existingItem = $cartRepository->findExistingCartItem($this->getUser(), $product->getId(), $selectedSize);
 
         if ($existingItem) {
             $existingItem->setQuantity($existingItem->getQuantity() + 1);
@@ -49,6 +63,7 @@ class CartController extends AbstractController
             $cartItem = new Cart();
             $cartItem->setUser($this->getUser());
             $cartItem->setProduct($product);
+            $cartItem->setSize($selectedSize);
             $cartItem->setQuantity(1);
             $em->persist($cartItem);
         }

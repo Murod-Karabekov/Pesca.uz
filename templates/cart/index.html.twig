@@ -30,7 +30,9 @@
                         <div class="flex items-start justify-between gap-3">
                             <div class="min-w-0">
                                 <h3 class="font-semibold text-brand-dark text-sm md:text-base leading-snug">{{ item.product.name }}</h3>
-                                <p class="text-xs text-brand-muted mt-1">Tikuvchi kelib o'lchaydi</p>
+                                {% if item.size != 'UNIVERSAL' %}
+                                    <p class="text-xs text-brand-muted mt-1">O'lcham: <span class="font-semibold text-brand-dark">{{ item.size }}</span></p>
+                                {% endif %}
                                 <p class="text-peach-600 font-display font-bold mt-1.5 text-sm md:text-base">{{ item.product.price|number_format(0, '.', ' ') }} so'm</p>
                             </div>
                             <form method="post" action="{{ path('app_cart_remove', {id: item.id}) }}" class="flex-shrink-0">

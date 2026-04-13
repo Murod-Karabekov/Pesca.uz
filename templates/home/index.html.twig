@@ -241,10 +241,9 @@
                 <div class="p-5">
                     <h3 class="font-semibold text-brand-dark mb-1 group-hover:text-peach-600 transition-colors">{{ product.name }}</h3>
                     <p class="text-peach-600 font-display font-bold text-lg">{{ product.price|number_format(0, '.', ' ') }} so'm</p>
-                    <p class="text-xs text-brand-muted mt-2 flex items-center gap-1">
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                        Barcha o'lchamlarga mos
-                    </p>
+                    {% if product.size|length > 0 %}
+                        <p class="text-xs text-brand-muted mt-2">O'lchamlar: {{ product.size|join(', ') }}</p>
+                    {% endif %}
                 </div>
             </a>
             {% endfor %}

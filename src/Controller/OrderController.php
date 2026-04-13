@@ -85,6 +85,7 @@ class OrderController extends AbstractController
                 $item->setProduct($product);
                 $item->setProductNameSnapshot((string) $product->getName());
                 $item->setProductImageSnapshot($product->getImageSrc());
+                $item->setSelectedSize($cartItem->getSize() !== 'UNIVERSAL' ? $cartItem->getSize() : null);
                 $item->setUnitPrice($unitPrice);
                 $item->setQuantity($quantity);
                 $item->setLineTotal($lineTotal);
@@ -96,9 +97,9 @@ class OrderController extends AbstractController
 
             $order->setSubtotalAmount($subtotal);
             $em->persist($order);
-            $em->flush();
 
             $cartRepository->clearCart($user);
+            $em->flush();
             $conn->commit();
         } catch (\Throwable $e) {
             $conn->rollBack();

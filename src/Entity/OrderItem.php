@@ -31,6 +31,9 @@ class OrderItem
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $productImageSnapshot = null;
 
+    #[ORM\Column(length: 30, nullable: true)]
+    private ?string $selectedSize = null;
+
     #[ORM\Column(type: Types::DECIMAL, precision: 12, scale: 2)]
     private ?string $unitPrice = null;
 
@@ -94,6 +97,17 @@ class OrderItem
     public function setProductImageSnapshot(?string $productImageSnapshot): static
     {
         $this->productImageSnapshot = $productImageSnapshot;
+        return $this;
+    }
+
+    public function getSelectedSize(): ?string
+    {
+        return $this->selectedSize;
+    }
+
+    public function setSelectedSize(?string $selectedSize): static
+    {
+        $this->selectedSize = $selectedSize;
         return $this;
     }
 

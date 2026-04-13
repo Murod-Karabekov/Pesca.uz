@@ -71,7 +71,7 @@ To'lov holati: {{ order.paymentStatusLabel }}
 
 📦 MAHSULOTLAR:
 {% for item in order.items %}{{ loop.index }}. {{ item.productNameSnapshot }}
-     Soni: {{ item.quantity }} dona
+    Soni: {{ item.quantity }} dona{% if item.selectedSize %} | O'lcham: {{ item.selectedSize }}{% endif %}
      Rasm: {% if item.productImageSnapshot %}{{ item.productImageSnapshot starts with 'http' ? item.productImageSnapshot : absolute_url(item.productImageSnapshot) }}{% else %}Rasm yo'q{% endif %}
 {% endfor %}
 {% if order.notes %}
@@ -81,6 +81,17 @@ To'lov holati: {{ order.paymentStatusLabel }}
 Tikish uchun aniq buyurtma: #{{ order.id }}</textarea>
 
                         <div class="flex items-center gap-2 order-actions">
+                            <a
+                                href="{{ path('admin_order_show', {id: order.id}) }}"
+                                class="inline-flex items-center justify-center w-8 h-8 rounded-lg border border-beige-300 text-brand-medium hover:text-peach-700 hover:border-peach-300 hover:bg-peach-50 transition-colors"
+                                title="Buyurtma detal"
+                                aria-label="Buyurtma detal"
+                            >
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M15 12H9m12 0A9 9 0 113 12a9 9 0 0118 0z"/>
+                                </svg>
+                            </a>
+
                             <button
                                 type="button"
                                 class="copy-order-btn inline-flex items-center justify-center w-8 h-8 rounded-lg border border-beige-300 text-brand-medium hover:text-peach-700 hover:border-peach-300 hover:bg-peach-50 transition-colors"
@@ -154,7 +165,7 @@ Tikish uchun aniq buyurtma: #{{ order.id }}</textarea>
                                         </div>
                                         <div class="flex-1 min-w-0">
                                             <p class="text-sm font-semibold text-brand-dark">{{ item.productNameSnapshot }}</p>
-                                            <p class="text-xs text-brand-medium">{{ item.unitPrice|number_format(0, '.', ' ') }} so'm x {{ item.quantity }} dona</p>
+                                            <p class="text-xs text-brand-medium">{{ item.unitPrice|number_format(0, '.', ' ') }} so'm x {{ item.quantity }} dona{% if item.selectedSize %} | O'lcham: {{ item.selectedSize }}{% endif %}</p>
                                             <p class="text-xs text-brand-light break-all">
                                                 Rasm link: {% if item.productImageSnapshot %}{{ item.productImageSnapshot starts with 'http' ? item.productImageSnapshot : absolute_url(item.productImageSnapshot) }}{% else %}Rasm yo'q{% endif %}
                                             </p>
