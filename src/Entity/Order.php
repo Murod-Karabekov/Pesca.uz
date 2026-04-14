@@ -345,13 +345,41 @@ class Order
         return $this->paymentStatus === self::PAYMENT_STATUS_PENDING;
     }
 
+    /**
+     * Returns allowed next order statuses from the current status.
+     * @return string[]
+     */
+    public static function getAllowedTransitions(): array
+    {
+        return [
+            self::ORDER_STATUS_PAYMENT_PENDING => [self::ORDER_STATUS_CANCELED],
+            self::ORDER_STATUS_PAID            => [self::ORDER_STATUS_IN_PRODUCTION, self::ORDER_STATUS_CANCELED],
+            self::ORDER_STATUS_IN_PRODUCTION   => [self::ORDER_STATUS_READY, self::ORDER_STATUS_CANCELED],
+            self::ORDER_STATUS_READY           => [self::ORDER_STATUS_COMPLETED],
+            self::ORDER_STATUS_COMPLETED       => [],
+            self::ORDER_STATUS_CANCELED        => [],
+            self::ORDER_STATUS_NEW             => [self::ORDER_STATUS_PAYMENT_PENDING, self::ORDER_STATUS_CANCELED],
+        ];
+    }
+
+    public function canTransitionTo(string $newStatus): bool
+    {
+        $allowed = self::getAllowedTransitions()[$this->orderStatus] ?? [];
+        return in_array($newStatus, $allowed, true);
+    }
+
+    public function getAvailableNextStatuses(): array
+    {
+        return self::getAllowedTransitions()[$this->orderStatus] ?? [];
+    }
+
     public function getOrderStatusLabel(): string
     {
         return match ($this->orderStatus) {
             self::ORDER_STATUS_NEW => 'Yangi',
             self::ORDER_STATUS_PAYMENT_PENDING => 'To\'lov kutilmoqda',
             self::ORDER_STATUS_PAID => 'To\'langan',
-            self::ORDER_STATUS_IN_PRODUCTION => 'Tikuvda',
+            self::ORDER_STATUS_IN_PRODUCTION => 'Tayyorlanmoqda',
             self::ORDER_STATUS_READY => 'Tayyor',
             self::ORDER_STATUS_COMPLETED => 'Yakunlangan',
             self::ORDER_STATUS_CANCELED => 'Bekor qilingan',

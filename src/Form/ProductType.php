@@ -87,6 +87,38 @@ class ProductType extends AbstractType
                 'required' => false,
                 'attr' => ['class' => 'flex flex-wrap gap-3'],
             ])
+            ->add('occasions', ChoiceType::class, [
+                'label' => 'Mos voqealar (Occasion)',
+                'choices' => array_flip(Product::OCCASIONS),
+                'multiple' => true,
+                'expanded' => true,
+                'required' => false,
+                'attr' => ['class' => 'flex flex-wrap gap-3'],
+            ])
+            ->add('styleIntents', ChoiceType::class, [
+                'label' => 'Uslub yo\'nalishlari (Style)',
+                'choices' => array_flip(Product::STYLE_INTENTS),
+                'multiple' => true,
+                'expanded' => true,
+                'required' => false,
+                'attr' => ['class' => 'flex flex-wrap gap-3'],
+            ])
+            ->add('seasons', ChoiceType::class, [
+                'label' => 'Fasllar',
+                'choices' => array_flip(Product::SEASONS),
+                'multiple' => true,
+                'expanded' => true,
+                'required' => false,
+                'attr' => ['class' => 'flex flex-wrap gap-3'],
+            ])
+            ->add('bodyTypes', ChoiceType::class, [
+                'label' => 'Mos tana turlari',
+                'choices' => array_flip(Product::BODY_TYPES),
+                'multiple' => true,
+                'expanded' => true,
+                'required' => false,
+                'attr' => ['class' => 'flex flex-wrap gap-3'],
+            ])
             ->add('imageFile', FileType::class, [
                 'label' => 'Mahsulot rasmi (fayl yuklash)',
                 'mapped' => false,

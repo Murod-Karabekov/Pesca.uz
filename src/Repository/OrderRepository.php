@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Order;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -101,5 +102,20 @@ class OrderRepository extends ServiceEntityRepository
             ->setParameter('pending', Order::PAYMENT_STATUS_PENDING)
             ->getQuery()
             ->getSingleScalarResult();
+    }
+
+    /**
+     * @return Order[]
+     */
+    public function findByUserOrderedByDate(User $user): array
+    {
+        return $this->createQueryBuilder('o')
+            ->leftJoin('o.items', 'i')
+            ->addSelect('i')
+            ->where('o.user = :user')
+            ->setParameter('user', $user)
+            ->orderBy('o.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
 }

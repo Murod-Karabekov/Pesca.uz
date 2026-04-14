@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Order;
 use App\Entity\OrderItem;
 use App\Repository\CartRepository;
+use App\Repository\OrderRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -125,6 +126,14 @@ class OrderController extends AbstractController
 
         return $this->render('order/success.html.twig', [
             'order' => $order,
+        ]);
+    }
+
+    #[Route('/history', name: 'history')]
+    public function history(OrderRepository $orderRepository): Response
+    {
+        return $this->render('order/history.html.twig', [
+            'orders' => $orderRepository->findByUserOrderedByDate($this->getUser()),
         ]);
     }
 }

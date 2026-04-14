@@ -20,7 +20,7 @@
         <div class="card p-4 md:p-7 mb-5">
             <div class="grid grid-cols-3 gap-2 md:gap-4 mb-4 md:mb-6">
                 <div class="bg-beige-50 rounded-2xl p-3 md:p-5 text-center">
-                    <div class="text-3xl mb-2">{{ profile.gender == 'male' ? '👨' : '👩' }}</div>
+                    <div class="text-3xl mb-2">{{ profile.gender == 'male' ? '👨' : (profile.gender == 'female' ? '👩' : '🧍') }}</div>
                     <p class="text-xs text-brand-medium mb-1">Jins</p>
                     <p class="font-display font-bold text-brand-dark text-sm md:text-base">{{ profile.genderLabel }}</p>
                 </div>
@@ -35,6 +35,18 @@
                     <p class="font-display font-bold text-brand-dark text-sm md:text-base">{{ profile.skinToneLabel }}</p>
                 </div>
             </div>
+
+            {% if profile.bodyType %}
+            <div class="flex items-center gap-4 bg-beige-50 rounded-2xl px-4 py-3 mb-4">
+                <img src="/images/smartstyle/body-types/{{ profile.bodyType }}.png"
+                     alt="{{ profile.bodyTypeLabel }}"
+                     class="w-12 h-12 object-contain shrink-0">
+                <div>
+                    <p class="text-xs text-brand-medium">Tana turi</p>
+                    <p class="font-display font-bold text-brand-dark text-sm">{{ profile.bodyTypeLabel }}</p>
+                </div>
+            </div>
+            {% endif %}
 
             <p class="text-xs text-brand-medium text-center mb-4 md:mb-6">
                 Oxirgi tahlil: {{ profile.analyzedAt|date('d.m.Y, H:i') }}

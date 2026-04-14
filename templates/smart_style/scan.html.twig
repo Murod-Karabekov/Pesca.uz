@@ -13,16 +13,140 @@
                 Orqaga
             </a>
             <h1 class="text-2xl md:text-3xl font-display font-bold text-brand-dark">SmartStyle tahlili</h1>
-            <p class="text-brand-medium text-sm mt-1.5">Yuzingizni doira ichiga joylashtiring va bitta tugma bilan davom eting.</p>
+            <p class="text-brand-medium text-sm mt-1.5">Bir nechta qisqa qadamdan o'ting: xohlaganlarini o'tkazib yuborishingiz mumkin, yuz skan esa majburiy.</p>
         </div>
 
         {# ─── Camera Container ─── #}
         <div id="smart-style-app">
-            {# Step 0: Gender Selection #}
-            <div id="step-gender" class="card p-5 md:p-8">
-                <h2 class="text-lg font-display font-semibold text-brand-dark mb-2 text-center">Jinsingizni tanlang</h2>
-                <p class="text-sm text-brand-medium mb-6 text-center">Sizga mos kiyimlarni ko'rsatish uchun</p>
-                <div class="grid grid-cols-2 gap-3 max-w-sm mx-auto">
+            {# Step 1: Occasion (optional) #}
+            <div id="step-occasion" class="card smart-step-card p-5 md:p-8">
+                <h2 class="text-lg font-display font-semibold text-brand-dark mb-2 text-center">1-qadam: Nimaga kiyim tanlayapsiz?</h2>
+                <p class="text-sm text-brand-medium mb-6 text-center">Bu qadamni xohlasangiz o'tkazib yuborishingiz mumkin</p>
+                <div id="occasion-buttons" class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 mb-3">
+                    <button type="button" data-value="office" class="occasion-btn smart-toggle-btn">💼 Ish / Ofis</button>
+                    <button type="button" data-value="study" class="occasion-btn smart-toggle-btn">📚 O'qish</button>
+                    <button type="button" data-value="event" class="occasion-btn smart-toggle-btn">🎉 Bazm / Tadbir</button>
+                    <button type="button" data-value="casual_street" class="occasion-btn smart-toggle-btn">🧢 Kundalik / Ko'cha</button>
+                    <button type="button" data-value="sport" class="occasion-btn smart-toggle-btn">🏃 Sport / Aktiv</button>
+                    <button type="button" data-value="travel" class="occasion-btn smart-toggle-btn">✈️ Sayohat</button>
+                    <button type="button" data-value="home" class="occasion-btn smart-toggle-btn">🏠 Uy / Casual</button>
+                    <button type="button" data-value="other" class="occasion-btn smart-toggle-btn">✨ Boshqa</button>
+                </div>
+                <p id="occasion-hint" class="text-xs text-brand-medium mb-4">Bir nechta variantni tanlashingiz mumkin.</p>
+                <div class="flex flex-col sm:flex-row gap-2 justify-end">
+                    <button id="btn-skip-occasion" type="button" class="btn-secondary">⏭ O'tkazib yuborish</button>
+                    <button id="btn-next-occasion" type="button" class="btn-primary">Davom etish</button>
+                </div>
+            </div>
+
+            {# Step 2: Style Intent (optional) #}
+            <div id="step-style" class="hidden card smart-step-card p-5 md:p-8">
+                <h2 class="text-lg font-display font-semibold text-brand-dark mb-2 text-center">2-qadam: Qanday uslub xohlaysiz?</h2>
+                <p class="text-sm text-brand-medium mb-6 text-center">Bu qadamni xohlasangiz o'tkazib yuborishingiz mumkin</p>
+                <div id="style-buttons" class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 mb-3">
+                    <button type="button" data-value="minimal" class="style-btn smart-toggle-btn">▫️ Minimal</button>
+                    <button type="button" data-value="classic" class="style-btn smart-toggle-btn">🕴️ Klassik</button>
+                    <button type="button" data-value="street" class="style-btn smart-toggle-btn">🧢 Street</button>
+                    <button type="button" data-value="elegant" class="style-btn smart-toggle-btn">✨ Elegant</button>
+                    <button type="button" data-value="trendy" class="style-btn smart-toggle-btn">🔥 Trendy</button>
+                    <button type="button" data-value="sport_chic" class="style-btn smart-toggle-btn">🏃 Sport-chic</button>
+                </div>
+                <p class="text-xs text-brand-medium mb-4">Bir nechta uslubni birga tanlashingiz mumkin.</p>
+                <div class="flex flex-col sm:flex-row gap-2 justify-end">
+                    <button id="btn-skip-style" type="button" class="btn-secondary">⏭ O'tkazib yuborish</button>
+                    <button id="btn-next-style" type="button" class="btn-primary">Davom etish</button>
+                </div>
+            </div>
+
+            {# Step 3: Season (optional) #}
+            <div id="step-season" class="hidden card smart-step-card p-5 md:p-8">
+                <h2 class="text-lg font-display font-semibold text-brand-dark mb-2 text-center">3-qadam: Ob-havo (fasl)</h2>
+                <p class="text-sm text-brand-medium mb-6 text-center">Qaysi fasl uchun kiyim qidiryapsiz?</p>
+                <div id="season-buttons" class="grid grid-cols-2 gap-2.5 mb-3">
+                    <button type="button" data-value="spring" class="season-btn smart-toggle-btn">🌸 Bahor</button>
+                    <button type="button" data-value="summer" class="season-btn smart-toggle-btn">☀️ Yoz</button>
+                    <button type="button" data-value="autumn" class="season-btn smart-toggle-btn">🍂 Kuz</button>
+                    <button type="button" data-value="winter" class="season-btn smart-toggle-btn">❄️ Qish</button>
+                </div>
+                <p id="season-hint" class="text-xs text-brand-medium mb-4">Bir nechta fasl tanlashingiz mumkin.</p>
+                <div class="flex flex-col sm:flex-row gap-2 justify-end">
+                    <button id="btn-skip-season" type="button" class="btn-secondary">⏭ O'tkazib yuborish</button>
+                    <button id="btn-next-season" type="button" class="btn-primary">Davom etish</button>
+                </div>
+            </div>
+
+            {# Step 4: Measurements (optional) #}
+            <div id="step-measurements" class="hidden card smart-step-card p-5 md:p-8">
+                <h2 class="text-lg font-display font-semibold text-brand-dark mb-2 text-center">4-qadam: Tana ma'lumoti</h2>
+                <p class="text-sm text-brand-medium mb-5 text-center">Har bir joyni o'lchab kiriting. Rasmda ko'rsatilgan chiziq bo'yicha santimetr lenta bilan o'lchang.</p>
+
+                <div class="measure-actor-layout mb-5">
+                    <div class="measure-menu-panel">
+                        <button type="button" class="measure-menu-btn is-active" data-target="measure-height">📏 Bo'y</button>
+                        <button type="button" class="measure-menu-btn" data-target="measure-shoulder">🧥 Yelka</button>
+                        <button type="button" class="measure-menu-btn" data-target="measure-chest">💗 Ko'krak</button>
+                        <button type="button" class="measure-menu-btn" data-target="measure-waist">🪢 Bel</button>
+                        <button type="button" class="measure-menu-btn" data-target="measure-hip">🌀 Son</button>
+                    </div>
+
+                    <div class="measure-stage-panel">
+                        <div id="measure-height" class="measure-stage is-active">
+                            <div class="measure-stage-visual">
+                                <img src="{{ asset('images/smartstyle/measures/height.png') }}" alt="Bo'y o'lchash" class="measure-stage-image">
+                            </div>
+                            <p class="measure-stage-title">Bo'y (sm)</p>
+                            <p class="measure-stage-text">Boshning eng yuqori nuqtasidan to tovongacha o'lchang.</p>
+                            <input id="height-cm" type="number" min="100" max="230" placeholder="Masalan: 170" class="input-field measure-input">
+                        </div>
+
+                        <div id="measure-shoulder" class="measure-stage hidden">
+                            <div class="measure-stage-visual">
+                                <img src="{{ asset('images/smartstyle/measures/shoulder.png') }}" alt="Yelka o'lchash" class="measure-stage-image">
+                            </div>
+                            <p class="measure-stage-title">Yelka (sm)</p>
+                            <p class="measure-stage-text">Bir yelka uchidan ikkinchi yelka uchigacha o'lchang.</p>
+                            <input id="shoulder-cm" type="number" min="30" max="80" placeholder="Masalan: 42" class="input-field measure-input">
+                        </div>
+
+                        <div id="measure-chest" class="measure-stage hidden">
+                            <div class="measure-stage-visual">
+                                <img src="{{ asset('images/smartstyle/measures/chest.png') }}" alt="Ko'krak o'lchash" class="measure-stage-image">
+                            </div>
+                            <p class="measure-stage-title">Ko'krak (sm)</p>
+                            <p class="measure-stage-text">Ko'krakning eng keng qismidan aylana bo'yicha o'lchang.</p>
+                            <input id="chest-cm" type="number" min="50" max="180" placeholder="Masalan: 94" class="input-field measure-input">
+                        </div>
+
+                        <div id="measure-waist" class="measure-stage hidden">
+                            <div class="measure-stage-visual">
+                                <img src="{{ asset('images/smartstyle/measures/waist.png') }}" alt="Bel o'lchash" class="measure-stage-image">
+                            </div>
+                            <p class="measure-stage-title">Bel (sm)</p>
+                            <p class="measure-stage-text">Belning eng ingichka joyidan aylana bo'yicha o'lchang.</p>
+                            <input id="waist-cm" type="number" min="40" max="180" placeholder="Masalan: 72" class="input-field measure-input">
+                        </div>
+
+                        <div id="measure-hip" class="measure-stage hidden">
+                            <div class="measure-stage-visual">
+                                <img src="{{ asset('images/smartstyle/measures/hip.png') }}" alt="Son o'lchash" class="measure-stage-image">
+                            </div>
+                            <p class="measure-stage-title">Son (sm)</p>
+                            <p class="measure-stage-text">Sonning eng keng qismidan aylana bo'yicha o'lchang.</p>
+                            <input id="hip-cm" type="number" min="50" max="200" placeholder="Masalan: 98" class="input-field measure-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-2 justify-end">
+                    <button id="btn-skip-measurements" type="button" class="btn-secondary">⏭ O'tkazib yuborish</button>
+                    <button id="btn-next-measurements" type="button" class="btn-primary">Davom etish</button>
+                </div>
+            </div>
+
+            {# Step 5: Gender Selection (optional) #}
+            <div id="step-gender" class="hidden card smart-step-card p-5 md:p-8">
+                <h2 class="text-lg font-display font-semibold text-brand-dark mb-2 text-center">Qo'shimcha: Jinsingizni tanlang</h2>
+                <p class="text-sm text-brand-medium mb-6 text-center">Aniqroq tavsiya uchun. Xohlasangiz o'tkazib yuboring.</p>
+                <div class="grid grid-cols-2 gap-3 max-w-sm mx-auto mb-4">
                     <button type="button" data-gender="male"
                             class="gender-btn group flex flex-col items-center gap-2 p-5 rounded-2xl border-2 border-beige-200 hover:border-peach-400 hover:bg-peach-50 transition-all duration-200">
                         <span class="text-4xl group-hover:scale-110 transition-transform">👨</span>
@@ -34,10 +158,13 @@
                         <span class="font-display font-semibold text-brand-dark">Ayol</span>
                     </button>
                 </div>
+                <div class="text-center">
+                    <button id="btn-skip-gender" type="button" class="btn-secondary">⏭ O'tkazib yuborish</button>
+                </div>
             </div>
 
-            {# Step 1: Camera / Upload #}
-            <div id="step-camera" class="hidden card p-4 md:p-8">
+            {# Step 6: Camera / Upload (mandatory) #}
+            <div id="step-camera" class="hidden card smart-step-card p-4 md:p-8">
                 <div class="relative mx-auto mb-5 md:mb-6 w-[250px] h-[250px] sm:w-[280px] sm:h-[280px]">
                     {# Camera preview #}
                     <video id="camera-preview" class="absolute inset-0 w-full h-full object-cover rounded-full hidden" autoplay playsinline></video>
@@ -132,6 +259,218 @@
         <canvas id="processing-canvas" class="hidden"></canvas>
     </div>
 </section>
+
+<style>
+    .smart-step-card {
+        background: linear-gradient(180deg, #ffffff 0%, #fffaf5 100%);
+        border: 1px solid rgba(231, 218, 197, 0.9);
+        box-shadow: 0 8px 30px rgba(141, 107, 79, 0.08);
+    }
+
+    .measure-actor-layout {
+        display: grid;
+        grid-template-columns: 180px 1fr;
+        gap: 14px;
+        align-items: stretch;
+    }
+
+    .measure-menu-panel {
+        border: 1px solid #eadfce;
+        border-radius: 1rem;
+        background: #fffdf9;
+        padding: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.45rem;
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+    }
+
+    .measure-menu-btn {
+        border: 1px solid #ead8bf;
+        border-radius: 0.8rem;
+        background: #fff8ef;
+        color: #5e4c3e;
+        font-size: 0.85rem;
+        font-weight: 700;
+        text-align: left;
+        padding: 0.58rem 0.7rem;
+        transition: all 180ms ease;
+    }
+
+    .measure-menu-btn:hover {
+        border-color: #efba88;
+        transform: translateX(2px);
+        background: #fff1e3;
+    }
+
+    .measure-menu-btn.is-active {
+        border-color: #ef944e;
+        background: linear-gradient(180deg, #ffeed9 0%, #ffe3c3 100%);
+        color: #7f451c;
+        box-shadow: 0 6px 16px rgba(239, 148, 78, 0.2);
+    }
+
+    .measure-stage-panel {
+        border: 1px solid #eadfce;
+        border-radius: 1rem;
+        background: #ffffff;
+        padding: 0.75rem;
+        box-shadow: 0 10px 26px rgba(169, 126, 86, 0.1);
+        min-height: 350px;
+    }
+
+    .measure-stage {
+        height: 100%;
+    }
+
+    .measure-stage-visual {
+        border-radius: 0.9rem;
+        min-height: 225px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.75rem;
+        margin-bottom: 0.5rem;
+        background: radial-gradient(circle at 35% 20%, #fff8ef 0%, #f9eddd 100%);
+        overflow: hidden;
+        position: relative;
+    }
+
+    .measure-stage-visual::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(120deg, transparent 34%, rgba(255, 255, 255, 0.45) 50%, transparent 66%);
+        transform: translateX(-120%);
+        animation: measureShine 4.2s ease-in-out infinite;
+    }
+
+    .measure-stage-image {
+        width: 100%;
+        max-width: 260px;
+        height: 210px;
+        object-fit: contain;
+        animation: measureFloat 4s ease-in-out infinite;
+    }
+
+    .measure-stage-title {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: #3f3125;
+        margin-bottom: 0.2rem;
+    }
+
+    .measure-stage-text {
+        font-size: 0.75rem;
+        color: #7c6755;
+        margin-bottom: 0.5rem;
+    }
+
+    .smart-toggle-btn {
+        border: 2px solid #e7dac5;
+        background: #fffdf9;
+        color: #5a4737;
+        border-radius: 0.9rem;
+        padding: 0.7rem 0.75rem;
+        font-size: 0.85rem;
+        font-weight: 600;
+        line-height: 1.25;
+        transition: all 180ms ease;
+    }
+
+    .smart-toggle-btn:hover {
+        border-color: #f0b486;
+        background: #fff3e7;
+        transform: translateY(-1px);
+        box-shadow: 0 8px 18px rgba(240, 180, 134, 0.2);
+    }
+
+    .smart-toggle-btn.is-selected {
+        border-color: #f39a52;
+        background: linear-gradient(180deg, #fff4e7 0%, #ffe9d4 100%);
+        color: #8b4f1f;
+        box-shadow: 0 6px 16px rgba(243, 154, 82, 0.2);
+    }
+
+    .measure-card {
+        transition: transform 200ms ease, box-shadow 220ms ease, border-color 200ms ease;
+    }
+
+    .measure-card:hover {
+        transform: translateY(-2px);
+        border-color: #efbd94;
+        box-shadow: 0 10px 22px rgba(206, 154, 109, 0.16);
+    }
+
+    .measure-visual {
+        position: relative;
+        overflow: hidden;
+        background: radial-gradient(circle at 30% 20%, #fff8ef 0%, #f9efdf 100%);
+    }
+
+    .measure-visual::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(120deg, transparent 35%, rgba(255, 255, 255, 0.45) 50%, transparent 65%);
+        transform: translateX(-120%);
+        animation: measureShine 3.8s ease-in-out infinite;
+        pointer-events: none;
+    }
+
+    .measure-visual img {
+        animation: measureFloat 4s ease-in-out infinite;
+    }
+
+    .measure-input {
+        border-width: 2px;
+        border-color: #eadcc9;
+        transition: border-color 160ms ease, box-shadow 160ms ease;
+    }
+
+    .measure-input:focus {
+        border-color: #ef9a5a;
+        box-shadow: 0 0 0 4px rgba(239, 154, 90, 0.14);
+    }
+
+    @keyframes measureFloat {
+        0%,
+        100% { transform: translateY(0px); }
+        50% { transform: translateY(-4px); }
+    }
+
+    @keyframes measureShine {
+        0%,
+        20% { transform: translateX(-120%); }
+        50% { transform: translateX(130%); }
+        100% { transform: translateX(130%); }
+    }
+
+    @media (max-width: 850px) {
+        .measure-actor-layout {
+            grid-template-columns: 1fr;
+        }
+
+        .measure-menu-panel {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .measure-menu-btn {
+            text-align: center;
+            padding: 0.6rem 0.45rem;
+            font-size: 0.8rem;
+        }
+
+        .measure-menu-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .measure-stage-panel {
+            min-height: 330px;
+        }
+    }
+</style>
 {% endblock %}
 
 {% block javascripts %}
@@ -146,7 +485,15 @@
         const RESULTS_URL = '{{ path('app_smart_style_results') }}';
 
         // Elements
+        const stepOccasion = document.getElementById('step-occasion');
+        const stepStyle = document.getElementById('step-style');
+        const stepSeason = document.getElementById('step-season');
+        const stepMeasurements = document.getElementById('step-measurements');
         const stepGender = document.getElementById('step-gender');
+        const stepCamera = document.getElementById('step-camera');
+        const stepLoading = document.getElementById('step-loading');
+        const stepError = document.getElementById('step-error');
+
         const cameraPreview = document.getElementById('camera-preview');
         const imagePreview = document.getElementById('image-preview');
         const placeholder = document.getElementById('camera-placeholder');
@@ -154,12 +501,21 @@
         const cameraButtons = document.getElementById('camera-buttons');
         const captureButtons = document.getElementById('capture-buttons');
         const analyzeButtons = document.getElementById('analyze-buttons');
-        const stepCamera = document.getElementById('step-camera');
-        const stepLoading = document.getElementById('step-loading');
-        const stepError = document.getElementById('step-error');
+
         const progressBar = document.getElementById('progress-bar');
         const loadingText = document.getElementById('loading-text');
         const errorText = document.getElementById('error-text');
+
+        const occasionButtons = document.querySelectorAll('.occasion-btn');
+        const styleButtons = document.querySelectorAll('.style-btn');
+        const seasonButtons = document.querySelectorAll('.season-btn');
+
+        const heightInput = document.getElementById('height-cm');
+        const shoulderInput = document.getElementById('shoulder-cm');
+        const chestInput = document.getElementById('chest-cm');
+        const waistInput = document.getElementById('waist-cm');
+        const hipInput = document.getElementById('hip-cm');
+
         const canvas = document.getElementById('processing-canvas');
         const ctx = canvas.getContext('2d', { willReadFrequently: true });
 
@@ -167,11 +523,147 @@
         let capturedImageData = null;
         let selectedGender = null;
 
-        // ─── Gender Selection ───
+        const styleContext = {
+            occasion: null,
+            occasions: [],
+            styleIntent: null,
+            styleIntents: [],
+            season: null,
+            seasons: [],
+            heightCm: null,
+            shoulderCm: null,
+            chestCm: null,
+            waistCm: null,
+            hipCm: null,
+        };
+
+        const selectedOccasions = new Set();
+        const selectedStyleIntents = new Set();
+        const selectedSeasons = new Set();
+        const measureMenuButtons = document.querySelectorAll('.measure-menu-btn');
+        const measureStages = document.querySelectorAll('.measure-stage');
+
+        function bindMultiToggle(buttons, stateSet) {
+            buttons.forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    const value = btn.dataset.value;
+                    if (stateSet.has(value)) {
+                        stateSet.delete(value);
+                        btn.classList.remove('is-selected');
+                    } else {
+                        stateSet.add(value);
+                        btn.classList.add('is-selected');
+                    }
+                });
+            });
+        }
+
+        bindMultiToggle(occasionButtons, selectedOccasions);
+        bindMultiToggle(styleButtons, selectedStyleIntents);
+        bindMultiToggle(seasonButtons, selectedSeasons);
+
+        function bindMeasureMenu() {
+            if (!measureMenuButtons.length || !measureStages.length) {
+                return;
+            }
+
+            measureMenuButtons.forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    const targetId = btn.dataset.target;
+
+                    measureMenuButtons.forEach((b) => b.classList.remove('is-active'));
+                    btn.classList.add('is-active');
+
+                    measureStages.forEach((stage) => {
+                        if (stage.id === targetId) {
+                            stage.classList.remove('hidden');
+                            stage.classList.add('is-active');
+                        } else {
+                            stage.classList.add('hidden');
+                            stage.classList.remove('is-active');
+                        }
+                    });
+                });
+            });
+        }
+
+        bindMeasureMenu();
+
+        function goToStep(currentStep, nextStep) {
+            currentStep.classList.add('hidden');
+            nextStep.classList.remove('hidden');
+        }
+
+        // ─── Step Flow ───
+        document.getElementById('btn-next-occasion').addEventListener('click', () => {
+            styleContext.occasions = Array.from(selectedOccasions);
+            styleContext.occasion = styleContext.occasions[0] || null;
+            goToStep(stepOccasion, stepStyle);
+        });
+
+        document.getElementById('btn-skip-occasion').addEventListener('click', () => {
+            styleContext.occasion = null;
+            styleContext.occasions = [];
+            selectedOccasions.clear();
+            occasionButtons.forEach(btn => btn.classList.remove('is-selected'));
+            goToStep(stepOccasion, stepStyle);
+        });
+
+        document.getElementById('btn-next-style').addEventListener('click', () => {
+            styleContext.styleIntents = Array.from(selectedStyleIntents);
+            styleContext.styleIntent = styleContext.styleIntents[0] || null;
+            goToStep(stepStyle, stepSeason);
+        });
+
+        document.getElementById('btn-skip-style').addEventListener('click', () => {
+            styleContext.styleIntent = null;
+            styleContext.styleIntents = [];
+            selectedStyleIntents.clear();
+            styleButtons.forEach(btn => btn.classList.remove('is-selected'));
+            goToStep(stepStyle, stepSeason);
+        });
+
+        document.getElementById('btn-next-season').addEventListener('click', () => {
+            styleContext.seasons = Array.from(selectedSeasons);
+            styleContext.season = styleContext.seasons[0] || null;
+            goToStep(stepSeason, stepMeasurements);
+        });
+
+        document.getElementById('btn-skip-season').addEventListener('click', () => {
+            styleContext.season = null;
+            styleContext.seasons = [];
+            selectedSeasons.clear();
+            seasonButtons.forEach(btn => btn.classList.remove('is-selected'));
+            goToStep(stepSeason, stepMeasurements);
+        });
+
+        document.getElementById('btn-next-measurements').addEventListener('click', () => {
+            styleContext.heightCm = heightInput.value || null;
+            styleContext.shoulderCm = shoulderInput.value || null;
+            styleContext.chestCm = chestInput.value || null;
+            styleContext.waistCm = waistInput.value || null;
+            styleContext.hipCm = hipInput.value || null;
+            goToStep(stepMeasurements, stepGender);
+        });
+
+        document.getElementById('btn-skip-measurements').addEventListener('click', () => {
+            styleContext.heightCm = null;
+            styleContext.shoulderCm = null;
+            styleContext.chestCm = null;
+            styleContext.waistCm = null;
+            styleContext.hipCm = null;
+            goToStep(stepMeasurements, stepGender);
+        });
+
+        document.getElementById('btn-skip-gender').addEventListener('click', () => {
+            selectedGender = null;
+            goToStep(stepGender, stepCamera);
+        });
+
+        // ─── Gender Selection (optional) ───
         document.querySelectorAll('.gender-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 selectedGender = btn.dataset.gender;
-                // Highlight selected
                 document.querySelectorAll('.gender-btn').forEach(b => {
                     b.classList.remove('border-peach-500', 'bg-peach-50');
                     b.classList.add('border-beige-200');
@@ -179,11 +671,9 @@
                 btn.classList.remove('border-beige-200');
                 btn.classList.add('border-peach-500', 'bg-peach-50');
 
-                // Go to camera step after short delay
                 setTimeout(() => {
-                    stepGender.classList.add('hidden');
-                    stepCamera.classList.remove('hidden');
-                }, 300);
+                    goToStep(stepGender, stepCamera);
+                }, 250);
             });
         });
 
@@ -262,8 +752,29 @@
         // Retry
         document.getElementById('btn-retry').addEventListener('click', () => {
             stepError.classList.add('hidden');
-            stepGender.classList.remove('hidden');
+            stepOccasion.classList.remove('hidden');
+            stepStyle.classList.add('hidden');
+            stepSeason.classList.add('hidden');
+            stepMeasurements.classList.add('hidden');
+            stepGender.classList.add('hidden');
             selectedGender = null;
+            selectedOccasions.clear();
+            selectedStyleIntents.clear();
+            selectedSeasons.clear();
+            occasionButtons.forEach(btn => btn.classList.remove('is-selected'));
+            styleButtons.forEach(btn => btn.classList.remove('is-selected'));
+            seasonButtons.forEach(btn => btn.classList.remove('is-selected'));
+            styleContext.occasion = null;
+            styleContext.occasions = [];
+            styleContext.styleIntent = null;
+            styleContext.styleIntents = [];
+            styleContext.season = null;
+            styleContext.seasons = [];
+            styleContext.heightCm = null;
+            styleContext.shoulderCm = null;
+            styleContext.chestCm = null;
+            styleContext.waistCm = null;
+            styleContext.hipCm = null;
             document.querySelectorAll('.gender-btn').forEach(b => {
                 b.classList.remove('border-peach-500', 'bg-peach-50');
                 b.classList.add('border-beige-200');
@@ -320,7 +831,22 @@
                 const response = await fetch(ANALYZE_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ skinTone, faceShape, gender: selectedGender })
+                    body: JSON.stringify({
+                        skinTone,
+                        faceShape,
+                        gender: selectedGender,
+                        occasion: styleContext.occasion,
+                        occasions: styleContext.occasions,
+                        styleIntent: styleContext.styleIntent,
+                        styleIntents: styleContext.styleIntents,
+                        season: styleContext.season,
+                        seasons: styleContext.seasons,
+                        heightCm: styleContext.heightCm,
+                        shoulderCm: styleContext.shoulderCm,
+                        chestCm: styleContext.chestCm,
+                        waistCm: styleContext.waistCm,
+                        hipCm: styleContext.hipCm,
+                    })
                 });
 
                 const result = await response.json();
@@ -449,10 +975,13 @@
 
         function resetToStart() {
             imagePreview.classList.add('hidden');
+            cameraPreview.classList.add('hidden');
             placeholder.classList.remove('hidden');
             analyzeButtons.classList.add('hidden');
+            captureButtons.classList.add('hidden');
             cameraButtons.classList.remove('hidden');
             capturedImageData = null;
+            stopCamera();
         }
     });
     </script>

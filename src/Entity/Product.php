@@ -36,6 +36,41 @@ class Product
         'diamond' => 'Diamond (Olmos)',
     ];
 
+    public const OCCASIONS = [
+        'office'        => 'Ish / Ofis',
+        'study'         => 'O\'qish',
+        'event'         => 'Bazm / Tadbir',
+        'casual_street' => 'Kundalik / Ko\'cha',
+        'sport'         => 'Sport / Aktiv',
+        'travel'        => 'Sayohat',
+        'home'          => 'Uy / Casual',
+        'other'         => 'Boshqa',
+    ];
+
+    public const STYLE_INTENTS = [
+        'minimal'    => 'Minimal',
+        'classic'    => 'Klassik',
+        'street'     => 'Street',
+        'elegant'    => 'Elegant',
+        'trendy'     => 'Trendy',
+        'sport_chic' => 'Sport-chic',
+    ];
+
+    public const SEASONS = [
+        'spring' => 'Bahor',
+        'summer' => 'Yoz',
+        'autumn' => 'Kuz',
+        'winter' => 'Qish',
+    ];
+
+    public const BODY_TYPES = [
+        'hourglass'         => 'Soat qum (Hourglass)',
+        'pear'              => 'Nok (Pear)',
+        'apple'             => 'Olma (Apple)',
+        'rectangle'         => 'To\'rtburchak (Rectangle)',
+        'inverted_triangle' => 'Teskari uchburchak',
+    ];
+
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -75,6 +110,18 @@ class Product
 
     #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $faceShapes = null;
+
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $occasions = null;
+
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $styleIntents = null;
+
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $seasons = null;
+
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    private ?array $bodyTypes = null;
 
 
     #[ORM\Column]
@@ -232,22 +279,82 @@ class Product
         return $this;
     }
 
+    public function getOccasions(): ?array
+    {
+        return $this->occasions;
+    }
 
+    public function setOccasions(?array $occasions): static
+    {
+        $this->occasions = $occasions;
+        return $this;
+    }
+
+    public function getStyleIntents(): ?array
+    {
+        return $this->styleIntents;
+    }
+
+    public function setStyleIntents(?array $styleIntents): static
+    {
+        $this->styleIntents = $styleIntents;
+        return $this;
+    }
+
+    public function getSeasons(): ?array
+    {
+        return $this->seasons;
+    }
+
+    public function setSeasons(?array $seasons): static
+    {
+        $this->seasons = $seasons;
+        return $this;
+    }
+
+    public function getBodyTypes(): ?array
+    {
+        return $this->bodyTypes;
+    }
+
+    public function setBodyTypes(?array $bodyTypes): static
+    {
+        $this->bodyTypes = $bodyTypes;
+        return $this;
+    }
 
     /**
-     * SmartStyle match score hisoblash
+     * SmartStyle match score hisoblash (max 100).
+     *
+     * - skinTone:  40 pts
+     * - faceShape: 30 pts
+     * - occasion:  +15 bonus (faqat ikkala tomon teglanganida)
+     * - bodyType:  +10 bonus
+     * - season:    +5  bonus
      */
-    public function getMatchScore(string $skinTone, string $faceShape): int
-    {
+    public function getMatchScore(
+        string  $skinTone,
+        string  $faceShape,
+        ?string $occasion  = null,
+        ?string $bodyType  = null,
+        ?string $season    = null,
+    ): int {
         $score = 0;
-        $skinMatch = $this->skinTones && in_array($skinTone, $this->skinTones);
-        $faceMatch = $this->faceShapes && in_array($faceShape, $this->faceShapes);
 
-        if ($skinMatch) {
-            $score += 60;
-        }
-        if ($faceMatch) {
+        if ($this->skinTones && in_array($skinTone, $this->skinTones, true)) {
             $score += 40;
+        }
+        if ($this->faceShapes && in_array($faceShape, $this->faceShapes, true)) {
+            $score += 30;
+        }
+        if ($occasion && $this->occasions && in_array($occasion, $this->occasions, true)) {
+            $score += 15;
+        }
+        if ($bodyType && $this->bodyTypes && in_array($bodyType, $this->bodyTypes, true)) {
+            $score += 10;
+        }
+        if ($season && $this->seasons && in_array($season, $this->seasons, true)) {
+            $score += 5;
         }
 
         return $score;

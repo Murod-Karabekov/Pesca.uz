@@ -93,6 +93,75 @@
             </div>
             {{ form_errors(form.faceShapes) }}
         </div>
+
+        <div class="mt-6">
+            <label class="block text-sm font-medium text-brand-dark mb-3">Voqealar (Occasion)</label>
+            <div class="flex flex-wrap gap-3">
+                {% for child in form.occasions %}
+                <label class="cursor-pointer">
+                    {{ form_widget(child, {'attr': {'class': 'sr-only peer'}}) }}
+                    <span class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl border-2 border-beige-300 text-sm font-medium text-brand-medium
+                                 peer-checked:border-peach-500 peer-checked:bg-peach-50 peer-checked:text-peach-700
+                                 hover:border-peach-300 transition-all duration-200">
+                        {{ child.vars.label }}
+                    </span>
+                </label>
+                {% endfor %}
+            </div>
+            {{ form_errors(form.occasions) }}
+        </div>
+
+        <div class="mt-6">
+            <label class="block text-sm font-medium text-brand-dark mb-3">Uslub yo'nalishlari (Style)</label>
+            <div class="flex flex-wrap gap-3">
+                {% for child in form.styleIntents %}
+                <label class="cursor-pointer">
+                    {{ form_widget(child, {'attr': {'class': 'sr-only peer'}}) }}
+                    <span class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl border-2 border-beige-300 text-sm font-medium text-brand-medium
+                                 peer-checked:border-peach-500 peer-checked:bg-peach-50 peer-checked:text-peach-700
+                                 hover:border-peach-300 transition-all duration-200">
+                        {{ child.vars.label }}
+                    </span>
+                </label>
+                {% endfor %}
+            </div>
+            {{ form_errors(form.styleIntents) }}
+        </div>
+
+        <div class="mt-6">
+            <label class="block text-sm font-medium text-brand-dark mb-3">Fasllar</label>
+            <div class="flex flex-wrap gap-3">
+                {% for child in form.seasons %}
+                <label class="cursor-pointer">
+                    {{ form_widget(child, {'attr': {'class': 'sr-only peer'}}) }}
+                    <span class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl border-2 border-beige-300 text-sm font-medium text-brand-medium
+                                 peer-checked:border-teal-400 peer-checked:bg-teal-50 peer-checked:text-teal-700
+                                 hover:border-teal-300 transition-all duration-200">
+                        {{ child.vars.label }}
+                    </span>
+                </label>
+                {% endfor %}
+            </div>
+            {{ form_errors(form.seasons) }}
+        </div>
+
+        <div class="mt-6">
+            <label class="block text-sm font-medium text-brand-dark mb-3">Mos tana turlari</label>
+            <div class="flex flex-wrap gap-3">
+                {% for child in form.bodyTypes %}
+                <label class="cursor-pointer flex items-center gap-2">
+                    {{ form_widget(child, {'attr': {'class': 'sr-only peer'}}) }}
+                    <span class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border-2 border-beige-300 text-sm font-medium text-brand-medium
+                                 peer-checked:border-purple-400 peer-checked:bg-purple-50 peer-checked:text-purple-700
+                                 hover:border-purple-300 transition-all duration-200">
+                        <img src="/images/smartstyle/body-types/{{ child.vars.value }}.png" alt="" class="w-5 h-5 object-contain">
+                        {{ child.vars.label }}
+                    </span>
+                </label>
+                {% endfor %}
+            </div>
+            {{ form_errors(form.bodyTypes) }}
+        </div>
     </div>
 
     <div>

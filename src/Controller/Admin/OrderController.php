@@ -113,4 +113,36 @@ class OrderController extends AbstractController
 
         return $this->redirectToRoute('admin_order_index');
     }
+
+    #[Route('/{id}/status', name: 'update_status', requirements: ['id' => '\\d+'], methods: ['POST'])]
+    public function updateStatus(Order $order, Request $request, EntityManagerInterface $em): Response
+    {
+        if (!$this->isCsrfTokenValid('order_status_' . $order->getId(), $request->request->get('_token'))) {
+            $this->addFlash('error', 'Xavfsizlik xatosi.');
+            return $this->redirectToRoute('admin_order_show', ['id' => $order->getId()]);
+        }
+
+        $newStatus = (string) $request->request->get('status', '');
+
+        if (!$order->canTransitionTo($newStatus)) {
+            $this->addFlash('error', sprintf(
+                'Buyurtma holatini "%s" dan "%s" ga o\'tkazib bo\'lmaydi.',
+                $order->getOrderStatusLabel(),
+                $newStatus
+            ));
+            return $this->redirectToRoute('admin_order_show', ['id' => $order->getId()]);
+        }
+
+        $order->setOrderStatus($newStatus);
+        $order->touch();
+        $em->flush();
+
+        $this->addFlash('success', sprintf(
+            'Buyurtma #%d holati "%s" ga o\'zgartirildi.',
+            $order->getId(),
+            $order->getOrderStatusLabel()
+        ));
+
+        return $this->redirectToRoute('admin_order_show', ['id' => $order->getId()]);
+    }
 }

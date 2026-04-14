@@ -44,17 +44,39 @@ class SmartStyleController extends AbstractController
         $faceShape = $data['faceShape'] ?? null;
         $gender = $data['gender'] ?? null;
 
+        $occasion = $data['occasion'] ?? null;
+        $styleIntent = $data['styleIntent'] ?? null;
+        $season = $data['season'] ?? null;
+
+        $heightCm = $this->sanitizeMeasurement($data['heightCm'] ?? null);
+        $shoulderCm = $this->sanitizeMeasurement($data['shoulderCm'] ?? null);
+        $chestCm = $this->sanitizeMeasurement($data['chestCm'] ?? null);
+        $waistCm = $this->sanitizeMeasurement($data['waistCm'] ?? null);
+        $hipCm = $this->sanitizeMeasurement($data['hipCm'] ?? null);
+
         // Validatsiya
-        if (!$gender || !in_array($gender, UserProfile::GENDERS)) {
+        if ($gender !== null && $gender !== '' && !in_array($gender, UserProfile::GENDERS, true)) {
             return $this->json(['error' => 'Noto\'g\'ri jins.'], 400);
         }
 
-        if (!$skinTone || !in_array($skinTone, UserProfile::SKIN_TONES)) {
+        if (!$skinTone || !in_array($skinTone, UserProfile::SKIN_TONES, true)) {
             return $this->json(['error' => 'Noto\'g\'ri teri rangi.'], 400);
         }
 
-        if (!$faceShape || !in_array($faceShape, UserProfile::FACE_SHAPES)) {
+        if (!$faceShape || !in_array($faceShape, UserProfile::FACE_SHAPES, true)) {
             return $this->json(['error' => 'Noto\'g\'ri yuz shakli.'], 400);
+        }
+
+        if ($occasion !== null && $occasion !== '' && !in_array($occasion, UserProfile::OCCASIONS, true)) {
+            return $this->json(['error' => 'Noto\'g\'ri occasion.'], 400);
+        }
+
+        if ($styleIntent !== null && $styleIntent !== '' && !in_array($styleIntent, UserProfile::STYLE_INTENTS, true)) {
+            return $this->json(['error' => 'Noto\'g\'ri style intent.'], 400);
+        }
+
+        if ($season !== null && $season !== '' && !in_array($season, UserProfile::SEASONS, true)) {
+            return $this->json(['error' => 'Noto\'g\'ri fasl.'], 400);
         }
 
         $user = $this->getUser();
@@ -68,7 +90,19 @@ class SmartStyleController extends AbstractController
 
         $profile->setSkinTone($skinTone);
         $profile->setFaceShape($faceShape);
-        $profile->setGender($gender);
+        $profile->setGender($gender !== '' ? $gender : null);
+        $profile->setOccasion($occasion !== '' ? $occasion : null);
+        $profile->setStyleIntent($styleIntent !== '' ? $styleIntent : null);
+        $profile->setSeason($season !== '' ? $season : null);
+        $profile->setHeightCm($heightCm);
+        $profile->setShoulderCm($shoulderCm);
+        $profile->setChestCm($chestCm);
+        $profile->setWaistCm($waistCm);
+        $profile->setHipCm($hipCm);
+
+        $bodyType = SmartStyleService::detectBodyType($shoulderCm, $chestCm, $waistCm, $hipCm);
+        $profile->setBodyType($bodyType);
+
         $profile->setAnalyzedAt(new \DateTimeImmutable());
 
         $em->persist($profile);
@@ -80,6 +114,11 @@ class SmartStyleController extends AbstractController
             'faceShape' => $faceShape,
             'skinToneLabel' => $profile->getSkinToneLabel(),
             'faceShapeLabel' => $profile->getFaceShapeLabel(),
+            'occasion' => $profile->getOccasion(),
+            'styleIntent' => $profile->getStyleIntent(),
+            'season' => $profile->getSeason(),
+            'bodyType' => $profile->getBodyType(),
+            'bodyTypeLabel' => $profile->getBodyTypeLabel(),
         ]);
     }
 
@@ -123,5 +162,24 @@ class SmartStyleController extends AbstractController
 
         $this->addFlash('success', 'Profilingiz tozalandi.');
         return $this->redirectToRoute('app_smart_style_index');
+    }
+
+    private function sanitizeMeasurement(mixed $value): ?int
+    {
+        if ($value === null || $value === '') {
+            return null;
+        }
+
+        if (!is_numeric($value)) {
+            return null;
+        }
+
+        $intValue = (int) round((float) $value);
+
+        if ($intValue <= 0 || $intValue > 300) {
+            return null;
+        }
+
+        return $intValue;
     }
 }

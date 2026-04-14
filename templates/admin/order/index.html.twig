@@ -60,25 +60,24 @@
                     </td>
                     <td class="px-6 py-4 text-sm text-brand-medium">{{ order.createdAt|date('d.m.Y H:i') }}</td>
                     <td class="px-6 py-4">
-                                                <textarea id="copy-text-{{ order.id }}" class="hidden">🧵 PESCA BUYURTMA
+                                                <textarea id="copy-text-{{ order.id }}" class="hidden">🛒 PESCA BUYURTMA
 ━━━━━━━━━━━━━━━━━━━━
 Buyurtma: #{{ order.id }}
 Sana: {{ order.createdAt|date('d.m.Y H:i') }}
 Mijoz: {{ order.customerFullName }}
 Telefon: {{ order.customerPhone }}
-Lokatsiya: {{ order.locationLabel }}
+Manzil: {{ order.locationLabel }}
 To'lov holati: {{ order.paymentStatusLabel }}
 
 📦 MAHSULOTLAR:
 {% for item in order.items %}{{ loop.index }}. {{ item.productNameSnapshot }}
     Soni: {{ item.quantity }} dona{% if item.selectedSize %} | O'lcham: {{ item.selectedSize }}{% endif %}
-     Rasm: {% if item.productImageSnapshot %}{{ item.productImageSnapshot starts with 'http' ? item.productImageSnapshot : absolute_url(item.productImageSnapshot) }}{% else %}Rasm yo'q{% endif %}
 {% endfor %}
 {% if order.notes %}
 📝 Izoh: {{ order.notes }}
 {% endif %}
 ━━━━━━━━━━━━━━━━━━━━
-Tikish uchun aniq buyurtma: #{{ order.id }}</textarea>
+Buyurtma raqami: #{{ order.id }}</textarea>
 
                         <div class="flex items-center gap-2 order-actions">
                             <a
@@ -96,8 +95,8 @@ Tikish uchun aniq buyurtma: #{{ order.id }}</textarea>
                                 type="button"
                                 class="copy-order-btn inline-flex items-center justify-center w-8 h-8 rounded-lg border border-beige-300 text-brand-medium hover:text-peach-700 hover:border-peach-300 hover:bg-peach-50 transition-colors"
                                                                 data-copy-target="copy-text-{{ order.id }}"
-                                title="Tikuvchi uchun nusxalash"
-                                aria-label="Tikuvchi uchun nusxalash"
+                                title="Buyurtmani nusxalash"
+                                aria-label="Buyurtmani nusxalash"
                             >
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>

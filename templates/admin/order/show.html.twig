@@ -95,20 +95,19 @@
 
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
     <div class="card p-6">
-        <h3 class="font-display font-semibold text-lg text-brand-dark mb-4">Tikuvchi uchun copy</h3>
-        <textarea id="tailor-copy" class="input-field !h-56 !font-mono !text-xs">Buyurtma #{{ order.id }}
+        <h3 class="font-display font-semibold text-lg text-brand-dark mb-4">Buyurtma nusxasi</h3>
+        <textarea id="order-copy" class="input-field !h-44 !font-mono !text-xs">Buyurtma #{{ order.id }}
 Mijoz: {{ order.customerFullName }}
 Telefon: {{ order.customerPhone }}
-Lokatsiya: {{ order.locationLabel }}
+Manzil: {{ order.locationLabel }}
 
 Mahsulotlar:
 {% for item in order.items %}- {{ item.productNameSnapshot }} | {{ item.quantity }} dona{% if item.selectedSize %} | O'lcham: {{ item.selectedSize }}{% endif %}
-    Rasm: {% if item.productImageSnapshot %}{{ item.productImageSnapshot starts with 'http' ? item.productImageSnapshot : absolute_url(item.productImageSnapshot) }}{% else %}Rasm yo'q{% endif %}
 {% endfor %}
 {% if order.notes %}
 Izoh: {{ order.notes }}
 {% endif %}</textarea>
-        <button type="button" id="copy-tailor" class="btn-primary mt-3 text-sm">Matnni nusxalash</button>
+        <button type="button" id="copy-order" class="btn-primary mt-3 text-sm">Matnni nusxalash</button>
     </div>
 
     <div class="card p-6">
@@ -141,9 +140,42 @@ Izoh: {{ order.notes }}
     </div>
 </div>
 
+{# Order status transition block #}
+{% set nextStatuses = order.availableNextStatuses %}
+{% if nextStatuses|length > 0 and order.paymentStatus != 'pending' %}
+<div class="card p-6 mb-8">
+    <h3 class="font-display font-semibold text-lg text-brand-dark mb-4">Buyurtma holatini o'zgartirish</h3>
+    <div class="flex flex-wrap gap-3">
+        {% for status in nextStatuses %}
+            {% set statusLabels = {
+                'in_production': 'Omborga tayyorlash',
+                'ready': 'Tayyor deb belgilash',
+                'completed': 'Yakunlandi deb belgilash',
+                'canceled': 'Buyurtmani bekor qilish'
+            } %}
+            {% set statusColors = {
+                'in_production': 'btn-primary',
+                'ready': 'bg-emerald-600 hover:bg-emerald-700 text-white font-medium px-4 py-2.5 rounded-xl transition-colors',
+                'completed': 'bg-brand-dark hover:bg-gray-800 text-white font-medium px-4 py-2.5 rounded-xl transition-colors',
+                'canceled': 'btn-danger'
+            } %}
+            <form method="post" action="{{ path('admin_order_update_status', {id: order.id}) }}"
+                  {% if status == 'canceled' %}onsubmit="return confirm('Rostdan bekor qilmoqchimisiz?')"{% endif %}>
+                <input type="hidden" name="_token" value="{{ csrf_token('order_status_' ~ order.id) }}">
+                <input type="hidden" name="status" value="{{ status }}">
+                <button type="submit" class="{{ statusColors[status] ?? 'btn-secondary' }}">
+                    {{ statusLabels[status] ?? status }}
+                </button>
+            </form>
+        {% endfor %}
+    </div>
+    <p class="text-xs text-brand-light mt-3">Joriy holat: <strong>{{ order.orderStatusLabel }}</strong></p>
+</div>
+{% endif %}
+
 <script>
-    document.getElementById('copy-tailor')?.addEventListener('click', async function () {
-        const textarea = document.getElementById('tailor-copy');
+    document.getElementById('copy-order')?.addEventListener('click', async function () {
+        const textarea = document.getElementById('order-copy');
         if (!textarea) {
             return;
         }

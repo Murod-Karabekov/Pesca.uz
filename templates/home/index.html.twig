@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Pesca — Premium tibbiy kiyimlar{% endblock %}
+{% block title %}Pesca — Online kiyim do'koni{% endblock %}
 
 {% block body %}
 {# ─── Hero Section ─── #}
@@ -10,15 +10,15 @@
             <div class="space-y-8">
                 <div class="inline-flex items-center gap-2 px-4 py-2 bg-peach-100 text-peach-700 rounded-full text-sm font-medium">
                     <span class="w-2 h-2 bg-peach-500 rounded-full animate-pulse"></span>
-                    Premium tibbiy kiyimlar
+                    Xitoydan to'g'ridan-to'g'ri
                 </div>
                 <h1 class="text-4xl md:text-6xl font-display font-bold text-brand-dark leading-tight">
-                    Nafosatning
-                    <span class="text-peach-500">tibbiy</span>
-                    mukammalligi
+                    Sifatli kiyim,
+                    <span class="text-peach-500">qulay</span>
+                    narxda
                 </h1>
                 <p class="text-lg text-brand-medium leading-relaxed max-w-lg">
-                    Professional funksionallik va premium dizaynni birlashtirgan tibbiy kiyimlar kolleksiyamizni kashf eting.
+                    Erkak, ayol va bolalar uchun hamma turdagi kiyimlar. Zakaz qiling — uyingizga yetkazib beramiz.
                 </p>
                 <div class="flex flex-wrap gap-4">
                     <a href="{{ path('app_product_index') }}" class="btn-primary text-base px-8 py-4">
@@ -36,7 +36,7 @@
                     <div class="absolute -inset-1 bg-gradient-to-tr from-peach-200/30 to-beige-200/30 rounded-2xl"></div>
                     <img
                         src="https://i.pinimg.com/736x/bb/6f/85/bb6f85562ea83531d0a0dcfec54c2c6c.jpg"
-                        alt="Pesca premium tibbiy kiyimlaridagi tibbiyot mutaxassisi"
+                        alt="Pesca kiyim kolleksiyasi"
                         class="relative w-full h-[28rem] object-cover rounded-2xl shadow-2xl"
                     >
                     {# Decorative corner accents #}
@@ -222,7 +222,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
             <h2 class="text-3xl md:text-4xl font-display font-bold text-brand-dark mb-4">Tanlangan kolleksiya</h2>
-            <p class="text-brand-medium max-w-2xl mx-auto">Butun dunyo bo'ylab mutaxassislar tomonidan tanlangan eng mashhur tibbiy kiyimlarimiz.</p>
+            <p class="text-brand-medium max-w-2xl mx-auto">Sifatli va uslubli kiyimlar to'g'ridan-to'g'ri uyingizga yetkaziladi.</p>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {% for product in featured_products %}

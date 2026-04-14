@@ -26,6 +26,9 @@ class SmartStyleService
         $skinTone = $profile->getSkinTone();
         $faceShape = $profile->getFaceShape();
         $gender = $profile->getGender();
+        $occasion = $profile->getOccasion();
+        $bodyType = $profile->getBodyType();
+        $season = $profile->getSeason();
         $products = $this->productRepository->findActive();
 
         $recommendations = [];
@@ -33,11 +36,11 @@ class SmartStyleService
         foreach ($products as $product) {
             // Gender filter: faqat mos jins yoki unisex mahsulotlar
             $productGender = $product->getGender();
-            if ($productGender && $productGender !== 'unisex' && $productGender !== $gender) {
+            if ($gender && $productGender && $productGender !== 'unisex' && $productGender !== $gender) {
                 continue;
             }
 
-            $score = $product->getMatchScore($skinTone, $faceShape);
+            $score = $product->getMatchScore($skinTone, $faceShape, $occasion, $bodyType, $season);
 
             if ($score >= $minScore) {
                 $recommendations[] = [
@@ -64,6 +67,49 @@ class SmartStyleService
             $score >= 50 => 'Mos',
             default => '',
         };
+    }
+
+    /**
+     * O'lchovlar asosida tana turini aniqlash.
+     * Ko'krak, bel, son majburiy. Yelka ixtiyoriy (inverted_triangle uchun).
+     *
+     * @return string|null  'hourglass'|'pear'|'apple'|'rectangle'|'inverted_triangle'|null
+     */
+    public static function detectBodyType(
+        ?int $shoulderCm,
+        ?int $chestCm,
+        ?int $waistCm,
+        ?int $hipCm,
+    ): ?string {
+        if ($chestCm === null || $waistCm === null || $hipCm === null) {
+            return null;
+        }
+
+        // Inverted triangle: yelka sondan ancha keng (>4 sm)
+        if ($shoulderCm !== null && $shoulderCm > $hipCm + 4) {
+            return 'inverted_triangle';
+        }
+
+        $avgChestHip  = ($chestCm + $hipCm) / 2;
+        $waistRatio   = $waistCm / $avgChestHip;
+
+        // Hourglass: ko'krak ≈ son (≤5 sm farq) VA bel ancha kichik (≤75%)
+        if (abs($chestCm - $hipCm) <= 5 && $waistRatio <= 0.75) {
+            return 'hourglass';
+        }
+
+        // Pear: son ko'krakdan >3 sm katta
+        if ($hipCm > $chestCm + 3) {
+            return 'pear';
+        }
+
+        // Apple: bel son yoki ko'krakning ≥90%
+        if ($waistCm >= $hipCm * 0.90 || $waistCm >= $chestCm * 0.90) {
+            return 'apple';
+        }
+
+        // Default: rectangle
+        return 'rectangle';
     }
 
     /**

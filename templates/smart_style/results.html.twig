@@ -15,58 +15,155 @@
         </div>
 
         {# ─── Profile Summary ─── #}
-        <div class="card p-4 md:p-8 mb-6 md:mb-8">
-            <div class="flex flex-col md:flex-row md:items-center gap-4 md:gap-6">
-                <div class="flex items-start gap-3 md:gap-4 flex-1">
-                    <div class="flex gap-2 md:gap-3">
-                        <div class="bg-beige-50 rounded-2xl px-3 md:px-5 py-2.5 md:py-3 text-center">
-                            <span class="text-2xl">👤</span>
-                            <p class="text-xs text-brand-medium mt-1">{{ profile.faceShapeLabel }}</p>
-                        </div>
-                        <div class="bg-beige-50 rounded-2xl px-3 md:px-5 py-2.5 md:py-3 text-center">
-                            <span class="text-2xl">🎨</span>
-                            <p class="text-xs text-brand-medium mt-1">{{ profile.skinToneLabel }}</p>
-                        </div>
-                    </div>
-                    <div>
-                        <h1 class="text-lg md:text-2xl font-display font-bold text-brand-dark leading-snug">Sizga mos kiyimlar</h1>
-                        <p class="text-xs md:text-sm text-brand-medium">{{ recommendations|length }} ta mahsulot topildi</p>
-                    </div>
-                </div>
-                <div class="flex gap-2">
-                    <a href="{{ path('app_smart_style_scan') }}" class="btn-secondary text-sm !py-2.5 !px-4 w-full md:w-auto justify-center">🔄 Qayta skanerlash</a>
-                </div>
+        {# ─── Profile Summary (game character card) ─── #}
+        <div class="relative overflow-hidden rounded-3xl border border-beige-200 bg-gradient-to-br from-white via-beige-50 to-peach-50 mb-8 shadow-sm">
+
+            {# Decorative background glow behind character #}
+            <div class="absolute right-0 top-0 bottom-0 w-1/2 pointer-events-none">
+                <div class="absolute inset-0 bg-gradient-to-l from-peach-100/50 to-transparent"></div>
+                <div class="absolute -bottom-10 right-10 w-72 h-72 rounded-full bg-peach-200/20 blur-3xl"></div>
+                <div class="absolute -top-10 right-20 w-48 h-48 rounded-full bg-beige-300/20 blur-2xl"></div>
             </div>
 
-            {# Tips #}
-            {% if tips|length > 0 %}
-            <div class="mt-6 pt-6 border-t border-beige-200">
-                <h3 class="text-sm font-semibold text-brand-dark mb-3">💡 Sizga mos kiyim turlari:</h3>
-                <div class="flex flex-wrap gap-2">
-                    {% for tip in tips %}
-                    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-50 text-green-700 rounded-full text-xs font-medium">
-                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-                        {{ tip }}
-                    </span>
-                    {% endfor %}
+            <div class="relative flex flex-col md:flex-row">
+
+                {# ═══ LEFT: Stats panel ═══ #}
+                <div class="flex-1 p-5 md:p-8 flex flex-col gap-5 z-10">
+
+                    {# Title + rescan #}
+                    <div class="flex items-start justify-between gap-3">
+                        <div>
+                            <p class="text-[10px] font-bold tracking-[0.2em] uppercase text-brand-muted mb-1">SmartStyle Profil</p>
+                            <h1 class="text-2xl md:text-3xl font-display font-bold text-brand-dark leading-tight">Sizga mos kiyimlar</h1>
+                            <p class="text-sm text-brand-medium mt-1">{{ recommendations|length }} ta mahsulot topildi</p>
+                        </div>
+                        <a href="{{ path('app_smart_style_scan') }}"
+                           class="shrink-0 inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white border border-beige-200 text-xs font-semibold text-brand-medium hover:border-peach-300 hover:text-peach-600 transition-all shadow-sm whitespace-nowrap">
+                            🔄 Qayta skan
+                        </a>
+                    </div>
+
+                    {# Stats grid #}
+                    <div class="grid grid-cols-2 gap-2">
+
+                        <div class="bg-white/80 backdrop-blur-sm rounded-2xl px-3 py-2.5 border border-beige-100 shadow-sm">
+                            <p class="text-[9px] font-bold uppercase tracking-widest text-brand-muted mb-1">Yuz shakli</p>
+                            <p class="text-sm font-bold text-brand-dark leading-tight">👤 {{ profile.faceShapeLabel }}</p>
+                        </div>
+
+                        <div class="bg-white/80 backdrop-blur-sm rounded-2xl px-3 py-2.5 border border-beige-100 shadow-sm">
+                            <p class="text-[9px] font-bold uppercase tracking-widest text-brand-muted mb-1">Teri rangi</p>
+                            <p class="text-sm font-bold text-brand-dark leading-tight">🎨 {{ profile.skinToneLabel }}</p>
+                        </div>
+
+                        {% if profile.gender %}
+                        <div class="bg-white/80 backdrop-blur-sm rounded-2xl px-3 py-2.5 border border-beige-100 shadow-sm">
+                            <p class="text-[9px] font-bold uppercase tracking-widest text-brand-muted mb-1">Jins</p>
+                            <p class="text-sm font-bold text-brand-dark leading-tight">{{ profile.gender == 'male' ? '👨 Erkak' : '👩 Ayol' }}</p>
+                        </div>
+                        {% endif %}
+
+                        {% if profile.bodyType %}
+                        <div class="bg-white/80 backdrop-blur-sm rounded-2xl px-3 py-2.5 border border-beige-100 shadow-sm">
+                            <p class="text-[9px] font-bold uppercase tracking-widest text-brand-muted mb-1">Tana turi</p>
+                            <p class="text-sm font-bold text-brand-dark leading-tight">🧍 {{ profile.bodyTypeLabel }}</p>
+                        </div>
+                        {% endif %}
+
+                        {% if profile.occasion %}
+                        <div class="bg-white/80 backdrop-blur-sm rounded-2xl px-3 py-2.5 border border-beige-100 shadow-sm">
+                            <p class="text-[9px] font-bold uppercase tracking-widest text-brand-muted mb-1">Voqea</p>
+                            <p class="text-sm font-bold text-brand-dark leading-tight">🎯 {{ profile.occasionLabel }}</p>
+                        </div>
+                        {% endif %}
+
+                        {% if profile.styleIntent %}
+                        <div class="bg-white/80 backdrop-blur-sm rounded-2xl px-3 py-2.5 border border-beige-100 shadow-sm">
+                            <p class="text-[9px] font-bold uppercase tracking-widest text-brand-muted mb-1">Uslub</p>
+                            <p class="text-sm font-bold text-brand-dark leading-tight">✨ {{ profile.styleIntentLabel }}</p>
+                        </div>
+                        {% endif %}
+
+                        {% if profile.season %}
+                        <div class="bg-white/80 backdrop-blur-sm rounded-2xl px-3 py-2.5 border border-beige-100 shadow-sm">
+                            <p class="text-[9px] font-bold uppercase tracking-widest text-brand-muted mb-1">Fasl</p>
+                            <p class="text-sm font-bold text-brand-dark leading-tight">
+                                {% if profile.season == 'spring' %}🌸{% elseif profile.season == 'summer' %}☀️{% elseif profile.season == 'autumn' %}🍂{% else %}❄️{% endif %}
+                                {{ profile.seasonLabel }}
+                            </p>
+                        </div>
+                        {% endif %}
+
+                        {% if profile.heightCm %}
+                        <div class="bg-white/80 backdrop-blur-sm rounded-2xl px-3 py-2.5 border border-beige-100 shadow-sm">
+                            <p class="text-[9px] font-bold uppercase tracking-widest text-brand-muted mb-1">Bo'y</p>
+                            <p class="text-sm font-bold text-brand-dark leading-tight">📏 {{ profile.heightCm }} sm</p>
+                        </div>
+                        {% endif %}
+
+                    </div>
+
+                    {# Tips #}
+                    {% if tips|length > 0 %}
+                    <div>
+                        <p class="text-[9px] font-bold uppercase tracking-widest text-brand-muted mb-2">💡 Kiyim tavsiyalari</p>
+                        <div class="flex flex-wrap gap-1.5">
+                            {% for tip in tips %}
+                            <span class="inline-flex items-center gap-1 px-2.5 py-1 bg-green-50 text-green-700 rounded-full text-xs font-medium border border-green-100">
+                                <svg class="w-2.5 h-2.5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                                {{ tip }}
+                            </span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
                 </div>
+
+                {# ═══ RIGHT: Character image ═══ #}
+                {% if profile.bodyType %}
+                <div class="relative flex flex-col items-center justify-center shrink-0 w-full md:w-56 lg:w-64 z-10 py-6 md:py-8">
+
+                    {# Type badge floating top #}
+                    <div class="absolute top-4 left-1/2 -translate-x-1/2 z-20 whitespace-nowrap">
+                        <span class="inline-flex items-center gap-1.5 px-4 py-1.5 bg-white/90 backdrop-blur-sm rounded-full text-xs font-bold text-brand-dark border border-beige-200 shadow">
+                            🧍 {{ profile.bodyTypeLabel }}
+                        </span>
+                    </div>
+
+                    {# Character frame + animated border rings #}
+                    <div class="relative z-10 smartstyle-character-wrap">
+                        <div class="smartstyle-ring smartstyle-ring-1" aria-hidden="true"></div>
+                        <div class="smartstyle-ring smartstyle-ring-2" aria-hidden="true"></div>
+
+                        <div class="smartstyle-character-frame">
+                            <img src="/images/smartstyle/body-types/{{ profile.bodyType }}.png"
+                                 alt="{{ profile.bodyTypeLabel }}"
+                                 class="relative z-10 w-full h-full object-cover object-center select-none">
+                        </div>
+                    </div>
+
+                </div>
+                {% endif %}
+
             </div>
-            {% endif %}
         </div>
 
         {# ─── Recommendations ─── #}
         {% if recommendations|length > 0 %}
 
-            {# Eng mos (90-100%) #}
+            {# Eng mos (90+) #}
             {% set top_matches = recommendations|filter(r => r.score >= 90) %}
             {% if top_matches|length > 0 %}
-            <div class="mb-8">
-                <div class="flex items-center gap-2 mb-4">
-                    <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-semibold">
+            <div class="mb-10">
+                <div class="flex items-center gap-3 mb-5">
+                    <span class="inline-flex items-center gap-2 px-4 py-1.5 bg-green-100 text-green-700 rounded-full text-sm font-bold">
                         🏆 Eng mos
                     </span>
+                    <span class="text-xs text-brand-medium">{{ top_matches|length }} ta mahsulot</span>
+                    <div class="flex-1 h-px bg-green-100"></div>
                 </div>
-                <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-6">
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
                     {% for rec in top_matches %}
                         {{ _self.product_card(rec.product, rec.score, 'green') }}
                     {% endfor %}
@@ -74,16 +171,18 @@
             </div>
             {% endif %}
 
-            {# Juda mos (70-89%) #}
+            {# Juda mos (70-89) #}
             {% set good_matches = recommendations|filter(r => r.score >= 70 and r.score < 90) %}
             {% if good_matches|length > 0 %}
-            <div class="mb-8">
-                <div class="flex items-center gap-2 mb-4">
-                    <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-semibold">
+            <div class="mb-10">
+                <div class="flex items-center gap-3 mb-5">
+                    <span class="inline-flex items-center gap-2 px-4 py-1.5 bg-blue-100 text-blue-700 rounded-full text-sm font-bold">
                         👍 Juda mos
                     </span>
+                    <span class="text-xs text-brand-medium">{{ good_matches|length }} ta mahsulot</span>
+                    <div class="flex-1 h-px bg-blue-100"></div>
                 </div>
-                <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-6">
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
                     {% for rec in good_matches %}
                         {{ _self.product_card(rec.product, rec.score, 'blue') }}
                     {% endfor %}
@@ -91,16 +190,18 @@
             </div>
             {% endif %}
 
-            {# Mos (50-69%) #}
+            {# Mos (50-69) #}
             {% set ok_matches = recommendations|filter(r => r.score >= 50 and r.score < 70) %}
             {% if ok_matches|length > 0 %}
-            <div class="mb-8">
-                <div class="flex items-center gap-2 mb-4">
-                    <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-sm font-semibold">
+            <div class="mb-10">
+                <div class="flex items-center gap-3 mb-5">
+                    <span class="inline-flex items-center gap-2 px-4 py-1.5 bg-amber-100 text-amber-700 rounded-full text-sm font-bold">
                         👌 Mos
                     </span>
+                    <span class="text-xs text-brand-medium">{{ ok_matches|length }} ta mahsulot</span>
+                    <div class="flex-1 h-px bg-amber-100"></div>
                 </div>
-                <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-6">
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
                     {% for rec in ok_matches %}
                         {{ _self.product_card(rec.product, rec.score, 'yellow') }}
                     {% endfor %}
@@ -129,41 +230,142 @@
     </div>
 </section>
 
+<style>
+    .smartstyle-character-wrap {
+        width: 280px;
+        height: 430px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .smartstyle-character-frame {
+        position: relative;
+        z-index: 2;
+        width: 240px;
+        height: 380px;
+        border-radius: 9999px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: radial-gradient(circle at center, rgba(255, 255, 255, 0.7), rgba(250, 242, 233, 0.35));
+        border: 2px solid rgba(245, 222, 179, 0.85);
+        box-shadow: 0 18px 36px rgba(189, 141, 95, 0.2);
+    }
+
+    .smartstyle-ring {
+        position: absolute;
+        border-radius: 9999px;
+        border: 2px solid rgba(238, 184, 130, 0.45);
+        pointer-events: none;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .smartstyle-ring-1 {
+        width: 286px;
+        height: 426px;
+        animation: smartstylePulse 3.2s ease-in-out infinite;
+    }
+
+    .smartstyle-ring-2 {
+        width: 314px;
+        height: 454px;
+        border-color: rgba(205, 170, 125, 0.35);
+        animation: smartstylePulse 4.2s ease-in-out infinite reverse;
+    }
+
+    @keyframes smartstylePulse {
+        0%,
+        100% {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 0.55;
+            box-shadow: 0 0 0 rgba(243, 191, 136, 0.15);
+        }
+        50% {
+            transform: translate(-50%, -50%) scale(1.04);
+            opacity: 0.95;
+            box-shadow: 0 0 30px rgba(243, 191, 136, 0.38);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .smartstyle-character-wrap {
+            width: 230px;
+            height: 370px;
+        }
+
+        .smartstyle-character-frame {
+            width: 200px;
+            height: 320px;
+        }
+
+        .smartstyle-ring-1 {
+            width: 236px;
+            height: 356px;
+        }
+
+        .smartstyle-ring-2 {
+            width: 260px;
+            height: 380px;
+        }
+    }
+</style>
+
 {# ─── Product Card Macro ─── #}
 {% macro product_card(product, score, color) %}
-<a href="{{ path('app_product_show', {id: product.id}) }}" class="card group relative">
+<a href="{{ path('app_product_show', {id: product.id}) }}"
+   class="group relative flex flex-col rounded-2xl overflow-hidden border border-beige-200 bg-white hover:border-peach-300 hover:shadow-lg transition-all duration-300">
+
     {# Score Badge #}
-    <div class="absolute top-3 right-3 z-10">
-        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold
-            {% if color == 'green' %}bg-green-100 text-green-700
-            {% elseif color == 'blue' %}bg-blue-100 text-blue-700
-            {% else %}bg-yellow-100 text-yellow-700{% endif %}">
-            ⭐ {{ score }}%
+    <div class="absolute top-3 left-3 z-10">
+        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold shadow-sm
+            {% if color == 'green' %}bg-green-500 text-white
+            {% elseif color == 'blue' %}bg-blue-500 text-white
+            {% else %}bg-amber-400 text-white{% endif %}">
+            {{ score }}%
         </span>
     </div>
 
     {# Image #}
-    <div class="aspect-[3/4] bg-beige-100 relative overflow-hidden">
+    <div class="aspect-[3/4] bg-beige-50 overflow-hidden relative">
         {% if product.imageSrc %}
             <img src="{{ product.imageSrc }}" alt="{{ product.name }}"
                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                  loading="lazy">
         {% else %}
             <div class="w-full h-full flex items-center justify-center">
-                <svg class="w-16 h-16 text-beige-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-14 h-14 text-beige-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                 </svg>
             </div>
         {% endif %}
+
+        {# Hover overlay #}
+        <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4">
+            <span class="text-white text-xs font-semibold bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-full">Ko'rish →</span>
+        </div>
     </div>
 
     {# Info #}
-    <div class="p-3 md:p-5">
-        <h3 class="font-semibold text-brand-dark mb-1 group-hover:text-peach-600 transition-colors text-sm md:text-base leading-snug">{{ product.name }}</h3>
+    <div class="p-3 md:p-4 flex flex-col gap-1">
         {% if product.category %}
-            <p class="text-xs text-brand-medium mb-1">{{ product.category.icon }} {{ product.category.name }}</p>
+            <p class="text-xs text-brand-medium">{{ product.category.icon }} {{ product.category.name }}</p>
         {% endif %}
-        <p class="text-peach-600 font-display font-bold text-sm md:text-lg">{{ product.price|number_format(0, '.', ' ') }} so'm</p>
+        <h3 class="font-semibold text-brand-dark group-hover:text-peach-600 transition-colors text-sm md:text-base leading-snug line-clamp-2">{{ product.name }}</h3>
+        <div class="flex items-center justify-between mt-auto pt-1">
+            <p class="text-peach-600 font-display font-bold text-sm md:text-base">{{ product.price|number_format(0, '.', ' ') }} so'm</p>
+            {% if product.size|length > 0 %}
+                <div class="flex gap-1">
+                    {% for s in product.size|slice(0, 3) %}
+                        <span class="text-xs bg-beige-100 text-brand-medium px-1.5 py-0.5 rounded">{{ s }}</span>
+                    {% endfor %}
+                    {% if product.size|length > 3 %}<span class="text-xs text-brand-medium">+{{ product.size|length - 3 }}</span>{% endif %}
+                </div>
+            {% endif %}
+        </div>
     </div>
 </a>
 {% endmacro %}
