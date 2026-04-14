@@ -19,7 +19,7 @@
         {# ─── Camera Container ─── #}
         <div id="smart-style-app">
             {# Step 1: Occasion (optional) #}
-            <div id="step-occasion" class="card smart-step-card p-5 md:p-8">
+            <div id="step-occasion" class="card smart-step-card p-4 md:p-8">
                 <h2 class="text-lg font-display font-semibold text-brand-dark mb-2 text-center">1-qadam: Nimaga kiyim tanlayapsiz?</h2>
                 <p class="text-sm text-brand-medium mb-6 text-center">Bu qadamni xohlasangiz o'tkazib yuborishingiz mumkin</p>
                 <div id="occasion-buttons" class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 mb-3">
@@ -33,14 +33,14 @@
                     <button type="button" data-value="other" class="occasion-btn smart-toggle-btn">✨ Boshqa</button>
                 </div>
                 <p id="occasion-hint" class="text-xs text-brand-medium mb-4">Bir nechta variantni tanlashingiz mumkin.</p>
-                <div class="flex flex-col sm:flex-row gap-2 justify-end">
-                    <button id="btn-skip-occasion" type="button" class="btn-secondary">⏭ O'tkazib yuborish</button>
-                    <button id="btn-next-occasion" type="button" class="btn-primary">Davom etish</button>
+                <div class="flex flex-col sm:flex-row gap-2 justify-end mt-1">
+                    <button id="btn-skip-occasion" type="button" class="btn-secondary smart-skip-btn">O'tkazib yuborish</button>
+                    <button id="btn-next-occasion" type="button" class="btn-primary smart-next-btn">Davom etish</button>
                 </div>
             </div>
 
             {# Step 2: Style Intent (optional) #}
-            <div id="step-style" class="hidden card smart-step-card p-5 md:p-8">
+            <div id="step-style" class="hidden card smart-step-card p-4 md:p-8">
                 <h2 class="text-lg font-display font-semibold text-brand-dark mb-2 text-center">2-qadam: Qanday uslub xohlaysiz?</h2>
                 <p class="text-sm text-brand-medium mb-6 text-center">Bu qadamni xohlasangiz o'tkazib yuborishingiz mumkin</p>
                 <div id="style-buttons" class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 mb-3">
@@ -52,14 +52,14 @@
                     <button type="button" data-value="sport_chic" class="style-btn smart-toggle-btn">🏃 Sport-chic</button>
                 </div>
                 <p class="text-xs text-brand-medium mb-4">Bir nechta uslubni birga tanlashingiz mumkin.</p>
-                <div class="flex flex-col sm:flex-row gap-2 justify-end">
-                    <button id="btn-skip-style" type="button" class="btn-secondary">⏭ O'tkazib yuborish</button>
-                    <button id="btn-next-style" type="button" class="btn-primary">Davom etish</button>
+                <div class="flex flex-col sm:flex-row gap-2 justify-end mt-1">
+                    <button id="btn-skip-style" type="button" class="btn-secondary smart-skip-btn">O'tkazib yuborish</button>
+                    <button id="btn-next-style" type="button" class="btn-primary smart-next-btn">Davom etish</button>
                 </div>
             </div>
 
             {# Step 3: Season (optional) #}
-            <div id="step-season" class="hidden card smart-step-card p-5 md:p-8">
+            <div id="step-season" class="hidden card smart-step-card p-4 md:p-8">
                 <h2 class="text-lg font-display font-semibold text-brand-dark mb-2 text-center">3-qadam: Ob-havo (fasl)</h2>
                 <p class="text-sm text-brand-medium mb-6 text-center">Qaysi fasl uchun kiyim qidiryapsiz?</p>
                 <div id="season-buttons" class="grid grid-cols-2 gap-2.5 mb-3">
@@ -69,14 +69,14 @@
                     <button type="button" data-value="winter" class="season-btn smart-toggle-btn">❄️ Qish</button>
                 </div>
                 <p id="season-hint" class="text-xs text-brand-medium mb-4">Bir nechta fasl tanlashingiz mumkin.</p>
-                <div class="flex flex-col sm:flex-row gap-2 justify-end">
-                    <button id="btn-skip-season" type="button" class="btn-secondary">⏭ O'tkazib yuborish</button>
-                    <button id="btn-next-season" type="button" class="btn-primary">Davom etish</button>
+                <div class="flex flex-col sm:flex-row gap-2 justify-end mt-1">
+                    <button id="btn-skip-season" type="button" class="btn-secondary smart-skip-btn">O'tkazib yuborish</button>
+                    <button id="btn-next-season" type="button" class="btn-primary smart-next-btn">Davom etish</button>
                 </div>
             </div>
 
             {# Step 4: Measurements (optional) #}
-            <div id="step-measurements" class="hidden card smart-step-card p-5 md:p-8">
+            <div id="step-measurements" class="hidden card smart-step-card p-4 md:p-8">
                 <h2 class="text-lg font-display font-semibold text-brand-dark mb-2 text-center">4-qadam: Tana ma'lumoti</h2>
                 <p class="text-sm text-brand-medium mb-5 text-center">Har bir joyni o'lchab kiriting. Rasmda ko'rsatilgan chiziq bo'yicha santimetr lenta bilan o'lchang.</p>
 
@@ -136,14 +136,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="flex flex-col sm:flex-row gap-2 justify-end">
-                    <button id="btn-skip-measurements" type="button" class="btn-secondary">⏭ O'tkazib yuborish</button>
-                    <button id="btn-next-measurements" type="button" class="btn-primary">Davom etish</button>
+                <div class="flex flex-col sm:flex-row gap-2 justify-end mt-1">
+                    <button id="btn-skip-measurements" type="button" class="btn-secondary smart-skip-btn">O'tkazib yuborish</button>
+                    <button id="btn-next-measurements" type="button" class="btn-primary smart-next-btn">Davom etish</button>
                 </div>
             </div>
 
             {# Step 5: Gender Selection (optional) #}
-            <div id="step-gender" class="hidden card smart-step-card p-5 md:p-8">
+            <div id="step-gender" class="hidden card smart-step-card p-4 md:p-8">
                 <h2 class="text-lg font-display font-semibold text-brand-dark mb-2 text-center">Qo'shimcha: Jinsingizni tanlang</h2>
                 <p class="text-sm text-brand-medium mb-6 text-center">Aniqroq tavsiya uchun. Xohlasangiz o'tkazib yuboring.</p>
                 <div class="grid grid-cols-2 gap-3 max-w-sm mx-auto mb-4">
@@ -159,13 +159,13 @@
                     </button>
                 </div>
                 <div class="text-center">
-                    <button id="btn-skip-gender" type="button" class="btn-secondary">⏭ O'tkazib yuborish</button>
+                    <button id="btn-skip-gender" type="button" class="btn-secondary smart-skip-btn">O'tkazib yuborish</button>
                 </div>
             </div>
 
             {# Step 6: Camera / Upload (mandatory) #}
             <div id="step-camera" class="hidden card smart-step-card p-4 md:p-8">
-                <div class="relative mx-auto mb-5 md:mb-6 w-[250px] h-[250px] sm:w-[280px] sm:h-[280px]">
+                <div class="relative mx-auto mb-5 md:mb-6 w-[220px] h-[220px] sm:w-[280px] sm:h-[280px]">
                     {# Camera preview #}
                     <video id="camera-preview" class="absolute inset-0 w-full h-full object-cover rounded-full hidden" autoplay playsinline></video>
 
@@ -265,6 +265,49 @@
         background: linear-gradient(180deg, #ffffff 0%, #fffaf5 100%);
         border: 1px solid rgba(231, 218, 197, 0.9);
         box-shadow: 0 8px 30px rgba(141, 107, 79, 0.08);
+    }
+
+    .smart-skip-btn {
+        border: 1px solid rgba(225, 193, 160, 0.9);
+        background: linear-gradient(180deg, #fffaf4 0%, #fff0e1 100%);
+        color: #8a5a35;
+        font-weight: 700;
+        letter-spacing: 0.01em;
+        box-shadow: 0 4px 14px rgba(184, 132, 88, 0.14);
+        transition: transform 140ms ease, box-shadow 160ms ease, border-color 160ms ease, color 160ms ease;
+    }
+
+    .smart-skip-btn:hover {
+        border-color: #eca66a;
+        color: #7c471f;
+        transform: translateY(-1px);
+        box-shadow: 0 8px 20px rgba(236, 166, 106, 0.28);
+    }
+
+    .smart-skip-btn:active {
+        transform: translateY(0);
+        box-shadow: 0 3px 10px rgba(236, 166, 106, 0.2);
+    }
+
+    .smart-next-btn {
+        background: linear-gradient(135deg, #f39a52 0%, #e77c2a 100%);
+        border: 1px solid rgba(214, 111, 32, 0.95);
+        color: #fff;
+        font-weight: 800;
+        letter-spacing: 0.01em;
+        box-shadow: 0 10px 22px rgba(231, 124, 42, 0.28);
+        transition: transform 140ms ease, box-shadow 160ms ease, filter 160ms ease;
+    }
+
+    .smart-next-btn:hover {
+        transform: translateY(-1px);
+        filter: brightness(1.02);
+        box-shadow: 0 14px 26px rgba(231, 124, 42, 0.32);
+    }
+
+    .smart-next-btn:active {
+        transform: translateY(0);
+        box-shadow: 0 6px 14px rgba(231, 124, 42, 0.25);
     }
 
     .measure-actor-layout {
@@ -467,7 +510,25 @@
         }
 
         .measure-stage-panel {
-            min-height: 330px;
+            min-height: 300px;
+            padding: 0.65rem;
+        }
+
+        .measure-stage-visual {
+            min-height: 180px;
+        }
+
+        .measure-stage-image {
+            max-width: 200px;
+            height: 150px;
+        }
+
+        .measure-stage-title {
+            font-size: 0.88rem;
+        }
+
+        .measure-stage-text {
+            font-size: 0.72rem;
         }
     }
 </style>
