@@ -1,0 +1,88 @@
+{% extends 'vendor/base.html.twig' %}
+
+{% block title %}Mahsulotlar{% endblock %}
+
+{% block main %}
+<div class="max-w-5xl mx-auto">
+    <div class="flex items-center justify-between mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">Mening mahsulotlarim</h1>
+        <a href="{{ path('vendor_product_new') }}"
+           class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-sm font-semibold transition-colors">
+            + Yangi mahsulot
+        </a>
+    </div>
+
+    {% if products is empty %}
+        <div class="bg-white rounded-2xl border p-12 text-center text-gray-400">
+            <p class="text-4xl mb-3">👗</p>
+            <p class="font-medium mb-4">Hali mahsulot yo'q</p>
+            <a href="{{ path('vendor_product_new') }}" class="bg-blue-600 text-white px-6 py-2.5 rounded-xl text-sm font-semibold">
+                Birinchi mahsulotni qo'shish
+            </a>
+        </div>
+    {% else %}
+        <div class="bg-white rounded-2xl border shadow-sm overflow-hidden">
+            <table class="w-full text-sm">
+                <thead>
+                <tr class="bg-gray-50 text-gray-500 text-xs uppercase border-b">
+                    <th class="text-left px-6 py-3">Mahsulot</th>
+                    <th class="text-right px-4 py-3">Narxi</th>
+                    <th class="text-center px-4 py-3">Holati</th>
+                    <th class="text-right px-6 py-3">Sana</th>
+                </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                {% for product in products %}
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-3">
+                        <div class="flex items-center gap-3">
+                            {% if product.image %}
+                                <img src="{{ product.imageSrc }}" alt="{{ product.name }}"
+                                     class="w-10 h-10 object-cover rounded-lg border shrink-0"
+                                     onerror="this.style.display='none'">
+                            {% else %}
+                                <div class="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center shrink-0">
+                                    <span class="text-lg">👕</span>
+                                </div>
+                            {% endif %}
+                            <div>
+                                <p class="font-medium text-gray-800">{{ product.name }}</p>
+                                {% if product.category %}
+                                    <p class="text-xs text-gray-400">{{ product.category.name }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-4 py-3 text-right font-semibold text-gray-800">
+                        {{ product.price|number_format(0, '.', ' ') }} so'm
+                    </td>
+                    <td class="px-4 py-3 text-center">
+                        {% if product.publishStatus == 'published' %}
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                ✓ Saytda
+                            </span>
+                        {% elseif product.publishStatus == 'pending' %}
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                ⏳ Kutilmoqda
+                            </span>
+                        {% else %}
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                ✕ Rad etildi
+                            </span>
+                        {% endif %}
+                    </td>
+                    <td class="px-6 py-3 text-right text-gray-400 text-xs">
+                        {{ product.createdAt|date('d.m.Y') }}
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <p class="text-xs text-gray-400 mt-3 text-center">
+            Kutilmoqda — admin SmartStyle sozlamalarini to'ldirib tasdiqlaydi, so'ng saytda ko'rinadi.
+        </p>
+    {% endif %}
+</div>
+{% endblock %}

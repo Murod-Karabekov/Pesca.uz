@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Entity\Vendor;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product
@@ -71,6 +72,10 @@ class Product
         'inverted_triangle' => 'Teskari uchburchak',
     ];
 
+    public const PUBLISH_STATUS_PENDING   = 'pending';
+    public const PUBLISH_STATUS_PUBLISHED = 'published';
+    public const PUBLISH_STATUS_REJECTED  = 'rejected';
+
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -123,6 +128,15 @@ class Product
     #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $bodyTypes = null;
 
+
+    /** Do'konchi, null = admin tomonidan yaratilgan */
+    #[ORM\ManyToOne(inversedBy: 'products')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Vendor $vendor = null;
+
+    /** pending = do'konchi yubordi, published = admin tasdiqladi, rejected = rad etildi */
+    #[ORM\Column(length: 20)]
+    private string $publishStatus = self::PUBLISH_STATUS_PUBLISHED;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
@@ -365,4 +379,13 @@ class Product
     {
         return $this->cartItems;
     }
+
+    public function getVendor(): ?Vendor { return $this->vendor; }
+    public function setVendor(?Vendor $vendor): static { $this->vendor = $vendor; return $this; }
+
+    public function getPublishStatus(): string { return $this->publishStatus; }
+    public function setPublishStatus(string $publishStatus): static { $this->publishStatus = $publishStatus; return $this; }
+
+    public function isPending(): bool { return $this->publishStatus === self::PUBLISH_STATUS_PENDING; }
+    public function isPublished(): bool { return $this->publishStatus === self::PUBLISH_STATUS_PUBLISHED; }
 }

@@ -66,8 +66,7 @@
                     class="group relative rounded-3xl border-2 border-beige-300 bg-gradient-to-br from-white via-beige-50 to-peach-50 shadow-md shadow-peach-100/30 overflow-hidden cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-peach-300"
                     role="button"
                     tabindex="0"
-                    onclick="document.getElementById('{{ modalId }}').showModal()"
-                    onkeydown="if(event.key==='Enter' || event.key===' '){event.preventDefault();document.getElementById('{{ modalId }}').showModal();}"
+                    data-dialog-open="{{ modalId }}"
                     aria-label="{{ announcement.title }} e'lonini ochish"
                 >
                     <div class="absolute right-3 top-3 z-20 inline-flex items-center gap-1 rounded-full border border-peach-200 bg-white/95 px-2 py-1 text-[11px] font-semibold text-peach-700 shadow-sm">
@@ -111,11 +110,11 @@
                     </div>
                 </article>
 
-                <dialog id="{{ modalId }}" class="announcement-modal w-[92vw] max-w-2xl rounded-3xl border border-beige-200 p-0 shadow-2xl" onclick="if (event.target === this) this.close();">
+                <dialog id="{{ modalId }}" class="announcement-modal w-[92vw] max-w-2xl rounded-3xl border border-beige-200 p-0 shadow-2xl" data-dialog-backdrop-close>
                         <div class="bg-white">
                             <div class="flex items-start justify-between gap-3 border-b border-beige-200 px-5 py-4">
                                 <h4 class="text-lg font-display font-bold text-brand-dark leading-snug break-words">{{ announcement.title }}</h4>
-                                <button type="button" onclick="document.getElementById('{{ modalId }}').close()" class="shrink-0 rounded-full border border-beige-200 bg-white p-2 text-brand-medium hover:text-brand-dark hover:border-beige-300" aria-label="Yopish">
+                                <button type="button" data-dialog-close="{{ modalId }}" class="shrink-0 rounded-full border border-beige-200 bg-white p-2 text-brand-medium hover:text-brand-dark hover:border-beige-300" aria-label="Yopish">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                                     </svg>
@@ -284,7 +283,7 @@
         {% set countdownId = 'banner_countdown_' ~ banner.id %}
         {% set ringId = 'banner_ring_' ~ banner.id %}
 
-        <dialog id="{{ bannerId }}" class="announcement-modal w-[92vw] max-w-2xl rounded-3xl border border-beige-200 p-0 shadow-2xl" onclick="if (event.target === this) this.close();">
+        <dialog id="{{ bannerId }}" class="announcement-modal w-[92vw] max-w-2xl rounded-3xl border border-beige-200 p-0 shadow-2xl" data-dialog-backdrop-close data-banner-modal data-display-seconds="{{ banner.delaySeconds|default(0) }}">
             <div class="relative bg-white rounded-3xl overflow-hidden">
                 {% if banner.hasMedia and banner.mediaType == 'image' %}
                     <div class="bg-beige-100 overflow-hidden {% if banner.title or banner.body %}max-h-[52vh]{% endif %}">
@@ -334,7 +333,7 @@
                     <span class="text-xs font-semibold text-brand-dark"><span id="{{ countdownId }}">{{ banner.delaySeconds|default(0) }}</span>s</span>
                 </div>
 
-                <button onclick="document.getElementById('{{ bannerId }}').close();" class="absolute left-3 top-3 z-20 rounded-full border border-beige-200 bg-white/95 p-1.5 text-brand-medium hover:text-brand-dark hover:border-beige-300" aria-label="Yopish">
+                <button type="button" data-dialog-close="{{ bannerId }}" class="absolute left-3 top-3 z-20 rounded-full border border-beige-200 bg-white/95 p-1.5 text-brand-medium hover:text-brand-dark hover:border-beige-300" aria-label="Yopish">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
@@ -343,72 +342,7 @@
         </dialog>
     {% endfor %}
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const banners = [
-                {% for banner in banners %}
-                {
-                    dialogId: '{{ 'banner_modal_' ~ banner.id }}',
-                    countdownId: '{{ 'banner_countdown_' ~ banner.id }}',
-                    ringId: '{{ 'banner_ring_' ~ banner.id }}',
-                    displaySeconds: {{ banner.delaySeconds|default(0) }}
-                }{% if not loop.last %},{% endif %}
-                {% endfor %}
-            ];
-
-            const appearanceDelaySeconds = 3;
-
-            banners.forEach(function(item) {
-                const dialog = document.getElementById(item.dialogId);
-                const countdownEl = document.getElementById(item.countdownId);
-                const ringEl = document.getElementById(item.ringId);
-
-                if (!dialog || !countdownEl || !ringEl) {
-                    return;
-                }
-
-                const totalDuration = Math.max(1, Number(item.displaySeconds) || 3);
-                let remaining = totalDuration;
-
-                const update = function() {
-                    countdownEl.textContent = String(remaining);
-                    countdownEl.classList.remove('banner-countdown');
-                    void countdownEl.offsetWidth;
-                    countdownEl.classList.add('banner-countdown');
-
-                    const progress = totalDuration > 0 ? ((totalDuration - remaining) / totalDuration) * 100 : 100;
-                    ringEl.style.setProperty('--progress', String(Math.min(100, Math.max(0, progress))));
-                };
-
-                update();
-
-                setTimeout(function() {
-                    if (typeof dialog.showModal !== 'function') {
-                        return;
-                    }
-
-                    dialog.showModal();
-                    remaining = totalDuration;
-                    update();
-
-                    const interval = setInterval(function() {
-                        remaining -= 1;
-                        update();
-
-                        if (remaining <= 0) {
-                            clearInterval(interval);
-                            dialog.close();
-                        }
-                    }, 1000);
-                }, appearanceDelaySeconds * 1000);
-
-                dialog.addEventListener('close', function() {
-                    remaining = totalDuration;
-                    update();
-                });
-            });
-        });
-    </script>
+    <script src="{{ asset('js/home-banners.js') }}"></script>
 {% endif %}
 
 {% endblock %}

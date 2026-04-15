@@ -214,7 +214,7 @@
         <h2 class="text-2xl font-display font-bold text-brand-dark mb-6 text-center">Ko'p beriladigan savollar</h2>
         <div class="max-w-3xl mx-auto divide-y divide-beige-200" id="faq-accordion">
             <div class="faq-item">
-                <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between py-4 text-left group">
+                <button type="button" class="faq-toggle w-full flex items-center justify-between py-4 text-left group">
                     <span class="font-semibold text-brand-dark group-hover:text-peach-600 transition-colors">Tarif muddati bormi?</span>
                     <svg class="faq-icon w-5 h-5 text-brand-medium transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
@@ -225,7 +225,7 @@
                 </div>
             </div>
             <div class="faq-item">
-                <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between py-4 text-left group">
+                <button type="button" class="faq-toggle w-full flex items-center justify-between py-4 text-left group">
                     <span class="font-semibold text-brand-dark group-hover:text-peach-600 transition-colors">Bonus bilan tovar olsa bo'ladimi?</span>
                     <svg class="faq-icon w-5 h-5 text-brand-medium transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
@@ -236,7 +236,7 @@
                 </div>
             </div>
             <div class="faq-item">
-                <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between py-4 text-left group">
+                <button type="button" class="faq-toggle w-full flex items-center justify-between py-4 text-left group">
                     <span class="font-semibold text-brand-dark group-hover:text-peach-600 transition-colors">Naqd pul yechish mumkinmi?</span>
                     <svg class="faq-icon w-5 h-5 text-brand-medium transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
@@ -247,7 +247,7 @@
                 </div>
             </div>
             <div class="faq-item">
-                <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between py-4 text-left group">
+                <button type="button" class="faq-toggle w-full flex items-center justify-between py-4 text-left group">
                     <span class="font-semibold text-brand-dark group-hover:text-peach-600 transition-colors">Referral qanday ishlaydi?</span>
                     <svg class="faq-icon w-5 h-5 text-brand-medium transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
@@ -258,7 +258,7 @@
                 </div>
             </div>
             <div class="faq-item">
-                <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between py-4 text-left group">
+                <button type="button" class="faq-toggle w-full flex items-center justify-between py-4 text-left group">
                     <span class="font-semibold text-brand-dark group-hover:text-peach-600 transition-colors">Daromad qanday hisoblanadi?</span>
                     <svg class="faq-icon w-5 h-5 text-brand-medium transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
@@ -272,24 +272,5 @@
     </div>
 </div>
 
-<script>
-function toggleFaq(btn) {
-    const item = btn.closest('.faq-item');
-    const answer = item.querySelector('.faq-answer');
-    const icon = item.querySelector('.faq-icon');
-    const isOpen = !answer.classList.contains('hidden');
-
-    // Close all
-    document.querySelectorAll('#faq-accordion .faq-item').forEach(function(el) {
-        el.querySelector('.faq-answer').classList.add('hidden');
-        el.querySelector('.faq-icon').classList.remove('rotate-180');
-    });
-
-    // Open clicked (if it was closed)
-    if (!isOpen) {
-        answer.classList.remove('hidden');
-        icon.classList.add('rotate-180');
-    }
-}
-</script>
+<script src="{{ asset('js/hamkorlik-faq.js') }}"></script>
 {% endblock %}

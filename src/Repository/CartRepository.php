@@ -55,6 +55,49 @@ class CartRepository extends ServiceEntityRepository
             ->execute();
     }
 
+    /**
+     * @param int[] $ids
+     * @return Cart[]
+     */
+    public function findByUserAndIds(User $user, array $ids): array
+    {
+        $normalizedIds = array_values(array_unique(array_map('intval', $ids)));
+        if ($normalizedIds === []) {
+            return [];
+        }
+
+        return $this->createQueryBuilder('c')
+            ->join('c.product', 'p')
+            ->addSelect('p')
+            ->where('c.user = :user')
+            ->andWhere('c.id IN (:ids)')
+            ->setParameter('user', $user)
+            ->setParameter('ids', $normalizedIds)
+            ->orderBy('c.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @param int[] $ids
+     */
+    public function removeByUserAndIds(User $user, array $ids): void
+    {
+        $normalizedIds = array_values(array_unique(array_map('intval', $ids)));
+        if ($normalizedIds === []) {
+            return;
+        }
+
+        $this->createQueryBuilder('c')
+            ->delete()
+            ->where('c.user = :user')
+            ->andWhere('c.id IN (:ids)')
+            ->setParameter('user', $user)
+            ->setParameter('ids', $normalizedIds)
+            ->getQuery()
+            ->execute();
+    }
+
     public function getCartTotal(User $user): float
     {
         $items = $this->findByUser($user);

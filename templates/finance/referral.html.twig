@@ -17,7 +17,7 @@
             <input type="text" readonly id="referral-link"
                    value="{{ app.request.schemeAndHttpHost }}/register/{{ user.referralCode }}"
                    class="flex-1 input-field bg-beige-50 text-brand-dark font-mono text-sm">
-            <button onclick="copyReferralLink()" class="px-4 py-2 bg-peach-500 text-white rounded-xl text-sm font-medium hover:bg-peach-600 transition-colors">
+            <button type="button" id="finance-referral-copy-btn" class="px-4 py-2 bg-peach-500 text-white rounded-xl text-sm font-medium hover:bg-peach-600 transition-colors">
                 📋 Nusxalash
             </button>
         </div>
@@ -81,15 +81,5 @@
     </div>
 </div>
 
-<script>
-function copyReferralLink() {
-    const input = document.getElementById('referral-link');
-    input.select();
-    navigator.clipboard.writeText(input.value).then(() => {
-        const btn = input.nextElementSibling;
-        btn.textContent = '✅ Nusxalandi!';
-        setTimeout(() => btn.textContent = '📋 Nusxalash', 2000);
-    });
-}
-</script>
+<script src="{{ asset('js/finance-referral.js') }}"></script>
 {% endblock %}

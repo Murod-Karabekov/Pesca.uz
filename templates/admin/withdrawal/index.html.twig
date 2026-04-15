@@ -78,7 +78,7 @@
                                         <input type="hidden" name="_token" value="{{ csrf_token('reject_' ~ w.id) }}">
                                         <input type="hidden" name="note" value="Admin rad etdi">
                                         <button type="submit" class="px-3 py-1 bg-red-500 text-white text-xs rounded-lg hover:bg-red-600"
-                                                onclick="return confirm('Rad etishni tasdiqlaysizmi? Mablag\' qaytariladi.')">
+                                                data-confirm="Rad etishni tasdiqlaysizmi? Mablag' qaytariladi.">
                                             ❌ Rad etish
                                         </button>
                                     </form>

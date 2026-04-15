@@ -1,0 +1,81 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Do'konlar{% endblock %}
+
+{% block admin_body %}
+<div class="max-w-6xl mx-auto">
+    <div class="flex items-center justify-between mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">Do'konlar</h1>
+        <a href="{{ path('admin_vendor_new') }}"
+           class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-sm font-semibold transition-colors">
+            + Yangi do'kon
+        </a>
+    </div>
+
+    {# Pending mahsulotlar bor do'konlar uchun ogohlantirish #}
+    {% set pendingTotal = 0 %}
+    {% for v in vendors %}
+        {# Bu yerda pending_count qo'shimcha query kerak — kelajakda optimallashtirish mumkin #}
+    {% endfor %}
+
+    {% if vendors is empty %}
+        <div class="bg-white rounded-2xl border p-12 text-center text-gray-400">
+            <p class="text-4xl mb-3">🏪</p>
+            <p class="font-medium mb-4">Hali do'kon yo'q</p>
+            <a href="{{ path('admin_vendor_new') }}" class="bg-blue-600 text-white px-6 py-2.5 rounded-xl text-sm font-semibold">
+                Birinchi do'konni yaratish
+            </a>
+        </div>
+    {% else %}
+        <div class="bg-white rounded-2xl border shadow-sm overflow-hidden">
+            <table class="w-full text-sm">
+                <thead>
+                <tr class="bg-gray-50 text-gray-500 text-xs uppercase border-b">
+                    <th class="text-left px-6 py-3">Do'kon</th>
+                    <th class="text-left px-4 py-3">Egasi</th>
+                    <th class="text-right px-4 py-3">Komissiya</th>
+                    <th class="text-right px-4 py-3">Jami savdo</th>
+                    <th class="text-center px-4 py-3">Holati</th>
+                    <th class="text-center px-6 py-3">Amal</th>
+                </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                {% for vendor in vendors %}
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-3">
+                        <p class="font-semibold text-gray-800">{{ vendor.name }}</p>
+                        {% if vendor.phone %}
+                            <p class="text-xs text-gray-400">{{ vendor.phone }}</p>
+                        {% endif %}
+                    </td>
+                    <td class="px-4 py-3">
+                        {% if vendor.owner %}
+                            <p class="text-gray-700">{{ vendor.owner.fullName }}</p>
+                            <p class="text-xs text-gray-400">{{ vendor.owner.phone }}</p>
+                        {% else %}
+                            <span class="text-xs text-gray-400">— biriktirilmagan</span>
+                        {% endif %}
+                    </td>
+                    <td class="px-4 py-3 text-right font-medium text-orange-600">{{ vendor.commissionRate }}%</td>
+                    <td class="px-4 py-3 text-right font-semibold text-gray-800">
+                        {{ vendor.totalEarnings|number_format(0, '.', ' ') }} so'm
+                    </td>
+                    <td class="px-4 py-3 text-center">
+                        {% if vendor.isActive %}
+                            <span class="inline-flex px-2 py-1 rounded-full text-xs bg-green-100 text-green-700">Faol</span>
+                        {% else %}
+                            <span class="inline-flex px-2 py-1 rounded-full text-xs bg-red-100 text-red-700">To'xtatilgan</span>
+                        {% endif %}
+                    </td>
+                    <td class="px-6 py-3 text-center">
+                        <a href="{{ path('admin_vendor_show', {id: vendor.id}) }}"
+                           class="text-blue-600 hover:underline text-xs font-medium">Ko'rish →</a>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

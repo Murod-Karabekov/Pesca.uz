@@ -42,7 +42,7 @@
 
                 {# ─── Add to Cart Form ─── #}
                 {% if app.user %}
-                <form method="post" action="{{ path('app_cart_add', {id: product.id}) }}" class="space-y-6">
+                <form method="post" action="{{ path('app_cart_add', {id: product.id}) }}" class="space-y-6" data-cart-add-form data-cart-url="{{ path('app_cart_index') }}">
                     <input type="hidden" name="_token" value="{{ csrf_token('cart_add_' ~ product.id) }}">
 
                     {% if product.size|length > 0 %}
@@ -63,7 +63,7 @@
                     </div>
                     {% endif %}
 
-                    <button type="submit" class="btn-primary w-full md:w-auto text-base px-10 py-4">
+                    <button type="submit" class="btn-primary w-full md:w-auto text-base px-10 py-4" data-cart-action-button>
                         Savatga qo'shish
                     </button>
                 </form>
@@ -99,4 +99,11 @@
         </div>
     </div>
 </section>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% if app.user %}
+        <script src="{{ asset('js/product-show-cart.js?v=2') }}"></script>
+    {% endif %}
 {% endblock %}

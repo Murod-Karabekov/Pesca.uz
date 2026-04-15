@@ -50,7 +50,7 @@
 
                     <div class="flex items-center lg:items-stretch gap-2 lg:flex-col lg:min-w-36">
                         <a href="{{ path('admin_announcement_edit', {id: announcement.id}) }}" class="btn-secondary text-center">Tahrirlash</a>
-                        <form method="post" action="{{ path('admin_announcement_delete', {id: announcement.id}) }}" onsubmit="return confirm('E\'lonni o\'chirasizmi?');">
+                        <form method="post" action="{{ path('admin_announcement_delete', {id: announcement.id}) }}" data-confirm="E'lonni o'chirasizmi?">
                             <input type="hidden" name="_token" value="{{ csrf_token('delete_announcement_' ~ announcement.id) }}">
                             <button type="submit" class="w-full rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-sm font-medium text-red-700 hover:bg-red-100 transition-colors">O'chirish</button>
                         </form>

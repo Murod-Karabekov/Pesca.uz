@@ -211,22 +211,35 @@ class UserManagementController extends AbstractController
             return $this->redirectToRoute('admin_user_index');
         }
 
-        $phone = $request->request->get('phone');
-        $role = $request->request->get('role');
+        $phone = trim((string)$request->request->get('phone', ''));
+        $role  = $request->request->get('role');
 
-        if (!in_array($role, ['ROLE_USER', 'ROLE_ADMIN'])) {
+        if (!in_array($role, ['ROLE_USER', 'ROLE_ADMIN', 'ROLE_VENDOR'])) {
             $this->addFlash('error', 'Noto\'g\'ri rol.');
             return $this->redirectToRoute('admin_user_index');
         }
 
+        // Avval to'liq mos qidiradi, bo'lmasa LIKE bilan qidiradi
         $user = $userRepository->findOneByPhone($phone);
         if (!$user) {
-            $this->addFlash('error', '"' . $phone . '" telefonli foydalanuvchi topilmadi.');
+            $results = $userRepository->searchByPhone($phone);
+            $user = $results[0] ?? null;
+        }
+
+        if (!$user) {
+            $this->addFlash('error', '"' . htmlspecialchars($phone, ENT_QUOTES) . '" raqamli foydalanuvchi topilmadi. Aniq raqamni kiriting.');
             return $this->redirectToRoute('admin_user_index');
         }
 
         if ($role === 'ROLE_ADMIN') {
             $user->setRoles(['ROLE_ADMIN']);
+        } elseif ($role === 'ROLE_VENDOR') {
+            // ROLE_VENDOR qo'shiladi, o'chirilmaydi (user karta bo'lishi mumkin)
+            $roles = $user->getRoles();
+            if (!in_array('ROLE_VENDOR', $roles, true)) {
+                $roles[] = 'ROLE_VENDOR';
+                $user->setRoles(array_values(array_unique($roles)));
+            }
         } else {
             $user->setRoles(['ROLE_USER']);
         }

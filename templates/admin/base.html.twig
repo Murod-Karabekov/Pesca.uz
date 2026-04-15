@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Admin{% endblock %} — Pesca Boshqaruv</title>
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -110,6 +111,15 @@
                     Hamyon to'ldirish
                 </a>
 
+                <a href="{{ path('admin_vendor_index') }}"
+                   class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors
+                          {{ app.request.attributes.get('_route') starts with 'admin_vendor' ? 'bg-white/10 text-white' : 'text-brand-muted hover:bg-white/5 hover:text-white' }}">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                    </svg>
+                    Do'konlar
+                </a>
+
             </nav>
 
             <div class="p-4 border-t border-white/10">
@@ -126,6 +136,11 @@
         <div class="flex-1 flex flex-col">
             {# Mobile Header #}
             <header class="lg:hidden bg-white border-b border-beige-200 px-4 py-3 flex items-center justify-between">
+                <button type="button" class="p-2 rounded-lg border border-beige-300 text-brand-dark" data-mobile-sidebar-open="admin-mobile-sidebar" aria-label="Menyuni ochish">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
                 <a href="{{ path('admin_dashboard') }}" class="flex items-center gap-2">
                     <span class="text-xl font-display font-bold text-brand-dark">Pesca</span>
                     <span class="text-xs text-brand-light tracking-widest uppercase">Admin</span>
@@ -138,6 +153,25 @@
                     </a>
                 </div>
             </header>
+
+            <div id="admin-mobile-sidebar" class="lg:hidden fixed inset-0 z-50 hidden" data-mobile-sidebar>
+                <div class="absolute inset-0 bg-black/30 opacity-0 transition-opacity duration-200" data-mobile-sidebar-backdrop></div>
+                <aside class="absolute left-0 top-0 h-full w-72 max-w-[85vw] bg-brand-dark text-white transform -translate-x-full transition-transform duration-200" data-mobile-sidebar-drawer>
+                    <div class="p-4 border-b border-white/10 flex items-center justify-between">
+                        <span class="text-lg font-semibold">Admin menyu</span>
+                        <button type="button" class="p-2 rounded-lg border border-white/20" data-mobile-sidebar-close="admin-mobile-sidebar" aria-label="Yopish">✕</button>
+                    </div>
+                    <nav class="p-4 space-y-2 text-sm">
+                        <a href="{{ path('admin_dashboard') }}" class="block px-3 py-2 rounded-lg {{ app.request.attributes.get('_route') starts with 'admin_dashboard' ? 'bg-white/10 text-white' : 'text-brand-muted' }}">Boshqaruv paneli</a>
+                        <a href="{{ path('admin_category_index') }}" class="block px-3 py-2 rounded-lg {{ app.request.attributes.get('_route') starts with 'admin_category' ? 'bg-white/10 text-white' : 'text-brand-muted' }}">Kategoriyalar</a>
+                        <a href="{{ path('admin_product_index') }}" class="block px-3 py-2 rounded-lg {{ app.request.attributes.get('_route') starts with 'admin_product' ? 'bg-white/10 text-white' : 'text-brand-muted' }}">Mahsulotlar</a>
+                        <a href="{{ path('admin_order_index') }}" class="block px-3 py-2 rounded-lg {{ app.request.attributes.get('_route') starts with 'admin_order' ? 'bg-white/10 text-white' : 'text-brand-muted' }}">Buyurtmalar</a>
+                        <a href="{{ path('admin_vendor_index') }}" class="block px-3 py-2 rounded-lg {{ app.request.attributes.get('_route') starts with 'admin_vendor' ? 'bg-white/10 text-white' : 'text-brand-muted' }}">Do'konlar</a>
+                        <a href="{{ path('admin_wallet_topup_index') }}" class="block px-3 py-2 rounded-lg {{ app.request.attributes.get('_route') starts with 'admin_wallet_topup' ? 'bg-white/10 text-white' : 'text-brand-muted' }}">Top-up</a>
+                        <a href="{{ path('admin_withdrawal_index') }}" class="block px-3 py-2 rounded-lg {{ app.request.attributes.get('_route') starts with 'admin_withdrawal' ? 'bg-white/10 text-white' : 'text-brand-muted' }}">Yechish so'rovlari</a>
+                    </nav>
+                </aside>
+            </div>
 
             {# Mobile Navigation #}
             <nav class="lg:hidden bg-white border-b border-beige-200 px-4 py-2 flex gap-1 overflow-x-auto">
@@ -155,5 +189,7 @@
             </main>
         </div>
     </div>
+    <script src="{{ asset('js/mobile-sidebar.js?v=1') }}"></script>
+    <script src="{{ asset('js/csp-safe-actions.js') }}"></script>
 </body>
 </html>

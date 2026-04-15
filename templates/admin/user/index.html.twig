@@ -30,9 +30,11 @@
     <h3 class="font-display font-semibold text-lg text-brand-dark mb-4">Telefon orqali rol belgilash</h3>
     <form method="post" action="{{ path('admin_user_assign_role') }}" class="flex flex-col sm:flex-row gap-3">
         <input type="hidden" name="_token" value="{{ csrf_token('assign_role') }}">
-        <input type="tel" name="phone" placeholder="+998 XX XXX XX XX" class="input-field flex-1" required>
+        <input type="text" name="phone" placeholder="+998901234567" class="input-field flex-1" required
+               autocomplete="off">
         <select name="role" class="input-field sm:w-40">
             <option value="ROLE_USER">Foydalanuvchi</option>
+            <option value="ROLE_VENDOR">Do'konchi</option>
             <option value="ROLE_ADMIN">Admin</option>
         </select>
         <button type="submit" class="btn-primary whitespace-nowrap">Belgilash</button>
@@ -74,6 +76,8 @@
                         {% for role in user.roles %}
                             {% if role == 'ROLE_ADMIN' %}
                                 <span class="badge bg-peach-100 text-peach-700">Admin</span>
+                            {% elseif role == 'ROLE_VENDOR' %}
+                                <span class="badge bg-blue-100 text-blue-700">Do'konchi</span>
                             {% elseif role == 'ROLE_USER' %}
                                 <span class="badge bg-beige-200 text-brand-medium">Foydalanuvchi</span>
                             {% endif %}

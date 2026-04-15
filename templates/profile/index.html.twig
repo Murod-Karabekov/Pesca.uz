@@ -65,7 +65,7 @@
                                 <input type="text" readonly id="referral-link"
                                        value="{{ app.request.schemeAndHttpHost }}/register/{{ user.referralCode }}"
                                        class="text-xs font-mono bg-white border border-beige-200 rounded-lg px-2.5 py-2 flex-1 min-w-0 text-brand-dark">
-                                <button onclick="copyReferral()" id="copy-btn"
+                                <button type="button" id="copy-btn"
                                         class="px-3 py-2 bg-peach-100 text-peach-700 rounded-lg text-xs font-semibold hover:bg-peach-200 transition-colors">
                                     📋
                                 </button>
@@ -140,14 +140,5 @@
     </div>
 </section>
 
-<script>
-function copyReferral() {
-    const input = document.getElementById('referral-link');
-    navigator.clipboard.writeText(input.value).then(() => {
-        const btn = document.getElementById('copy-btn');
-        btn.textContent = '✅';
-        setTimeout(() => btn.textContent = '📋', 2000);
-    });
-}
-</script>
+<script src="{{ asset('js/profile-referral.js') }}"></script>
 {% endblock %}

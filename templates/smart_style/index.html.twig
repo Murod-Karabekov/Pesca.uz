@@ -64,7 +64,7 @@
                 <form method="post" action="{{ path('app_smart_style_clear') }}" class="text-center">
                     <input type="hidden" name="_token" value="{{ csrf_token('smart_style_clear') }}">
                     <button type="submit" class="text-sm text-red-400 hover:text-red-600 transition-colors mt-2"
-                            onclick="return confirm('Profilingizni tozalashni xohlaysizmi?')">
+                            data-confirm="Profilingizni tozalashni xohlaysizmi?">
                         🗑 Profilni tozalash
                     </button>
                 </form>

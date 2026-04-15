@@ -18,6 +18,19 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_USER')]
 class OrderController extends AbstractController
 {
+    private function buildLocationCode(string $locationLabel): string
+    {
+        $normalized = mb_strtolower(trim($locationLabel));
+        $normalized = preg_replace('/[^a-z0-9]+/i', '_', $normalized ?? '');
+        $normalized = trim((string) $normalized, '_');
+
+        if ($normalized === '') {
+            $normalized = substr(sha1($locationLabel), 0, 16);
+        }
+
+        return substr('custom_' . $normalized, 0, 50);
+    }
+
     #[Route('/place', name: 'place_entry', methods: ['GET'])]
     public function placeEntry(): Response
     {
@@ -39,20 +52,35 @@ class OrderController extends AbstractController
         }
 
         $user = $this->getUser();
-        $cartItems = $cartRepository->findByUser($user);
+        $selectedItemIds = array_values(array_unique(array_map(
+            'intval',
+            (array) $request->request->all('selected_items')
+        )));
+
+        if ($selectedItemIds === []) {
+            $this->addFlash('error', 'Iltimos, buyurtma uchun kamida bitta mahsulotni belgilang.');
+            return $this->redirectToRoute('app_cart_index');
+        }
+
+        $cartItems = $cartRepository->findByUserAndIds($user, $selectedItemIds);
 
         if (empty($cartItems)) {
             $this->addFlash('error', 'Savatchangiz bo\'sh.');
             return $this->redirectToRoute('app_cart_index');
         }
 
-        $locationCode = trim((string) $request->request->get('location_code', ''));
-        $locationLabel = Order::getLocationLabelByCode($locationCode);
-
-        if ($locationLabel === null) {
-            $this->addFlash('error', 'Lokatsiyani tanlang.');
+        $locationLabel = trim((string) $request->request->get('location_label', ''));
+        if ($locationLabel === '') {
+            $this->addFlash('error', 'Lokatsiyani kiriting.');
             return $this->redirectToRoute('app_cart_index');
         }
+
+        if (mb_strlen($locationLabel) > 100) {
+            $this->addFlash('error', 'Lokatsiya 100 belgidan oshmasligi kerak.');
+            return $this->redirectToRoute('app_cart_index');
+        }
+
+        $locationCode = $this->buildLocationCode($locationLabel);
 
         $notes = trim((string) $request->request->get('notes', ''));
         if (mb_strlen($notes) > 1000) {
@@ -90,6 +118,7 @@ class OrderController extends AbstractController
                 $item->setUnitPrice($unitPrice);
                 $item->setQuantity($quantity);
                 $item->setLineTotal($lineTotal);
+                $item->setVendor($product->getVendor());
 
                 $order->addItem($item);
                 $subtotal = bcadd($subtotal, $lineTotal, 2);
@@ -99,7 +128,10 @@ class OrderController extends AbstractController
             $order->setSubtotalAmount($subtotal);
             $em->persist($order);
 
-            $cartRepository->clearCart($user);
+            $cartRepository->removeByUserAndIds($user, array_map(
+                static fn ($item) => $item->getId(),
+                $cartItems
+            ));
             $em->flush();
             $conn->commit();
         } catch (\Throwable $e) {

@@ -25,10 +25,12 @@ security:
                 target: app_home
 
     role_hierarchy:
-        ROLE_ADMIN: ROLE_USER
+        ROLE_ADMIN: [ROLE_VENDOR, ROLE_USER]
+        ROLE_VENDOR: ROLE_USER
 
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/vendor, roles: ROLE_VENDOR }
         - { path: ^/cart, roles: ROLE_USER }
         - { path: ^/order, roles: ROLE_USER }
 

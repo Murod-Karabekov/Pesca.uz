@@ -160,7 +160,7 @@ Izoh: {{ order.notes }}
                 'canceled': 'btn-danger'
             } %}
             <form method="post" action="{{ path('admin_order_update_status', {id: order.id}) }}"
-                  {% if status == 'canceled' %}onsubmit="return confirm('Rostdan bekor qilmoqchimisiz?')"{% endif %}>
+                {% if status == 'canceled' %}data-confirm="Rostdan bekor qilmoqchimisiz?"{% endif %}>
                 <input type="hidden" name="_token" value="{{ csrf_token('order_status_' ~ order.id) }}">
                 <input type="hidden" name="status" value="{{ status }}">
                 <button type="submit" class="{{ statusColors[status] ?? 'btn-secondary' }}">
@@ -173,23 +173,5 @@ Izoh: {{ order.notes }}
 </div>
 {% endif %}
 
-<script>
-    document.getElementById('copy-order')?.addEventListener('click', async function () {
-        const textarea = document.getElementById('order-copy');
-        if (!textarea) {
-            return;
-        }
-
-        try {
-            await navigator.clipboard.writeText(textarea.value);
-            this.textContent = 'Nusxalandi!';
-            setTimeout(() => {
-                this.textContent = 'Matnni nusxalash';
-            }, 1500);
-        } catch (e) {
-            textarea.select();
-            document.execCommand('copy');
-        }
-    });
-</script>
+<script src="{{ asset('js/admin-order-show.js') }}"></script>
 {% endblock %}

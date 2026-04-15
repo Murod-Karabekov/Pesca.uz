@@ -1,0 +1,183 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Mahsulotni tekshirish{% endblock %}
+
+{% block admin_body %}
+<div class="max-w-4xl mx-auto">
+    <div class="flex items-center gap-3 mb-6">
+        {% if product.vendor %}
+            <a href="{{ path('admin_vendor_show', {id: product.vendor.id}) }}" class="text-gray-400 hover:text-gray-600">← Do'konga qaytish</a>
+        {% else %}
+            <a href="{{ path('admin_vendor_index') }}" class="text-gray-400 hover:text-gray-600">← Do'konlar</a>
+        {% endif %}
+        <h1 class="text-2xl font-bold text-gray-800">Mahsulotni tekshirish</h1>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        {# ─── Mahsulot ma'lumotlari ─── #}
+        <div class="lg:col-span-2 space-y-4">
+            <div class="bg-white rounded-2xl border shadow-sm p-5">
+                <h2 class="font-semibold text-gray-800 mb-4">Do'konchi kiritgan</h2>
+                {% if product.image %}
+                    <img src="{{ product.imageSrc }}" alt="{{ product.name }}"
+                         class="w-full h-48 object-cover rounded-xl border mb-4"
+                         onerror="this.src='https://via.placeholder.com/400x300?text=Rasm+yuqlanmagan'">
+                {% endif %}
+                <dl class="space-y-2 text-sm">
+                    <div>
+                        <dt class="text-xs text-gray-500 uppercase tracking-wide">Nomi</dt>
+                        <dd class="font-semibold text-gray-800 text-lg">{{ product.name }}</dd>
+                    </div>
+                    <div>
+                        <dt class="text-xs text-gray-500 uppercase tracking-wide">Narxi</dt>
+                        <dd class="font-bold text-gray-800">{{ product.price|number_format(0, '.', ' ') }} so'm</dd>
+                    </div>
+                    {% if product.description %}
+                    <div>
+                        <dt class="text-xs text-gray-500 uppercase tracking-wide">Tavsif</dt>
+                        <dd class="text-gray-600">{{ product.description }}</dd>
+                    </div>
+                    {% endif %}
+                    {% if product.size is not empty %}
+                    <div>
+                        <dt class="text-xs text-gray-500 uppercase tracking-wide">O'lchamlar</dt>
+                        <dd class="flex gap-1 flex-wrap mt-1">
+                            {% for s in product.size %}
+                                <span class="px-2 py-0.5 bg-gray-100 rounded text-xs font-medium">{{ s }}</span>
+                            {% endfor %}
+                        </dd>
+                    </div>
+                    {% endif %}
+                    {% if product.category %}
+                    <div>
+                        <dt class="text-xs text-gray-500 uppercase tracking-wide">Kategoriya</dt>
+                        <dd>{{ product.category.name }}</dd>
+                    </div>
+                    {% endif %}
+                    {% if product.vendor %}
+                    <div>
+                        <dt class="text-xs text-gray-500 uppercase tracking-wide">Do'kon</dt>
+                        <dd class="font-medium text-blue-600">{{ product.vendor.name }}</dd>
+                    </div>
+                    {% endif %}
+                </dl>
+            </div>
+        </div>
+
+        {# ─── Admin SmartStyle sozlamalari ─── #}
+        <div class="lg:col-span-3">
+            <form action="{{ path('admin_vendor_product_approve', {id: product.id}) }}" method="POST">
+                <input type="hidden" name="_token" value="{{ csrf_token('approve_product_' ~ product.id) }}">
+
+                <div class="bg-white rounded-2xl border shadow-sm p-6 space-y-6">
+                    <h2 class="font-semibold text-gray-800">SmartStyle sozlamalari (admin to'ldiradi)</h2>
+
+                    {# Jinsi #}
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Jinsi</label>
+                        <div class="flex gap-3">
+                            {% for key, label in {'male': 'Erkak', 'female': 'Ayol', 'unisex': 'Unisex'} %}
+                            <label class="flex items-center gap-2 border rounded-xl px-4 py-2.5 cursor-pointer hover:bg-gray-50 text-sm">
+                                <input type="radio" name="gender" value="{{ key }}" class="text-blue-600">
+                                {{ label }}
+                            </label>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    {# Teri rangi #}
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Teri rangi (mos keladi)</label>
+                        <div class="grid grid-cols-2 gap-2">
+                        {% for key, label in constant('App\\Entity\\Product::SKIN_TONES') %}
+                            <label class="flex items-center gap-2 border rounded-xl px-3 py-2 cursor-pointer hover:bg-gray-50 text-sm">
+                                <input type="checkbox" name="skin_tones[]" value="{{ key }}" class="rounded text-blue-600">
+                                {{ label }}
+                            </label>
+                        {% endfor %}
+                        </div>
+                    </div>
+
+                    {# Yuz shakli #}
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Yuz shakli (mos keladi)</label>
+                        <div class="grid grid-cols-2 gap-2">
+                        {% for key, label in constant('App\\Entity\\Product::FACE_SHAPES') %}
+                            <label class="flex items-center gap-2 border rounded-xl px-3 py-2 cursor-pointer hover:bg-gray-50 text-sm">
+                                <input type="checkbox" name="face_shapes[]" value="{{ key }}" class="rounded text-blue-600">
+                                {{ label }}
+                            </label>
+                        {% endfor %}
+                        </div>
+                    </div>
+
+                    {# Tana shakli #}
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Tana shakli (mos keladi)</label>
+                        <div class="grid grid-cols-2 gap-2">
+                        {% for key, label in constant('App\\Entity\\Product::BODY_TYPES') %}
+                            <label class="flex items-center gap-2 border rounded-xl px-3 py-2 cursor-pointer hover:bg-gray-50 text-sm">
+                                <input type="checkbox" name="body_types[]" value="{{ key }}" class="rounded text-blue-600">
+                                {{ label }}
+                            </label>
+                        {% endfor %}
+                        </div>
+                    </div>
+
+                    {# Munosabat #}
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Munosabat (occasion)</label>
+                        <div class="grid grid-cols-2 gap-2">
+                        {% for key, label in constant('App\\Entity\\Product::OCCASIONS') %}
+                            <label class="flex items-center gap-2 border rounded-xl px-3 py-2 cursor-pointer hover:bg-gray-50 text-sm">
+                                <input type="checkbox" name="occasions[]" value="{{ key }}" class="rounded text-blue-600">
+                                {{ label }}
+                            </label>
+                        {% endfor %}
+                        </div>
+                    </div>
+
+                    {# Style #}
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Stil</label>
+                        <div class="grid grid-cols-3 gap-2">
+                        {% for key, label in constant('App\\Entity\\Product::STYLE_INTENTS') %}
+                            <label class="flex items-center gap-2 border rounded-xl px-3 py-2 cursor-pointer hover:bg-gray-50 text-sm">
+                                <input type="checkbox" name="style_intents[]" value="{{ key }}" class="rounded text-blue-600">
+                                {{ label }}
+                            </label>
+                        {% endfor %}
+                        </div>
+                    </div>
+
+                    {# Fasl #}
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Fasl</label>
+                        <div class="grid grid-cols-4 gap-2">
+                        {% for key, label in constant('App\\Entity\\Product::SEASONS') %}
+                            <label class="flex items-center gap-2 border rounded-xl px-3 py-2 cursor-pointer hover:bg-gray-50 text-sm">
+                                <input type="checkbox" name="seasons[]" value="{{ key }}" class="rounded text-blue-600">
+                                {{ label }}
+                            </label>
+                        {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                {# Tasdiqlash / Rad etish tugmalari #}
+                <div class="flex gap-3 mt-4">
+                    <button type="submit" name="action" value="approve"
+                            class="flex-1 bg-green-600 hover:bg-green-700 text-white py-3.5 rounded-xl font-semibold text-sm transition-colors">
+                        ✓ Tasdiqlash va saytga chiqarish
+                    </button>
+                    <button type="submit" name="action" value="reject"
+                            data-confirm="Mahsulotni rad etasizmi?"
+                            class="px-6 py-3.5 bg-red-100 hover:bg-red-200 text-red-700 rounded-xl font-semibold text-sm transition-colors">
+                        ✕ Rad etish
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -79,7 +79,7 @@
                                         <input type="hidden" name="_token" value="{{ csrf_token('reject_' ~ item.id) }}">
                                         <input type="hidden" name="note" value="To'lov topilmadi yoki noto'g'ri">
                                         <button type="submit" class="px-3 py-1 bg-red-500 text-white text-xs rounded-lg hover:bg-red-600"
-                                                onclick="return confirm('So\'rovni rad etishni tasdiqlaysizmi?')">
+                                                data-confirm="So'rovni rad etishni tasdiqlaysizmi?">
                                             ❌ Rad etish
                                         </button>
                                     </form>

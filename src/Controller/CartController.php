@@ -7,6 +7,7 @@ use App\Entity\Product;
 use App\Repository\CartRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -16,6 +17,11 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_USER')]
 class CartController extends AbstractController
 {
+    private function isAjax(Request $request): bool
+    {
+        return $request->isXmlHttpRequest() || 'xmlhttprequest' === mb_strtolower((string) $request->headers->get('X-Requested-With'));
+    }
+
     #[Route('', name: 'index')]
     public function index(CartRepository $cartRepository): Response
     {
@@ -35,7 +41,13 @@ class CartController extends AbstractController
         CartRepository $cartRepository,
         EntityManagerInterface $em
     ): Response {
+        $isAjax = $this->isAjax($request);
+
         if (!$this->isCsrfTokenValid('cart_add_' . $product->getId(), $request->request->get('_token'))) {
+            if ($isAjax) {
+                return $this->json(['success' => false, 'message' => 'Noto\'g\'ri CSRF token.'], Response::HTTP_BAD_REQUEST);
+            }
+
             $this->addFlash('error', 'Noto\'g\'ri CSRF token.');
             return $this->redirectToRoute('app_product_show', ['id' => $product->getId()]);
         }
@@ -45,6 +57,10 @@ class CartController extends AbstractController
 
         if ($availableSizes !== []) {
             if ($selectedSize === '' || !in_array($selectedSize, $availableSizes, true)) {
+                if ($isAjax) {
+                    return $this->json(['success' => false, 'message' => 'Iltimos, o\'lchamni tanlang.'], Response::HTTP_BAD_REQUEST);
+                }
+
                 $this->addFlash('error', 'Iltimos, o\'lchamni tanlang.');
                 return $this->redirectToRoute('app_product_show', ['id' => $product->getId()]);
             }
@@ -70,6 +86,14 @@ class CartController extends AbstractController
 
         $em->flush();
 
+        if ($isAjax) {
+            return $this->json([
+                'success' => true,
+                'message' => $product->getName() . ' savatga qo\'shildi!',
+                'cartUrl' => $this->generateUrl('app_cart_index'),
+            ]);
+        }
+
         $this->addFlash('success', $product->getName() . ' savatga qo\'shildi!');
         return $this->redirectToRoute('app_cart_index');
     }
@@ -78,13 +102,20 @@ class CartController extends AbstractController
     public function update(
         Cart $cartItem,
         Request $request,
+        CartRepository $cartRepository,
         EntityManagerInterface $em
     ): Response {
+        $isAjax = $this->isAjax($request);
+
         if ($cartItem->getUser() !== $this->getUser()) {
             throw $this->createAccessDeniedException();
         }
 
         if (!$this->isCsrfTokenValid('cart_update_' . $cartItem->getId(), $request->request->get('_token'))) {
+            if ($isAjax) {
+                return $this->json(['success' => false, 'message' => 'Noto\'g\'ri CSRF token.'], Response::HTTP_BAD_REQUEST);
+            }
+
             $this->addFlash('error', 'Noto\'g\'ri CSRF token.');
             return $this->redirectToRoute('app_cart_index');
         }
@@ -96,6 +127,15 @@ class CartController extends AbstractController
 
         $cartItem->setQuantity($quantity);
         $em->flush();
+
+        if ($isAjax) {
+            return $this->json([
+                'success' => true,
+                'quantity' => $cartItem->getQuantity(),
+                'itemTotal' => $cartItem->getTotal(),
+                'cartTotal' => $cartRepository->getCartTotal($this->getUser()),
+            ]);
+        }
 
         $this->addFlash('success', 'Savatcha yangilandi.');
         return $this->redirectToRoute('app_cart_index');

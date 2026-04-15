@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\OrderItemRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Vendor;
 
 #[ORM\Entity(repositoryClass: OrderItemRepository::class)]
 #[ORM\Table(name: 'order_item')]
@@ -42,6 +43,11 @@ class OrderItem
 
     #[ORM\Column(type: Types::DECIMAL, precision: 12, scale: 2)]
     private ?string $lineTotal = null;
+
+    /** Mahsulot qaysi do'kondanligini saqlash (snapshot) */
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Vendor $vendor = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
@@ -154,4 +160,7 @@ class OrderItem
         $this->createdAt = $createdAt;
         return $this;
     }
+
+    public function getVendor(): ?Vendor { return $this->vendor; }
+    public function setVendor(?Vendor $vendor): static { $this->vendor = $vendor; return $this; }
 }
