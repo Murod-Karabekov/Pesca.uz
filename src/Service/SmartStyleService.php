@@ -72,6 +72,7 @@ class SmartStyleService
     /**
      * O'lchovlar asosida tana turini aniqlash.
      * Ko'krak, bel, son majburiy. Yelka ixtiyoriy (inverted_triangle uchun).
+     * Erkaklar uchun: hourglass→hourglass(trapezoid), pear→pear(triangle), apple→apple(oval)
      *
      * @return string|null  'hourglass'|'pear'|'apple'|'rectangle'|'inverted_triangle'|null
      */
@@ -80,30 +81,34 @@ class SmartStyleService
         ?int $chestCm,
         ?int $waistCm,
         ?int $hipCm,
+        ?string $gender = null,
     ): ?string {
         if ($chestCm === null || $waistCm === null || $hipCm === null) {
             return null;
         }
 
-        // Inverted triangle: yelka sondan ancha keng (>4 sm)
-        if ($shoulderCm !== null && $shoulderCm > $hipCm + 4) {
+        // Erkaklar uchun yelka ≥ son bo'lsa ham inverted_triangle ehtimoli yuqori
+        $maleShoulderThreshold = $gender === 'male' ? 2 : 4;
+
+        // Inverted triangle: yelka sondan ancha keng
+        if ($shoulderCm !== null && $shoulderCm > $hipCm + $maleShoulderThreshold) {
             return 'inverted_triangle';
         }
 
         $avgChestHip  = ($chestCm + $hipCm) / 2;
         $waistRatio   = $waistCm / $avgChestHip;
 
-        // Hourglass: ko'krak ≈ son (≤5 sm farq) VA bel ancha kichik (≤75%)
+        // Hourglass (erkakda: trapezoid): ko'krak ≈ son (≤5 sm farq) VA bel ancha kichik (≤75%)
         if (abs($chestCm - $hipCm) <= 5 && $waistRatio <= 0.75) {
             return 'hourglass';
         }
 
-        // Pear: son ko'krakdan >3 sm katta
+        // Pear (erkakda: triangle): son ko'krakdan >3 sm katta
         if ($hipCm > $chestCm + 3) {
             return 'pear';
         }
 
-        // Apple: bel son yoki ko'krakning ≥90%
+        // Apple (erkakda: oval): bel son yoki ko'krakning ≥90%
         if ($waistCm >= $hipCm * 0.90 || $waistCm >= $chestCm * 0.90) {
             return 'apple';
         }

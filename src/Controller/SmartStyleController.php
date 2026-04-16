@@ -55,8 +55,8 @@ class SmartStyleController extends AbstractController
         $hipCm = $this->sanitizeMeasurement($data['hipCm'] ?? null);
 
         // Validatsiya
-        if ($gender !== null && $gender !== '' && !in_array($gender, UserProfile::GENDERS, true)) {
-            return $this->json(['error' => 'Noto\'g\'ri jins.'], 400);
+        if (!$gender || !in_array($gender, UserProfile::GENDERS, true)) {
+            return $this->json(['error' => 'Jins majburiy (male yoki female).'], 400);
         }
 
         if (!$skinTone || !in_array($skinTone, UserProfile::SKIN_TONES, true)) {
@@ -90,7 +90,7 @@ class SmartStyleController extends AbstractController
 
         $profile->setSkinTone($skinTone);
         $profile->setFaceShape($faceShape);
-        $profile->setGender($gender !== '' ? $gender : null);
+        $profile->setGender($gender);
         $profile->setOccasion($occasion !== '' ? $occasion : null);
         $profile->setStyleIntent($styleIntent !== '' ? $styleIntent : null);
         $profile->setSeason($season !== '' ? $season : null);
@@ -100,7 +100,7 @@ class SmartStyleController extends AbstractController
         $profile->setWaistCm($waistCm);
         $profile->setHipCm($hipCm);
 
-        $bodyType = SmartStyleService::detectBodyType($shoulderCm, $chestCm, $waistCm, $hipCm);
+        $bodyType = SmartStyleService::detectBodyType($shoulderCm, $chestCm, $waistCm, $hipCm, $gender);
         $profile->setBodyType($bodyType);
 
         $profile->setAnalyzedAt(new \DateTimeImmutable());

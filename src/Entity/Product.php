@@ -338,13 +338,22 @@ class Product
     }
 
     /**
-     * SmartStyle match score hisoblash (max 100).
-     *
-     * - skinTone:  40 pts
-     * - faceShape: 30 pts
-     * - occasion:  +15 bonus (faqat ikkala tomon teglanganida)
-     * - bodyType:  +10 bonus
-     * - season:    +5  bonus
+        * SmartStyle match score hisoblash (max 100).
+        *
+        * Ustuvorlik:
+        * - faceShape (yuz skan): 1-o'rin
+        * - bodyType (tana turi): 2-o'rin
+        *
+        * Vaznlar:
+        * - faceShape: 45
+        * - bodyType: 30
+        * - skinTone: 15
+        * - occasion: 7
+        * - season: 3
+        *
+        * Score normalizatsiya qilinadi: matched_weight / active_weight * 100.
+        * Shuning uchun foydalanuvchi ba'zi optional maydonlarni o'tkazib yuborsa,
+        * score sun'iy ravishda pasayib yoki oshib ketmaydi.
      */
     public function getMatchScore(
         string  $skinTone,
@@ -353,25 +362,58 @@ class Product
         ?string $bodyType  = null,
         ?string $season    = null,
     ): int {
-        $score = 0;
+        $weights = [
+            'faceShape' => 45,
+            'bodyType' => 30,
+            'skinTone' => 15,
+            'occasion' => 7,
+            'season' => 3,
+        ];
 
-        if ($this->skinTones && in_array($skinTone, $this->skinTones, true)) {
-            $score += 40;
-        }
+        $activeWeight = 0;
+        $matchedWeight = 0;
+
+        // Face scan - doim active (asosiy signal)
+        $activeWeight += $weights['faceShape'];
         if ($this->faceShapes && in_array($faceShape, $this->faceShapes, true)) {
-            $score += 30;
-        }
-        if ($occasion && $this->occasions && in_array($occasion, $this->occasions, true)) {
-            $score += 15;
-        }
-        if ($bodyType && $this->bodyTypes && in_array($bodyType, $this->bodyTypes, true)) {
-            $score += 10;
-        }
-        if ($season && $this->seasons && in_array($season, $this->seasons, true)) {
-            $score += 5;
+            $matchedWeight += $weights['faceShape'];
         }
 
-        return $score;
+        // Skin tone - doim active
+        $activeWeight += $weights['skinTone'];
+        if ($this->skinTones && in_array($skinTone, $this->skinTones, true)) {
+            $matchedWeight += $weights['skinTone'];
+        }
+
+        // Body type - foydalanuvchi o'lchov kiritgan bo'lsa active (2-ustuvor)
+        if ($bodyType !== null) {
+            $activeWeight += $weights['bodyType'];
+            if ($this->bodyTypes && in_array($bodyType, $this->bodyTypes, true)) {
+                $matchedWeight += $weights['bodyType'];
+            }
+        }
+
+        // Occasion - optional
+        if ($occasion !== null) {
+            $activeWeight += $weights['occasion'];
+            if ($this->occasions && in_array($occasion, $this->occasions, true)) {
+                $matchedWeight += $weights['occasion'];
+            }
+        }
+
+        // Season - optional
+        if ($season !== null) {
+            $activeWeight += $weights['season'];
+            if ($this->seasons && in_array($season, $this->seasons, true)) {
+                $matchedWeight += $weights['season'];
+            }
+        }
+
+        if ($activeWeight === 0) {
+            return 0;
+        }
+
+        return (int) round(($matchedWeight / $activeWeight) * 100);
     }
 
     /** @return Collection<int, Cart> */

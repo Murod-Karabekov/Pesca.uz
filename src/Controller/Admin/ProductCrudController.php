@@ -7,6 +7,7 @@ use App\Form\ProductType;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -46,6 +47,10 @@ class ProductCrudController extends AbstractController
             return $this->redirectToRoute('admin_product_index');
         }
 
+        if ($form->isSubmitted() && !$form->isValid()) {
+            $this->addFlash('error', 'Formada xatolik bor: ' . $this->collectFormErrors($form));
+        }
+
         return $this->render('admin/product/form.html.twig', [
             'form' => $form->createView(),
             'product' => $product,
@@ -69,6 +74,10 @@ class ProductCrudController extends AbstractController
 
             $this->addFlash('success', 'Mahsulot muvaffaqiyatli yangilandi!');
             return $this->redirectToRoute('admin_product_index');
+        }
+
+        if ($form->isSubmitted() && !$form->isValid()) {
+            $this->addFlash('error', 'Formada xatolik bor: ' . $this->collectFormErrors($form));
         }
 
         return $this->render('admin/product/form.html.twig', [
@@ -156,5 +165,21 @@ class ProductCrudController extends AbstractController
                 $this->addFlash('error', 'Rasmni yuklash muvaffaqiyatsiz bo\'ldi.');
             }
         }
+    }
+
+    private function collectFormErrors(FormInterface $form): string
+    {
+        $messages = [];
+
+        foreach ($form->getErrors(true) as $error) {
+            $origin = $error->getOrigin();
+            $field = $origin ? $origin->getName() : 'form';
+            $messages[] = sprintf('%s: %s', $field, $error->getMessage());
+            if (count($messages) >= 5) {
+                break;
+            }
+        }
+
+        return $messages ? implode(' | ', $messages) : 'Noma\'lum xatolik';
     }
 }

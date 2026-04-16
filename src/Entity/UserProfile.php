@@ -326,14 +326,49 @@ class UserProfile
         return $this;
     }
 
+    /**
+     * Mannequin PNG yo'lini qaytaradi (gender + canonical body type bo'yicha)
+     */
+    public function getMannequinImage(): ?string
+    {
+        if (!$this->bodyType || !$this->gender) {
+            return null;
+        }
+
+        if ($this->gender === 'male') {
+            $file = match ($this->bodyType) {
+                'hourglass'         => 'trapezoid',
+                'pear'              => 'triangle',
+                'apple'             => 'oval',
+                'rectangle'         => 'rectangle',
+                'inverted_triangle' => 'inverted_triangle',
+                default             => null,
+            };
+            return $file ? '/images/mannequins/man/' . $file . '.png' : null;
+        }
+
+        return '/images/mannequins/woman/' . $this->bodyType . '.png';
+    }
+
     public function getBodyTypeLabel(): string
     {
+        if ($this->gender === 'male') {
+            return match ($this->bodyType) {
+                'hourglass'         => 'Trapeziya (Trapezoid)',
+                'pear'              => 'Uchburchak (Triangle)',
+                'apple'             => 'Oval',
+                'rectangle'         => 'To\'rtburchak (Rectangle)',
+                'inverted_triangle' => 'Teskari uchburchak',
+                default             => 'Aniqlanmagan',
+            };
+        }
+
         return match ($this->bodyType) {
             'hourglass'         => 'Soat qum (Hourglass)',
             'pear'              => 'Nok (Pear)',
             'apple'             => 'Olma (Apple)',
             'rectangle'         => 'To\'rtburchak (Rectangle)',
-            'inverted_triangle' => 'Tескари uchburchak',
+            'inverted_triangle' => 'Teskari uchburchak',
             default             => 'Aniqlanmagan',
         };
     }

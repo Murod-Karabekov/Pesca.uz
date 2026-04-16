@@ -161,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
         styleContext.chestCm = chestInput.value || null;
         styleContext.waistCm = waistInput.value || null;
         styleContext.hipCm = hipInput.value || null;
-        goToStep(stepMeasurements, stepGender);
+        goToStep(stepMeasurements, stepCamera);
     });
 
     document.getElementById('btn-skip-measurements').addEventListener('click', () => {
@@ -170,15 +170,10 @@ document.addEventListener('DOMContentLoaded', () => {
         styleContext.chestCm = null;
         styleContext.waistCm = null;
         styleContext.hipCm = null;
-        goToStep(stepMeasurements, stepGender);
+        goToStep(stepMeasurements, stepCamera);
     });
 
-    document.getElementById('btn-skip-gender').addEventListener('click', () => {
-        selectedGender = null;
-        goToStep(stepGender, stepCamera);
-    });
-
-    // Gender Selection (optional)
+    // Gender Selection (mandatory, step 1)
     document.querySelectorAll('.gender-btn').forEach((btn) => {
         btn.addEventListener('click', () => {
             selectedGender = btn.dataset.gender;
@@ -190,7 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.classList.add('border-peach-500', 'bg-peach-50');
 
             setTimeout(() => {
-                goToStep(stepGender, stepCamera);
+                goToStep(stepGender, stepOccasion);
             }, 250);
         });
     });
