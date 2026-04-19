@@ -2,12 +2,13 @@
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#F7F5F2">
     <title>{% block title %}Admin{% endblock %} — Pesca Boshqaruv</title>
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
     {% endblock %}
@@ -15,177 +16,156 @@
         {{ encore_entry_script_tags('app') }}
     {% endblock %}
 </head>
-<body class="min-h-screen bg-beige-50">
-    {# ─── Flash Messages ─── #}
+<body class="min-h-screen flex flex-col bg-app-canvas text-app-ink antialiased pb-[env(safe-area-inset-bottom,0px)]">
     {% for label, messages in app.flashes %}
         {% for message in messages %}
-            <div data-flash class="fixed top-4 right-4 z-50 max-w-sm px-6 py-4 rounded-xl shadow-lg text-sm font-medium
-                {% if label == 'success' %} bg-green-50 text-green-800 border border-green-200
-                {% elseif label == 'error' %} bg-red-50 text-red-800 border border-red-200
-                {% else %} bg-blue-50 text-blue-800 border border-blue-200 {% endif %}">
+            <div data-flash class="fixed top-4 right-4 z-50 max-w-sm px-5 py-4 rounded-[14px] shadow-sm text-sm font-medium border border-app-hairline
+                {% if label == 'success' %} bg-white text-green-800
+                {% elseif label == 'error' %} bg-white text-red-800
+                {% elseif label == 'warning' %} bg-white text-amber-900
+                {% else %} bg-white text-app-ink {% endif %}">
                 {{ message }}
             </div>
         {% endfor %}
     {% endfor %}
 
-    <div class="flex min-h-screen">
-        {# ─── Sidebar ─── #}
-        <aside class="hidden lg:flex lg:flex-col w-64 bg-brand-dark text-white sticky top-0 h-screen overflow-y-auto">
-            <div class="p-6 border-b border-white/10">
-                <a href="{{ path('admin_dashboard') }}" class="flex items-center gap-2">
-                    <span class="text-2xl font-display font-bold">Pesca</span>
-                    <span class="text-xs text-brand-muted tracking-widest uppercase">Admin</span>
+    <div class="flex min-h-screen min-w-0">
+        {% set r = app.request.attributes.get('_route') %}
+        {# Desktop sidebar #}
+        <aside class="hidden lg:flex lg:flex-col w-64 shrink-0 bg-app-ink text-app-canvas sticky top-0 h-screen overflow-y-auto border-r border-white/10">
+            <div class="p-5 border-b border-white/10">
+                <a href="{{ path('admin_dashboard') }}" class="flex flex-col gap-0.5">
+                    <span class="text-xl font-display font-semibold tracking-tight">Pesca</span>
+                    <span class="text-[10px] text-white/55 tracking-[0.2em] uppercase font-semibold">Admin</span>
                 </a>
             </div>
 
-            <nav class="flex-1 p-4 space-y-1">
+            <nav class="flex-1 p-3 space-y-1">
                 <a href="{{ path('admin_dashboard') }}"
-                   class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors
-                          {{ app.request.attributes.get('_route') starts with 'admin_dashboard' ? 'bg-white/10 text-white' : 'text-brand-muted hover:bg-white/5 hover:text-white' }}">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
-                    </svg>
+                   class="flex items-center gap-3 min-h-[48px] px-3 rounded-[14px] text-sm font-medium transition-colors
+                          {{ r starts with 'admin_dashboard' ? 'bg-white/15 text-app-canvas font-semibold' : 'text-white/70 hover:bg-white/10 hover:text-app-canvas' }}">
+                    <svg class="w-5 h-5 shrink-0 opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
                     Boshqaruv paneli
                 </a>
-
                 <a href="{{ path('admin_category_index') }}"
-                   class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors
-                          {{ app.request.attributes.get('_route') starts with 'admin_category' ? 'bg-white/10 text-white' : 'text-brand-muted hover:bg-white/5 hover:text-white' }}">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>
-                    </svg>
+                   class="flex items-center gap-3 min-h-[48px] px-3 rounded-[14px] text-sm font-medium transition-colors
+                          {{ r starts with 'admin_category' ? 'bg-white/15 text-app-canvas font-semibold' : 'text-white/70 hover:bg-white/10 hover:text-app-canvas' }}">
+                    <svg class="w-5 h-5 shrink-0 opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
                     Kategoriyalar
                 </a>
-
                 <a href="{{ path('admin_product_index') }}"
-                   class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors
-                          {{ app.request.attributes.get('_route') starts with 'admin_product' ? 'bg-white/10 text-white' : 'text-brand-muted hover:bg-white/5 hover:text-white' }}">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
-                    </svg>
+                   class="flex items-center gap-3 min-h-[48px] px-3 rounded-[14px] text-sm font-medium transition-colors
+                          {{ r starts with 'admin_product' ? 'bg-white/15 text-app-canvas font-semibold' : 'text-white/70 hover:bg-white/10 hover:text-app-canvas' }}">
+                    <svg class="w-5 h-5 shrink-0 opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
                     Mahsulotlar
                 </a>
-
                 <a href="{{ path('admin_announcement_index') }}"
-                   class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors
-                          {{ app.request.attributes.get('_route') starts with 'admin_announcement' ? 'bg-white/10 text-white' : 'text-brand-muted hover:bg-white/5 hover:text-white' }}">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 8h10M7 12h6m-8 8h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                    </svg>
+                   class="flex items-center gap-3 min-h-[48px] px-3 rounded-[14px] text-sm font-medium transition-colors
+                          {{ r starts with 'admin_announcement' ? 'bg-white/15 text-app-canvas font-semibold' : 'text-white/70 hover:bg-white/10 hover:text-app-canvas' }}">
+                    <svg class="w-5 h-5 shrink-0 opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 8h10M7 12h6m-8 8h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                     E'lonlar
                 </a>
-
                 <a href="{{ path('admin_user_index') }}"
-                   class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors
-                          {{ app.request.attributes.get('_route') starts with 'admin_user' ? 'bg-white/10 text-white' : 'text-brand-muted hover:bg-white/5 hover:text-white' }}">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
-                    </svg>
+                   class="flex items-center gap-3 min-h-[48px] px-3 rounded-[14px] text-sm font-medium transition-colors
+                          {{ r starts with 'admin_user' ? 'bg-white/15 text-app-canvas font-semibold' : 'text-white/70 hover:bg-white/10 hover:text-app-canvas' }}">
+                    <svg class="w-5 h-5 shrink-0 opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
                     Foydalanuvchilar
                 </a>
-
                 <a href="{{ path('admin_order_index') }}"
-                   class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors
-                          {{ app.request.attributes.get('_route') starts with 'admin_order' ? 'bg-white/10 text-white' : 'text-brand-muted hover:bg-white/5 hover:text-white' }}">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                    </svg>
+                   class="flex items-center gap-3 min-h-[48px] px-3 rounded-[14px] text-sm font-medium transition-colors
+                          {{ r starts with 'admin_order' ? 'bg-white/15 text-app-canvas font-semibold' : 'text-white/70 hover:bg-white/10 hover:text-app-canvas' }}">
+                    <svg class="w-5 h-5 shrink-0 opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                     Buyurtmalar
                 </a>
-
                 <a href="{{ path('admin_withdrawal_index') }}"
-                   class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors
-                          {{ app.request.attributes.get('_route') starts with 'admin_withdrawal' ? 'bg-white/10 text-white' : 'text-brand-muted hover:bg-white/5 hover:text-white' }}">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
+                   class="flex items-center gap-3 min-h-[48px] px-3 rounded-[14px] text-sm font-medium transition-colors
+                          {{ r starts with 'admin_withdrawal' ? 'bg-white/15 text-app-canvas font-semibold' : 'text-white/70 hover:bg-white/10 hover:text-app-canvas' }}">
+                    <svg class="w-5 h-5 shrink-0 opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     Yechish so'rovlari
                 </a>
-
                 <a href="{{ path('admin_wallet_topup_index') }}"
-                   class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors
-                          {{ app.request.attributes.get('_route') starts with 'admin_wallet_topup' ? 'bg-white/10 text-white' : 'text-brand-muted hover:bg-white/5 hover:text-white' }}">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 9V7a5 5 0 00-10 0v2m-2 0h14a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2v-8a2 2 0 012-2zm7 5h.01"/>
-                    </svg>
+                   class="flex items-center gap-3 min-h-[48px] px-3 rounded-[14px] text-sm font-medium transition-colors
+                          {{ r starts with 'admin_wallet_topup' ? 'bg-white/15 text-app-canvas font-semibold' : 'text-white/70 hover:bg-white/10 hover:text-app-canvas' }}">
+                    <svg class="w-5 h-5 shrink-0 opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 9V7a5 5 0 00-10 0v2m-2 0h14a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2v-8a2 2 0 012-2zm7 5h.01"/></svg>
                     Hamyon to'ldirish
                 </a>
-
                 <a href="{{ path('admin_vendor_index') }}"
-                   class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors
-                          {{ app.request.attributes.get('_route') starts with 'admin_vendor' ? 'bg-white/10 text-white' : 'text-brand-muted hover:bg-white/5 hover:text-white' }}">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
-                    </svg>
+                   class="flex items-center gap-3 min-h-[48px] px-3 rounded-[14px] text-sm font-medium transition-colors
+                          {{ r starts with 'admin_vendor' ? 'bg-white/15 text-app-canvas font-semibold' : 'text-white/70 hover:bg-white/10 hover:text-app-canvas' }}">
+                    <svg class="w-5 h-5 shrink-0 opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
                     Do'konlar
                 </a>
-
+                <a href="{{ path('admin_corporate_partnership_index') }}"
+                   class="flex items-center gap-3 min-h-[48px] px-3 rounded-[14px] text-sm font-medium transition-colors
+                          {{ r starts with 'admin_corporate_partnership' ? 'bg-white/15 text-app-canvas font-semibold' : 'text-white/70 hover:bg-white/10 hover:text-app-canvas' }}">
+                    <svg class="w-5 h-5 shrink-0 opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                    Tashkilot so‘rovlari
+                </a>
             </nav>
 
-            <div class="p-4 border-t border-white/10">
-                <a href="{{ path('app_home') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-brand-muted hover:bg-white/5 hover:text-white transition-colors">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-                    </svg>
+            <div class="p-3 border-t border-white/10">
+                <a href="{{ path('app_home') }}" class="flex items-center gap-3 min-h-[48px] px-3 rounded-[14px] text-sm font-medium text-white/70 hover:bg-white/10 hover:text-app-canvas transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
                     Saytga qaytish
                 </a>
             </div>
         </aside>
 
-        {# ─── Main Content ─── #}
-        <div class="flex-1 flex flex-col">
-            {# Mobile Header #}
-            <header class="lg:hidden bg-white border-b border-beige-200 px-4 py-3 flex items-center justify-between">
-                <button type="button" class="p-2 rounded-lg border border-beige-300 text-brand-dark" data-mobile-sidebar-open="admin-mobile-sidebar" aria-label="Menyuni ochish">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-                    </svg>
+        <div class="flex-1 flex flex-col min-w-0">
+            <header class="lg:hidden sticky top-0 z-30 bg-app-canvas/95 backdrop-blur-md border-b border-app-hairline px-3 py-2 flex items-center justify-between gap-2">
+                <button type="button" class="min-w-[48px] min-h-[48px] inline-flex items-center justify-center rounded-[14px] border border-app-hairline bg-white text-app-ink" data-mobile-sidebar-open="admin-mobile-sidebar" aria-label="Menyuni ochish">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
                 </button>
-                <a href="{{ path('admin_dashboard') }}" class="flex items-center gap-2">
-                    <span class="text-xl font-display font-bold text-brand-dark">Pesca</span>
-                    <span class="text-xs text-brand-light tracking-widest uppercase">Admin</span>
+                <a href="{{ path('admin_dashboard') }}" class="flex flex-col items-center min-w-0">
+                    <span class="text-lg font-display font-semibold text-app-ink leading-tight">Pesca</span>
+                    <span class="text-[9px] text-app-inkMuted tracking-[0.18em] uppercase font-semibold">Admin</span>
                 </a>
-                <div class="flex items-center gap-2">
-                    <a href="{{ path('app_home') }}" class="p-2 text-brand-medium hover:text-peach-600 transition-colors">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-                        </svg>
-                    </a>
-                </div>
+                <a href="{{ path('app_home') }}" class="min-w-[48px] min-h-[48px] inline-flex items-center justify-center rounded-[14px] border border-app-hairline bg-white text-app-inkMuted hover:text-app-ink transition-colors" aria-label="Saytga qaytish">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+                </a>
             </header>
 
             <div id="admin-mobile-sidebar" class="lg:hidden fixed inset-0 z-50 hidden" data-mobile-sidebar>
-                <div class="absolute inset-0 bg-black/30 opacity-0 transition-opacity duration-200" data-mobile-sidebar-backdrop></div>
-                <aside class="absolute left-0 top-0 h-full w-72 max-w-[85vw] bg-brand-dark text-white transform -translate-x-full transition-transform duration-200" data-mobile-sidebar-drawer>
-                    <div class="p-4 border-b border-white/10 flex items-center justify-between">
-                        <span class="text-lg font-semibold">Admin menyu</span>
-                        <button type="button" class="p-2 rounded-lg border border-white/20" data-mobile-sidebar-close="admin-mobile-sidebar" aria-label="Yopish">✕</button>
+                <div class="absolute inset-0 bg-black/40 opacity-0 transition-opacity duration-200" data-mobile-sidebar-backdrop></div>
+                <aside class="absolute left-0 top-0 h-full w-[min(20rem,88vw)] bg-app-ink text-app-canvas transform -translate-x-full transition-transform duration-200 shadow-xl" data-mobile-sidebar-drawer>
+                    <div class="p-4 border-b border-white/10 flex items-center justify-between gap-2">
+                        <span class="text-base font-semibold">Menyu</span>
+                        <button type="button" class="min-w-[44px] min-h-[44px] inline-flex items-center justify-center rounded-[12px] border border-white/25 text-app-canvas" data-mobile-sidebar-close="admin-mobile-sidebar" aria-label="Yopish">✕</button>
                     </div>
-                    <nav class="p-4 space-y-2 text-sm">
-                        <a href="{{ path('admin_dashboard') }}" class="block px-3 py-2 rounded-lg {{ app.request.attributes.get('_route') starts with 'admin_dashboard' ? 'bg-white/10 text-white' : 'text-brand-muted' }}">Boshqaruv paneli</a>
-                        <a href="{{ path('admin_category_index') }}" class="block px-3 py-2 rounded-lg {{ app.request.attributes.get('_route') starts with 'admin_category' ? 'bg-white/10 text-white' : 'text-brand-muted' }}">Kategoriyalar</a>
-                        <a href="{{ path('admin_product_index') }}" class="block px-3 py-2 rounded-lg {{ app.request.attributes.get('_route') starts with 'admin_product' ? 'bg-white/10 text-white' : 'text-brand-muted' }}">Mahsulotlar</a>
-                        <a href="{{ path('admin_order_index') }}" class="block px-3 py-2 rounded-lg {{ app.request.attributes.get('_route') starts with 'admin_order' ? 'bg-white/10 text-white' : 'text-brand-muted' }}">Buyurtmalar</a>
-                        <a href="{{ path('admin_vendor_index') }}" class="block px-3 py-2 rounded-lg {{ app.request.attributes.get('_route') starts with 'admin_vendor' ? 'bg-white/10 text-white' : 'text-brand-muted' }}">Do'konlar</a>
-                        <a href="{{ path('admin_wallet_topup_index') }}" class="block px-3 py-2 rounded-lg {{ app.request.attributes.get('_route') starts with 'admin_wallet_topup' ? 'bg-white/10 text-white' : 'text-brand-muted' }}">Top-up</a>
-                        <a href="{{ path('admin_withdrawal_index') }}" class="block px-3 py-2 rounded-lg {{ app.request.attributes.get('_route') starts with 'admin_withdrawal' ? 'bg-white/10 text-white' : 'text-brand-muted' }}">Yechish so'rovlari</a>
+                    <nav class="p-3 space-y-1 text-sm overflow-y-auto max-h-[calc(100vh-5rem)]">
+                        <a href="{{ path('admin_dashboard') }}" class="block min-h-[44px] flex items-center px-3 rounded-[12px] {{ r starts with 'admin_dashboard' ? 'bg-white/15 text-app-canvas font-semibold' : 'text-white/70' }}">Boshqaruv paneli</a>
+                        <a href="{{ path('admin_category_index') }}" class="block min-h-[44px] flex items-center px-3 rounded-[12px] {{ r starts with 'admin_category' ? 'bg-white/15 text-app-canvas font-semibold' : 'text-white/70' }}">Kategoriyalar</a>
+                        <a href="{{ path('admin_product_index') }}" class="block min-h-[44px] flex items-center px-3 rounded-[12px] {{ r starts with 'admin_product' ? 'bg-white/15 text-app-canvas font-semibold' : 'text-white/70' }}">Mahsulotlar</a>
+                        <a href="{{ path('admin_announcement_index') }}" class="block min-h-[44px] flex items-center px-3 rounded-[12px] {{ r starts with 'admin_announcement' ? 'bg-white/15 text-app-canvas font-semibold' : 'text-white/70' }}">E'lonlar</a>
+                        <a href="{{ path('admin_user_index') }}" class="block min-h-[44px] flex items-center px-3 rounded-[12px] {{ r starts with 'admin_user' ? 'bg-white/15 text-app-canvas font-semibold' : 'text-white/70' }}">Foydalanuvchilar</a>
+                        <a href="{{ path('admin_order_index') }}" class="block min-h-[44px] flex items-center px-3 rounded-[12px] {{ r starts with 'admin_order' ? 'bg-white/15 text-app-canvas font-semibold' : 'text-white/70' }}">Buyurtmalar</a>
+                        <a href="{{ path('admin_withdrawal_index') }}" class="block min-h-[44px] flex items-center px-3 rounded-[12px] {{ r starts with 'admin_withdrawal' ? 'bg-white/15 text-app-canvas font-semibold' : 'text-white/70' }}">Yechish so'rovlari</a>
+                        <a href="{{ path('admin_wallet_topup_index') }}" class="block min-h-[44px] flex items-center px-3 rounded-[12px] {{ r starts with 'admin_wallet_topup' ? 'bg-white/15 text-app-canvas font-semibold' : 'text-white/70' }}">Hamyon to'ldirish</a>
+                        <a href="{{ path('admin_vendor_index') }}" class="block min-h-[44px] flex items-center px-3 rounded-[12px] {{ r starts with 'admin_vendor' ? 'bg-white/15 text-app-canvas font-semibold' : 'text-white/70' }}">Do'konlar</a>
+                        <a href="{{ path('admin_corporate_partnership_index') }}" class="block min-h-[44px] flex items-center px-3 rounded-[12px] {{ r starts with 'admin_corporate_partnership' ? 'bg-white/15 text-app-canvas font-semibold' : 'text-white/70' }}">Tashkilotlar</a>
                     </nav>
                 </aside>
             </div>
 
-            {# Mobile Navigation #}
-            <nav class="lg:hidden bg-white border-b border-beige-200 px-4 py-2 flex gap-1 overflow-x-auto">
-                <a href="{{ path('admin_dashboard') }}" class="px-3 py-2 text-xs font-medium rounded-lg whitespace-nowrap {{ app.request.attributes.get('_route') starts with 'admin_dashboard' ? 'bg-peach-100 text-peach-700' : 'text-brand-medium' }}">Boshqaruv paneli</a>
-                <a href="{{ path('admin_product_index') }}" class="px-3 py-2 text-xs font-medium rounded-lg whitespace-nowrap {{ app.request.attributes.get('_route') starts with 'admin_product' ? 'bg-peach-100 text-peach-700' : 'text-brand-medium' }}">Mahsulotlar</a>
-                <a href="{{ path('admin_announcement_index') }}" class="px-3 py-2 text-xs font-medium rounded-lg whitespace-nowrap {{ app.request.attributes.get('_route') starts with 'admin_announcement' ? 'bg-peach-100 text-peach-700' : 'text-brand-medium' }}">E'lonlar</a>
-                <a href="{{ path('admin_user_index') }}" class="px-3 py-2 text-xs font-medium rounded-lg whitespace-nowrap {{ app.request.attributes.get('_route') starts with 'admin_user' ? 'bg-peach-100 text-peach-700' : 'text-brand-medium' }}">Foydalanuvchilar</a>
-                <a href="{{ path('admin_order_index') }}" class="px-3 py-2 text-xs font-medium rounded-lg whitespace-nowrap {{ app.request.attributes.get('_route') starts with 'admin_order' ? 'bg-peach-100 text-peach-700' : 'text-brand-medium' }}">Buyurtmalar</a>
-                <a href="{{ path('admin_wallet_topup_index') }}" class="px-3 py-2 text-xs font-medium rounded-lg whitespace-nowrap {{ app.request.attributes.get('_route') starts with 'admin_wallet_topup' ? 'bg-peach-100 text-peach-700' : 'text-brand-medium' }}">Top-up</a>
+            <nav class="lg:hidden border-b border-app-hairline bg-white px-2 py-2">
+                <div class="flex gap-2 overflow-x-auto pb-0.5 -mx-0.5 px-0.5 snap-x snap-mandatory">
+                    <a href="{{ path('admin_dashboard') }}" class="snap-start shrink-0 min-h-[44px] inline-flex items-center px-3.5 rounded-[12px] text-xs font-semibold border transition-colors {{ r starts with 'admin_dashboard' ? 'bg-app-ink text-app-canvas border-app-ink' : 'bg-app-canvas text-app-inkMuted border-app-hairline hover:border-app-ink/30' }}">Panel</a>
+                    <a href="{{ path('admin_category_index') }}" class="snap-start shrink-0 min-h-[44px] inline-flex items-center px-3.5 rounded-[12px] text-xs font-semibold border transition-colors {{ r starts with 'admin_category' ? 'bg-app-ink text-app-canvas border-app-ink' : 'bg-app-canvas text-app-inkMuted border-app-hairline hover:border-app-ink/30' }}">Kategoriya</a>
+                    <a href="{{ path('admin_product_index') }}" class="snap-start shrink-0 min-h-[44px] inline-flex items-center px-3.5 rounded-[12px] text-xs font-semibold border transition-colors {{ r starts with 'admin_product' ? 'bg-app-ink text-app-canvas border-app-ink' : 'bg-app-canvas text-app-inkMuted border-app-hairline hover:border-app-ink/30' }}">Mahsulot</a>
+                    <a href="{{ path('admin_announcement_index') }}" class="snap-start shrink-0 min-h-[44px] inline-flex items-center px-3.5 rounded-[12px] text-xs font-semibold border transition-colors {{ r starts with 'admin_announcement' ? 'bg-app-ink text-app-canvas border-app-ink' : 'bg-app-canvas text-app-inkMuted border-app-hairline hover:border-app-ink/30' }}">E'lon</a>
+                    <a href="{{ path('admin_user_index') }}" class="snap-start shrink-0 min-h-[44px] inline-flex items-center px-3.5 rounded-[12px] text-xs font-semibold border transition-colors {{ r starts with 'admin_user' ? 'bg-app-ink text-app-canvas border-app-ink' : 'bg-app-canvas text-app-inkMuted border-app-hairline hover:border-app-ink/30' }}">User</a>
+                    <a href="{{ path('admin_order_index') }}" class="snap-start shrink-0 min-h-[44px] inline-flex items-center px-3.5 rounded-[12px] text-xs font-semibold border transition-colors {{ r starts with 'admin_order' ? 'bg-app-ink text-app-canvas border-app-ink' : 'bg-app-canvas text-app-inkMuted border-app-hairline hover:border-app-ink/30' }}">Buyurtma</a>
+                    <a href="{{ path('admin_withdrawal_index') }}" class="snap-start shrink-0 min-h-[44px] inline-flex items-center px-3.5 rounded-[12px] text-xs font-semibold border transition-colors {{ r starts with 'admin_withdrawal' ? 'bg-app-ink text-app-canvas border-app-ink' : 'bg-app-canvas text-app-inkMuted border-app-hairline hover:border-app-ink/30' }}">Yechish</a>
+                    <a href="{{ path('admin_wallet_topup_index') }}" class="snap-start shrink-0 min-h-[44px] inline-flex items-center px-3.5 rounded-[12px] text-xs font-semibold border transition-colors {{ r starts with 'admin_wallet_topup' ? 'bg-app-ink text-app-canvas border-app-ink' : 'bg-app-canvas text-app-inkMuted border-app-hairline hover:border-app-ink/30' }}">Top-up</a>
+                    <a href="{{ path('admin_vendor_index') }}" class="snap-start shrink-0 min-h-[44px] inline-flex items-center px-3.5 rounded-[12px] text-xs font-semibold border transition-colors {{ r starts with 'admin_vendor' ? 'bg-app-ink text-app-canvas border-app-ink' : 'bg-app-canvas text-app-inkMuted border-app-hairline hover:border-app-ink/30' }}">Do'kon</a>
+                    <a href="{{ path('admin_corporate_partnership_index') }}" class="snap-start shrink-0 min-h-[44px] inline-flex items-center px-3.5 rounded-[12px] text-xs font-semibold border transition-colors {{ r starts with 'admin_corporate_partnership' ? 'bg-app-ink text-app-canvas border-app-ink' : 'bg-app-canvas text-app-inkMuted border-app-hairline hover:border-app-ink/30' }}">Tashkilot</a>
+                </div>
             </nav>
 
-            {# Page Content #}
-            <main class="flex-1 p-4 md:p-8">
-                {% block admin_body %}{% endblock %}
+            <main class="flex-1 min-w-0">
+                <div class="max-w-6xl mx-auto w-full px-4 py-3 sm:py-4 md:px-6 lg:py-6">
+                    {% block admin_body %}{% endblock %}
+                </div>
             </main>
         </div>
     </div>

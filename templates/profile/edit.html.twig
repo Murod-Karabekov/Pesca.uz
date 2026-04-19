@@ -3,50 +3,53 @@
 {% block title %}Ma'lumotlarni tahrirlash{% endblock %}
 
 {% block body %}
-<section class="py-6 md:py-10">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="mb-5">
-            <a href="{{ path('app_profile_index') }}" class="text-sm text-brand-medium hover:text-peach-600 inline-flex items-center gap-1.5 mb-3">
-                ← Profilga qaytish
+<section class="min-h-[60vh] bg-app-canvas border-b border-app-hairline">
+    <div class="app-sheet">
+        <div class="mb-4">
+            <a href="{{ path('app_profile_index') }}" class="text-sm text-app-inkMuted hover:text-app-ink inline-flex items-center gap-1.5 min-h-[44px] py-1">
+                ← Profilga
             </a>
-            <h1 class="text-2xl md:text-3xl font-display font-bold text-brand-dark">Ma'lumotlarni tahrirlash</h1>
+            <h1 class="text-xl sm:text-2xl font-display font-medium text-app-ink mt-1 tracking-tight">Ma'lumotlarni tahrirlash</h1>
         </div>
 
-        <div class="grid grid-cols-3 gap-2 mb-5">
-            <a href="{{ path('app_profile_index') }}" class="rounded-xl bg-white border border-beige-300 text-brand-dark text-xs md:text-sm font-medium px-3 py-2.5 text-center hover:bg-beige-100 transition-colors">Umumiy</a>
-            <a href="{{ path('app_profile_edit') }}" class="rounded-xl bg-brand-dark text-white text-xs md:text-sm font-medium px-3 py-2.5 text-center">Tahrirlash</a>
-            <a href="{{ path('app_profile_password') }}" class="rounded-xl bg-white border border-beige-300 text-brand-dark text-xs md:text-sm font-medium px-3 py-2.5 text-center hover:bg-beige-100 transition-colors">Parol</a>
-        </div>
+        <nav class="app-pill-nav-3 mb-4" aria-label="Profil bo'limlari">
+            <a href="{{ path('app_profile_index') }}" class="bg-white text-app-ink border border-app-hairline hover:bg-app-canvas">Umumiy</a>
+            <a href="{{ path('app_profile_edit') }}" class="bg-app-ink text-app-canvas border border-app-ink">Tahrirlash</a>
+            <a href="{{ path('app_profile_password') }}" class="bg-white text-app-ink border border-app-hairline hover:bg-app-canvas">Parol</a>
+        </nav>
 
-        <div class="card p-4 md:p-6">
-            <h3 class="font-display font-semibold text-lg text-brand-dark mb-5">Shaxsiy ma'lumotlar</h3>
+        <div class="card p-4 sm:p-5">
+            <h3 class="font-display font-semibold text-base text-app-ink mb-4">Shaxsiy ma'lumotlar</h3>
 
             <form method="post" action="{{ path('app_profile_edit') }}">
                 <input type="hidden" name="_token" value="{{ csrf_token('profile_edit') }}">
 
                 <div class="space-y-4">
                     <div>
-                        <label for="full_name" class="block text-sm font-medium text-brand-dark mb-1.5">To'liq ism</label>
+                        <label for="full_name" class="block text-sm font-medium text-app-ink mb-1.5">To'liq ism</label>
                         <input type="text" id="full_name" name="full_name"
                                value="{{ user.fullName }}"
-                               class="input-field" required
-                               placeholder="Ismingiz va familiyangiz">
+                               class="input-field min-h-[48px]" required
+                               placeholder="Ismingiz va familiyangiz"
+                               autocomplete="name">
                     </div>
 
                     <div>
-                        <label for="phone" class="block text-sm font-medium text-brand-dark mb-1.5">Telefon raqam</label>
+                        <label for="phone" class="block text-sm font-medium text-app-ink mb-1.5">Telefon</label>
                         <input type="tel" id="phone" name="phone"
                                value="{{ user.phone }}"
-                               class="input-field" required
+                               class="input-field min-h-[48px]" required
                                placeholder="+998901234567"
-                               pattern="\+998\d{9}">
-                        <p class="text-xs text-brand-light mt-1">Format: +998XXXXXXXXX</p>
+                               pattern="\+998\d{9}"
+                               inputmode="tel"
+                               autocomplete="tel">
+                        <p class="text-xs text-app-inkMuted mt-1.5">+998XXXXXXXXX</p>
                     </div>
                 </div>
 
-                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mt-7">
-                    <button type="submit" class="btn-primary">Saqlash</button>
-                    <a href="{{ path('app_profile_index') }}" class="btn-secondary">Bekor qilish</a>
+                <div class="flex flex-col gap-2.5 mt-6">
+                    <button type="submit" class="btn-primary w-full justify-center min-h-[48px]">Saqlash</button>
+                    <a href="{{ path('app_profile_index') }}" class="btn-secondary w-full justify-center min-h-[48px]">Bekor</a>
                 </div>
             </form>
         </div>

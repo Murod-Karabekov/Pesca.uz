@@ -9,8 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    const formatSum = (amount) => {
-        return new Intl.NumberFormat('uz-UZ').format(Math.round(amount)) + ' so\'m';
+    const formatNumber = (amount) => {
+        return new Intl.NumberFormat('uz-UZ').format(Math.round(amount));
     };
 
     const updateSelectedSummary = () => {
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        selectedTotalElement.textContent = formatSum(total);
+        selectedTotalElement.textContent = formatNumber(total);
         orderSubmitButton.disabled = selectedCount === 0;
         orderSubmitButton.classList.toggle('opacity-50', selectedCount === 0);
         orderSubmitButton.classList.toggle('cursor-not-allowed', selectedCount === 0);
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
         itemCard.dataset.itemTotal = String(result.itemTotal || 0);
 
         if (lineTotalEl) {
-            lineTotalEl.textContent = formatSum(Number(result.itemTotal || 0));
+            lineTotalEl.textContent = formatNumber(Number(result.itemTotal || 0));
         }
 
         updateSelectedSummary();

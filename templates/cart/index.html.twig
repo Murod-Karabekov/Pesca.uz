@@ -3,76 +3,82 @@
 {% block title %}Savatchangiz — Pesca{% endblock %}
 
 {% block body %}
-<section class="py-12 md:py-16">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 class="text-2xl md:text-3xl font-display font-bold text-brand-dark mb-6 md:mb-8">Savatchangiz</h1>
+<section class="min-h-[60vh] bg-app-canvas border-b border-app-hairline py-4 sm:py-6">
+    <div class="app-sheet">
+        <div class="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between mb-4">
+            <h1 class="text-xl sm:text-2xl font-display font-medium text-app-ink tracking-tight">Savatcha</h1>
+            {% if cartItems|length > 0 %}
+            <button type="button" id="toggle-select-all-btn" class="self-start min-h-[44px] px-4 text-xs font-semibold rounded-[14px] border border-app-hairline bg-white text-app-inkMuted hover:text-app-ink hover:bg-app-canvas transition-colors">
+                Barchasini belgilash / bekor
+            </button>
+            {% endif %}
+        </div>
 
         {% if cartItems|length > 0 %}
-        <div class="mb-4 flex justify-end">
-            <button type="button" id="toggle-select-all-btn" class="text-xs font-medium px-3 py-1.5 rounded-lg border border-beige-300 text-brand-medium hover:bg-beige-100 transition-colors">
-                Barchasini bekor qilish
-            </button>
-        </div>
-        <div class="space-y-3 md:space-y-4 mb-6 md:mb-8">
+        <div class="space-y-3 mb-6">
             {% for item in cartItems %}
-            <div class="card p-4 md:p-6" data-cart-line-item data-item-total="{{ item.total }}" data-update-url="{{ path('app_cart_update', {id: item.id}) }}" data-update-token="{{ csrf_token('cart_update_' ~ item.id) }}">
-                <div class="flex gap-3 md:gap-4 items-start">
-                    <div class="pt-1">
-                        <input
-                            type="checkbox"
-                            id="selected_item_{{ item.id }}"
-                            name="selected_items[]"
-                            value="{{ item.id }}"
-                            form="order-place-form"
-                            class="w-4 h-4 rounded border-beige-300 text-peach-600 focus:ring-peach-500"
-                            checked
-                            data-cart-select
-                        >
-                    </div>
-                    {# Product Image #}
-                    <div class="w-20 h-20 md:w-24 md:h-24 bg-beige-100 rounded-xl overflow-hidden flex-shrink-0">
-                        {% if item.product.imageSrc %}
-                            <img src="{{ item.product.imageSrc }}" alt="{{ item.product.name }}" class="w-full h-full object-cover">
-                        {% else %}
-                            <div class="w-full h-full flex items-center justify-center">
-                                <svg class="w-8 h-8 text-beige-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                                </svg>
-                            </div>
-                        {% endif %}
-                    </div>
-
-                    {# Product Info + Controls #}
-                    <div class="flex-1 min-w-0">
-                        <div class="flex items-start justify-between gap-3">
-                            <div class="min-w-0">
-                                <h3 class="font-semibold text-brand-dark text-sm md:text-base leading-snug">{{ item.product.name }}</h3>
-                                {% if item.size != 'UNIVERSAL' %}
-                                    <p class="text-xs text-brand-muted mt-1">O'lcham: <span class="font-semibold text-brand-dark">{{ item.size }}</span></p>
-                                {% endif %}
-                                <p class="text-peach-600 font-display font-bold mt-1.5 text-sm md:text-base">{{ item.product.price|number_format(0, '.', ' ') }} so'm</p>
-                            </div>
-                            <form method="post" action="{{ path('app_cart_remove', {id: item.id}) }}" class="flex-shrink-0">
-                                <input type="hidden" name="_token" value="{{ csrf_token('cart_remove_' ~ item.id) }}">
-                                <button type="submit" class="p-2 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200" title="O'chirish" aria-label="O'chirish">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+            <div class="card overflow-hidden" data-cart-line-item data-item-total="{{ item.total }}" data-update-url="{{ path('app_cart_update', {id: item.id}) }}" data-update-token="{{ csrf_token('cart_update_' ~ item.id) }}">
+                <div class="p-4 sm:p-4">
+                    {# 1-qator: checkbox + rasm + nom + o'chirish #}
+                    <div class="flex gap-3">
+                        <label class="flex items-start justify-center w-11 shrink-0 pt-0.5 cursor-pointer" for="selected_item_{{ item.id }}">
+                            <input
+                                type="checkbox"
+                                id="selected_item_{{ item.id }}"
+                                name="selected_items[]"
+                                value="{{ item.id }}"
+                                form="order-place-form"
+                                class="w-5 h-5 mt-1 rounded border-app-hairline text-app-ink focus:ring-app-ink/20"
+                                checked
+                                data-cart-select
+                            >
+                        </label>
+                        <div class="w-20 h-24 sm:w-24 sm:h-[7.25rem] bg-app-canvas rounded-[14px] overflow-hidden shrink-0 border border-app-hairline">
+                            {% if item.product.imageSrc %}
+                                <img src="{{ item.product.imageSrc }}" alt="" class="w-full h-full object-cover">
+                            {% else %}
+                                <div class="w-full h-full flex items-center justify-center text-app-hairline">
+                                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                                     </svg>
-                                </button>
-                            </form>
+                                </div>
+                            {% endif %}
                         </div>
-
-                        <div class="mt-3 flex items-center justify-between gap-3">
-                            <div class="inline-flex items-center rounded-xl border border-beige-300 bg-white overflow-hidden">
-                                <button type="button" class="w-10 h-10 text-brand-dark hover:bg-beige-100 transition-colors" aria-label="Miqdorni kamaytirish" data-qty-change="-1">−</button>
-                                <span class="w-10 text-center text-sm font-semibold text-brand-dark" data-quantity-value>{{ item.quantity }}</span>
-                                <button type="button" class="w-10 h-10 text-brand-dark hover:bg-beige-100 transition-colors" aria-label="Miqdorni oshirish" data-qty-change="1">+</button>
+                        <div class="flex-1 min-w-0 flex flex-col">
+                            <div class="flex items-start justify-between gap-2 min-w-0">
+                                <div class="min-w-0 pr-1">
+                                    <h2 class="font-semibold text-app-ink text-[15px] sm:text-base leading-snug line-clamp-3 break-words">{{ item.product.name }}</h2>
+                                    {% if item.size != 'UNIVERSAL' %}
+                                        <p class="text-[11px] text-app-inkMuted mt-1">O‘lcham: <span class="font-medium text-app-ink">{{ item.size }}</span></p>
+                                    {% endif %}
+                                </div>
+                                <form method="post" action="{{ path('app_cart_remove', {id: item.id}) }}" class="shrink-0 -mr-1 -mt-1">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('cart_remove_' ~ item.id) }}">
+                                    <button type="submit" class="min-w-[44px] min-h-[44px] flex items-center justify-center text-red-500 hover:bg-red-50 rounded-[12px] transition-colors" title="O'chirish" aria-label="O'chirish">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                        </svg>
+                                    </button>
+                                </form>
                             </div>
+                            <p class="mt-2 text-xs text-app-inkMuted">
+                                1 dona: <span class="font-display font-semibold text-app-ink tabular-nums">{{ item.product.price|number_format(0, '.', ' ') }}</span> so'm
+                            </p>
+                        </div>
+                    </div>
 
-                            <div class="text-right">
-                                <p class="text-xs text-brand-muted">Jami</p>
-                                <p class="font-display font-bold text-brand-dark text-sm md:text-base" data-line-total-value>{{ item.total|number_format(0, '.', ' ') }} so'm</p>
-                            </div>
+                    {# 2-qator: miqdor va qator summasi — to‘liq kenglik, aralashmaydi #}
+                    <div class="mt-4 pt-4 border-t border-app-hairline flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                        <div class="inline-flex items-center self-start rounded-[14px] border border-app-hairline bg-white overflow-hidden">
+                            <button type="button" class="min-w-[48px] min-h-[48px] text-app-ink hover:bg-app-canvas transition-colors text-xl font-medium leading-none flex items-center justify-center" aria-label="Kamaytirish" data-qty-change="-1">−</button>
+                            <span class="min-w-[2.75rem] px-1 text-center text-base font-semibold text-app-ink tabular-nums" data-quantity-value>{{ item.quantity }}</span>
+                            <button type="button" class="min-w-[48px] min-h-[48px] text-app-ink hover:bg-app-canvas transition-colors text-xl font-medium leading-none flex items-center justify-center" aria-label="Oshirish" data-qty-change="1">+</button>
+                        </div>
+                        <div class="w-full sm:w-auto sm:text-right sm:min-w-[9rem]">
+                            <p class="text-[10px] uppercase tracking-widest text-app-accent font-semibold">Qator jami</p>
+                            <p class="text-xl sm:text-2xl font-display font-semibold text-app-ink tracking-tight mt-0.5 break-all sm:break-words">
+                                <span data-line-total-value class="tabular-nums">{{ item.total|number_format(0, '.', ' ') }}</span><span class="text-sm font-sans font-medium text-app-inkMuted"> so'm</span>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -80,44 +86,49 @@
             {% endfor %}
         </div>
 
-        {# ─── Cart Summary ─── #}
-        <div class="card p-4 md:p-8">
-            <div class="flex items-center justify-between mb-4 md:mb-6">
-                <span class="text-base md:text-lg font-medium text-brand-dark">Tanlangan jami</span>
-                <span class="text-xl md:text-2xl font-display font-bold text-peach-600" id="selected-total" data-selected-total>{{ total|number_format(0, '.', ' ') }} so'm</span>
+        <div class="card p-4 sm:p-5">
+            <div class="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4 border-b border-app-hairline pb-4 mb-4">
+                <span class="text-sm font-medium text-app-ink">Tanlangan buyurtma</span>
+                <div class="text-left sm:text-right min-w-0">
+                    <p class="text-[10px] uppercase tracking-widest text-app-accent font-semibold sm:hidden">Jami</p>
+                    <p class="text-2xl sm:text-3xl font-display font-semibold text-app-ink tracking-tight break-all sm:break-words leading-tight">
+                        <span id="selected-total" data-selected-total class="tabular-nums">{{ total|number_format(0, '.', ' ') }}</span><span class="text-base font-sans font-medium text-app-inkMuted"> so'm</span>
+                    </p>
+                </div>
             </div>
-            <p class="text-xs text-brand-muted mb-4">Belgilangan mahsulotlar buyurtmaga ketadi, qolganlari savatchada qoladi.</p>
+            <p class="text-xs text-app-inkMuted mb-4 leading-relaxed">Faqat belgilangan mahsulotlar buyurtmaga kiritiladi.</p>
             <form method="post" action="{{ path('app_order_place') }}" id="order-place-form">
                 <input type="hidden" name="_token" value="{{ csrf_token('order_place') }}">
-                <div class="space-y-3 mb-4 md:mb-5">
-                    <label for="location_label" class="block text-sm font-medium text-brand-dark">Lokatsiya</label>
+                <div class="space-y-3 mb-4">
+                    <label for="location_label" class="block text-sm font-medium text-app-ink">Yetkazish manzili</label>
                     <input
                         id="location_label"
                         name="location_label"
                         type="text"
-                        class="input-field"
-                        placeholder="Masalan: Jizzax, Sh.Rashidov ko'chasi 12"
+                        class="input-field min-h-[48px]"
+                        placeholder="Viloyat, ko'cha, uy"
                         required
+                        autocomplete="street-address"
                     >
 
-                    <label for="notes" class="block text-sm font-medium text-brand-dark">Qo'shimcha izoh (ixtiyoriy)</label>
-                    <textarea id="notes" name="notes" class="input-field !h-24" maxlength="1000" placeholder="Masalan: aniq manzil, qo'ng'iroq vaqti, qo'shimcha eslatma"></textarea>
+                    <label for="notes" class="block text-sm font-medium text-app-ink">Izoh <span class="text-app-inkMuted font-normal">(ixtiyoriy)</span></label>
+                    <textarea id="notes" name="notes" class="input-field min-h-[88px] py-3 resize-y" maxlength="1000" placeholder="Qo'ng'iroq vaqti va hokazo"></textarea>
                 </div>
-                <button type="submit" class="btn-primary w-full text-center text-base py-3.5 md:py-4" id="order-submit-btn">
+                <button type="submit" class="btn-primary w-full justify-center min-h-[52px] text-sm sm:text-base" id="order-submit-btn">
                     Buyurtma berish
                 </button>
             </form>
-            <p class="text-xs text-brand-muted text-center mt-4">Buyurtmangiz qayta ishlash uchun yuboriladi.</p>
+            <p class="text-[11px] text-app-inkMuted text-center mt-3">Buyurtma operatorga yuboriladi.</p>
         </div>
 
         {% else %}
-        <div class="text-center py-20">
-            <svg class="w-16 h-16 mx-auto text-beige-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="card p-8 text-center">
+            <svg class="w-14 h-14 mx-auto text-app-hairline mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"/>
             </svg>
-            <h3 class="text-lg font-display font-semibold text-brand-dark mb-2">Savatchangiz bo'sh</h3>
-            <p class="text-brand-medium mb-6">Hali hech qanday mahsulot qo'shmadingiz.</p>
-            <a href="{{ path('app_product_index') }}" class="btn-primary">Kolleksiyani ko'rish</a>
+            <h2 class="text-base font-display font-semibold text-app-ink mb-1.5">Savatcha bo'sh</h2>
+            <p class="text-sm text-app-inkMuted mb-5">Mahsulot qo'shing.</p>
+            <a href="{{ path('app_product_index') }}" class="btn-primary inline-flex justify-center min-h-[48px] px-6">Kolleksiya</a>
         </div>
         {% endif %}
     </div>

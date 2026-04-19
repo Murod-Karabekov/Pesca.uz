@@ -5,8 +5,8 @@
 {% block admin_body %}
 <div class="max-w-6xl mx-auto">
     <div class="flex items-center gap-3 mb-6">
-        <a href="{{ path('admin_vendor_index') }}" class="text-gray-400 hover:text-gray-600">← Do'konlar</a>
-        <h1 class="text-2xl font-bold text-gray-800">{{ vendor.name }}</h1>
+        <a href="{{ path('admin_vendor_index') }}" class="text-app-inkMuted hover:text-app-inkMuted">← Do'konlar</a>
+        <h1 class="text-2xl font-bold text-app-ink">{{ vendor.name }}</h1>
         {% if not vendor.isActive %}
             <span class="px-2 py-1 bg-red-100 text-red-700 rounded-lg text-xs font-medium">To'xtatilgan</span>
         {% endif %}
@@ -18,58 +18,58 @@
             {# Do'kon ma'lumotlari #}
             <div class="bg-white rounded-2xl border shadow-sm p-5">
                 <div class="flex items-center justify-between mb-3">
-                    <h2 class="font-semibold text-gray-800">Do'kon ma'lumotlari</h2>
+                    <h2 class="font-semibold text-app-ink">Do'kon ma'lumotlari</h2>
                     <a href="{{ path('admin_vendor_edit', {id: vendor.id}) }}"
                        class="text-xs text-blue-600 hover:underline">Tahrirlash</a>
                 </div>
                 <dl class="space-y-2 text-sm">
                     {% if vendor.phone %}
                     <div class="flex justify-between">
-                        <dt class="text-gray-500">Telefon</dt>
+                        <dt class="text-app-inkMuted">Telefon</dt>
                         <dd class="font-medium">{{ vendor.phone }}</dd>
                     </div>
                     {% endif %}
                     {% if vendor.address %}
                     <div>
-                        <dt class="text-gray-500 mb-1">Manzil</dt>
-                        <dd class="text-gray-700">{{ vendor.address }}</dd>
+                        <dt class="text-app-inkMuted mb-1">Manzil</dt>
+                        <dd class="text-app-ink">{{ vendor.address }}</dd>
                     </div>
                     {% endif %}
                     <div class="flex justify-between">
-                        <dt class="text-gray-500">Komissiya</dt>
+                        <dt class="text-app-inkMuted">Komissiya</dt>
                         <dd class="font-semibold text-orange-600">{{ vendor.commissionRate }}%</dd>
                     </div>
                     <div class="flex justify-between">
-                        <dt class="text-gray-500">Ro'yxatdan</dt>
+                        <dt class="text-app-inkMuted">Ro'yxatdan</dt>
                         <dd>{{ vendor.createdAt|date('d.m.Y') }}</dd>
                     </div>
                 </dl>
                 {% if vendor.owner %}
                 <div class="mt-3 pt-3 border-t">
-                    <p class="text-xs text-gray-500 mb-1">Egasi</p>
+                    <p class="text-xs text-app-inkMuted mb-1">Egasi</p>
                     <p class="font-medium text-sm">{{ vendor.owner.fullName }}</p>
-                    <p class="text-xs text-gray-400">{{ vendor.owner.phone }}</p>
+                    <p class="text-xs text-app-inkMuted">{{ vendor.owner.phone }}</p>
                 </div>
                 {% endif %}
             </div>
 
             {# Statistika #}
             <div class="bg-white rounded-2xl border shadow-sm p-5 space-y-3">
-                <h2 class="font-semibold text-gray-800">Statistika</h2>
+                <h2 class="font-semibold text-app-ink">Statistika</h2>
                 <div class="flex justify-between text-sm">
-                    <span class="text-gray-500">Jami savdo</span>
-                    <span class="font-bold text-gray-800">{{ totalSales|number_format(0, '.', ' ') }} so'm</span>
+                    <span class="text-app-inkMuted">Jami savdo</span>
+                    <span class="font-bold text-app-ink">{{ totalSales|number_format(0, '.', ' ') }} so'm</span>
                 </div>
                 <div class="flex justify-between text-sm">
-                    <span class="text-gray-500">To'lanmagan komissiya</span>
+                    <span class="text-app-inkMuted">To'lanmagan komissiya</span>
                     <span class="font-bold text-orange-600">{{ unsettled|number_format(0, '.', ' ') }} so'm</span>
                 </div>
                 <div class="flex justify-between text-sm">
-                    <span class="text-gray-500">Pending mahsulotlar</span>
+                    <span class="text-app-inkMuted">Pending mahsulotlar</span>
                     <span class="font-bold text-yellow-600">{{ pendingProducts|length }}</span>
                 </div>
                 <div class="flex justify-between text-sm">
-                    <span class="text-gray-500">Tasdiqlangan mahsulotlar</span>
+                    <span class="text-app-inkMuted">Tasdiqlangan mahsulotlar</span>
                     <span class="font-bold text-green-600">{{ publishedProducts|length }}</span>
                 </div>
             </div>
@@ -110,8 +110,8 @@
                                  onerror="this.style.display='none'">
                         {% endif %}
                         <div>
-                            <p class="font-medium text-gray-800">{{ product.name }}</p>
-                            <p class="text-sm text-gray-500">{{ product.price|number_format(0, '.', ' ') }} so'm</p>
+                            <p class="font-medium text-app-ink">{{ product.name }}</p>
+                            <p class="text-sm text-app-inkMuted">{{ product.price|number_format(0, '.', ' ') }} so'm</p>
                         </div>
                     </div>
                     <a href="{{ path('admin_vendor_product_approve', {id: product.id}) }}"
@@ -128,9 +128,9 @@
             {% if publishedProducts is not empty %}
             <div class="bg-white rounded-2xl border shadow-sm overflow-hidden">
                 <div class="px-5 py-4 border-b flex items-center justify-between">
-                    <h2 class="font-semibold text-gray-800">✓ Saytdagi mahsulotlar ({{ publishedProducts|length }})</h2>
+                    <h2 class="font-semibold text-app-ink">✓ Saytdagi mahsulotlar ({{ publishedProducts|length }})</h2>
                 </div>
-                <div class="divide-y divide-gray-100">
+                <div class="divide-y divide-app-hairline">
                 {% for product in publishedProducts %}
                 <div class="px-5 py-3 flex items-center justify-between gap-4">
                     <div class="flex items-center gap-3">
@@ -140,8 +140,8 @@
                                  onerror="this.style.display='none'">
                         {% endif %}
                         <div>
-                            <p class="font-medium text-gray-700 text-sm">{{ product.name }}</p>
-                            <p class="text-xs text-gray-400">{{ product.price|number_format(0, '.', ' ') }} so'm</p>
+                            <p class="font-medium text-app-ink text-sm">{{ product.name }}</p>
+                            <p class="text-xs text-app-inkMuted">{{ product.price|number_format(0, '.', ' ') }} so'm</p>
                         </div>
                     </div>
                     <span class="text-xs text-green-600 font-medium">Saytda</span>
@@ -155,12 +155,12 @@
             {% if transactions is not empty %}
             <div class="bg-white rounded-2xl border shadow-sm overflow-hidden">
                 <div class="px-5 py-4 border-b">
-                    <h2 class="font-semibold text-gray-800">Savdo tarixi</h2>
+                    <h2 class="font-semibold text-app-ink">Savdo tarixi</h2>
                 </div>
                 <div class="overflow-x-auto">
                 <table class="w-full text-sm">
                     <thead>
-                    <tr class="bg-gray-50 text-gray-500 text-xs uppercase border-b">
+                    <tr class="bg-app-canvas text-app-inkMuted text-xs uppercase border-b">
                         <th class="text-left px-5 py-3">Zakaz</th>
                         <th class="text-right px-4 py-3">Savdo</th>
                         <th class="text-right px-4 py-3">Komissiya</th>
@@ -168,20 +168,20 @@
                         <th class="text-right px-5 py-3">Sana</th>
                     </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-100">
+                    <tbody class="divide-y divide-app-hairline">
                     {% for tx in transactions %}
-                    <tr class="hover:bg-gray-50">
+                    <tr class="hover:bg-app-canvas">
                         <td class="px-5 py-3 font-medium">#{{ tx.order.id }}</td>
                         <td class="px-4 py-3 text-right font-semibold">{{ tx.saleAmount|number_format(0, '.', ' ') }} so'm</td>
                         <td class="px-4 py-3 text-right text-orange-600">{{ tx.commissionAmount|number_format(0, '.', ' ') }} so'm</td>
                         <td class="px-4 py-3 text-center">
                             {% if tx.status == 'settled' %}
-                                <span class="inline-flex px-2 py-1 rounded-full text-xs bg-gray-100 text-gray-500">Yopildi</span>
+                                <span class="inline-flex px-2 py-1 rounded-full text-xs bg-app-canvas text-app-inkMuted">Yopildi</span>
                             {% else %}
                                 <span class="inline-flex px-2 py-1 rounded-full text-xs bg-green-100 text-green-700">Faol</span>
                             {% endif %}
                         </td>
-                        <td class="px-5 py-3 text-right text-gray-400 text-xs">{{ tx.createdAt|date('d.m.Y H:i') }}</td>
+                        <td class="px-5 py-3 text-right text-app-inkMuted text-xs">{{ tx.createdAt|date('d.m.Y H:i') }}</td>
                     </tr>
                     {% endfor %}
                     </tbody>

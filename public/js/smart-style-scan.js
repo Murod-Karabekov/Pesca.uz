@@ -178,11 +178,11 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.addEventListener('click', () => {
             selectedGender = btn.dataset.gender;
             document.querySelectorAll('.gender-btn').forEach((b) => {
-                b.classList.remove('border-peach-500', 'bg-peach-50');
-                b.classList.add('border-beige-200');
+                b.classList.remove('border-app-ink', 'bg-app-canvas', 'ring-2', 'ring-app-ink/10');
+                b.classList.add('border-app-hairline', 'bg-white');
             });
-            btn.classList.remove('border-beige-200');
-            btn.classList.add('border-peach-500', 'bg-peach-50');
+            btn.classList.remove('border-app-hairline');
+            btn.classList.add('border-app-ink', 'bg-app-canvas', 'ring-2', 'ring-app-ink/10');
 
             setTimeout(() => {
                 goToStep(stepGender, stepOccasion);
@@ -264,6 +264,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Retry
     document.getElementById('btn-retry').addEventListener('click', () => {
+        errorText.innerHTML = '';
+        resetErrorPanel();
         stepError.classList.add('hidden');
         stepOccasion.classList.remove('hidden');
         stepStyle.classList.add('hidden');
@@ -289,8 +291,8 @@ document.addEventListener('DOMContentLoaded', () => {
         styleContext.waistCm = null;
         styleContext.hipCm = null;
         document.querySelectorAll('.gender-btn').forEach((b) => {
-            b.classList.remove('border-peach-500', 'bg-peach-50');
-            b.classList.add('border-beige-200');
+            b.classList.remove('border-app-ink', 'bg-app-canvas', 'ring-2', 'ring-app-ink/10');
+            b.classList.add('border-app-hairline', 'bg-white');
         });
         resetToStart();
     });
@@ -367,6 +369,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 setTimeout(() => {
                     window.location.href = RESULTS_URL;
                 }, 500);
+            } else if (result.code === 'smart_style_monthly_limit') {
+                showMonthlyLimitError(result);
             } else {
                 showError(result.error || 'Serverda xatolik yuz berdi.');
             }
@@ -455,10 +459,51 @@ document.addEventListener('DOMContentLoaded', () => {
         loadingText.textContent = text;
     }
 
+    const errorTitleEl = document.getElementById('error-title');
+    const btnTariffs = document.getElementById('btn-tariffs');
+    const btnRetry = document.getElementById('btn-retry');
+
+    function resetErrorPanel() {
+        if (errorTitleEl) {
+            errorTitleEl.textContent = 'Xatolik';
+        }
+        if (btnRetry) {
+            btnRetry.classList.remove('hidden');
+        }
+        if (btnTariffs) {
+            btnTariffs.classList.add('hidden');
+        }
+    }
+
     function showError(message) {
         stepLoading.classList.add('hidden');
         stepError.classList.remove('hidden');
+        resetErrorPanel();
         errorText.textContent = message;
+    }
+
+    function showMonthlyLimitError(result) {
+        stepLoading.classList.add('hidden');
+        stepError.classList.remove('hidden');
+        if (errorTitleEl) {
+            errorTitleEl.textContent = 'Limit tugadi';
+        }
+        errorText.innerHTML = '';
+        const msg = document.createElement('p');
+        msg.className = 'text-sm text-app-inkMuted mb-4 leading-relaxed';
+        msg.textContent = result.error || 'Bu oy uchun SmartStyle limiti tugadi.';
+        errorText.appendChild(msg);
+        const link = document.createElement('a');
+        link.href = result.upgradeUrl || '/hamkorlik';
+        link.className = 'btn-primary inline-flex justify-center min-h-[48px] px-5 mb-2 w-full sm:w-auto';
+        link.textContent = 'Hamkorlik — tariflar';
+        errorText.appendChild(link);
+        if (btnRetry) {
+            btnRetry.classList.add('hidden');
+        }
+        if (btnTariffs) {
+            btnTariffs.classList.add('hidden');
+        }
     }
 
     function stopCamera() {

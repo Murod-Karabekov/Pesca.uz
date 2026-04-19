@@ -25,3 +25,14 @@
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
+
+###> smartstyle mobile uploads ###
+/var/smartstyle_mobile_uploads/
+###< smartstyle mobile uploads ###
+
+###> flutter / mobile (local SDK & build) ###
+/.flutter-sdk/
+/mobile/.dart_tool/
+/mobile/build/
+/mobile/.flutter-plugins-dependencies
+###< flutter / mobile ###

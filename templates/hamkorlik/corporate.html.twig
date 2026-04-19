@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tashkilot uchun so‘rov — Hamkorlik{% endblock %}
+
+{% block body %}
+<section class="min-h-[60vh] bg-app-canvas border-b border-app-hairline py-6 sm:py-8">
+    <div class="app-sheet max-w-xl mx-auto min-w-0">
+        <a href="{{ path('app_hamkorlik_index') }}" class="inline-flex items-center gap-2 text-sm text-app-inkMuted hover:text-app-ink transition-colors mb-5 min-h-[44px]">
+            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+            Hamkorlik — tariflar
+        </a>
+
+        <div class="rounded-[20px] border border-slate-300/80 bg-white overflow-hidden shadow-md mb-6">
+            <div class="px-5 pt-6 pb-4 text-center border-b border-app-hairline bg-gradient-to-b from-slate-100/95 via-slate-50/80 to-white">
+                <span class="inline-flex mb-3 rounded-full bg-slate-700 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white">Tashkilot</span>
+                <div class="text-3xl sm:text-4xl mb-1" aria-hidden="true">🏢</div>
+                <h1 class="text-xl sm:text-2xl font-display font-semibold text-app-ink tracking-tight">Korporativ hamkorlik so‘rovi</h1>
+                <p class="mt-2 text-sm text-app-inkMuted leading-relaxed max-w-md mx-auto">Tashkilot ma’lumotlari va takliflaringiz. Bog‘lanish uchun telefon yetarli.</p>
+            </div>
+        </div>
+
+        {% for message in app.flashes('success') %}
+            <div class="rounded-[14px] border border-emerald-200 bg-emerald-50 px-4 py-3 mb-5 text-sm text-emerald-900" role="status">{{ message }}</div>
+        {% endfor %}
+
+        {{ form_start(form, { attr: { class: 'rounded-[20px] border border-app-hairline bg-white shadow-sm p-4 sm:p-6 space-y-5' } }) }}
+            {{ form_errors(form) }}
+
+            {% for field in [form.organizationName, form.contactFullName, form.phone, form.address, form.additionalNotes] %}
+            <div>
+                {{ form_label(field, null, { label_attr: { class: 'block text-sm font-medium text-app-ink mb-1.5' } }) }}
+                {{ form_widget(field) }}
+                {{ form_errors(field) }}
+            </div>
+            {% endfor %}
+
+            <button type="submit" class="btn-primary w-full justify-center min-h-[52px] text-sm sm:text-base">
+                So‘rovni yuborish
+            </button>
+        {{ form_end(form) }}
+    </div>
+</section>
+{% endblock %}

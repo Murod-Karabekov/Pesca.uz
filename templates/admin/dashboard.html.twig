@@ -3,28 +3,28 @@
 {% block title %}Boshqaruv paneli{% endblock %}
 
 {% block admin_body %}
-<div class="mb-8">
-    <h1 class="text-2xl md:text-3xl font-display font-bold text-brand-dark">Boshqaruv paneli</h1>
-    <p class="text-brand-medium mt-1">Pesca boshqaruv paneliga xush kelibsiz</p>
+<div class="mb-5 sm:mb-6">
+    <h1 class="text-xl sm:text-2xl font-display font-semibold text-app-ink tracking-tight">Boshqaruv paneli</h1>
+    <p class="text-sm text-app-inkMuted mt-1">Pesca boshqaruv paneliga xush kelibsiz</p>
 </div>
 
 {# ─── Stats Cards ─── #}
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-    <div class="card p-6">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mb-6 sm:mb-8">
+    <div class="card p-4 sm:p-5">
         <div class="flex items-center gap-4">
-            <div class="w-12 h-12 bg-peach-100 rounded-xl flex items-center justify-center">
-                <svg class="w-6 h-6 text-peach-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="w-12 h-12 bg-neutral-100 rounded-xl flex items-center justify-center">
+                <svg class="w-6 h-6 text-neutral-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
                 </svg>
             </div>
             <div>
-                <p class="text-2xl font-display font-bold text-brand-dark">{{ productCount }}</p>
-                <p class="text-sm text-brand-medium">Jami mahsulotlar</p>
+                <p class="text-2xl font-display font-bold text-app-ink">{{ productCount }}</p>
+                <p class="text-sm text-app-inkMuted">Jami mahsulotlar</p>
             </div>
         </div>
     </div>
 
-    <div class="card p-6">
+    <div class="card p-4 sm:p-5">
         <div class="flex items-center gap-4">
             <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
                 <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -32,13 +32,13 @@
                 </svg>
             </div>
             <div>
-                <p class="text-2xl font-display font-bold text-brand-dark">{{ activeProductCount }}</p>
-                <p class="text-sm text-brand-medium">Faol mahsulotlar</p>
+                <p class="text-2xl font-display font-bold text-app-ink">{{ activeProductCount }}</p>
+                <p class="text-sm text-app-inkMuted">Faol mahsulotlar</p>
             </div>
         </div>
     </div>
 
-    <div class="card p-6">
+    <div class="card p-4 sm:p-5">
         <div class="flex items-center gap-4">
             <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center">
                 <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -46,13 +46,13 @@
                 </svg>
             </div>
             <div>
-                <p class="text-2xl font-display font-bold text-brand-dark">{{ categoryCount }}</p>
-                <p class="text-sm text-brand-medium">Kategoriyalar</p>
+                <p class="text-2xl font-display font-bold text-app-ink">{{ categoryCount }}</p>
+                <p class="text-sm text-app-inkMuted">Kategoriyalar</p>
             </div>
         </div>
     </div>
 
-    <div class="card p-6">
+    <div class="card p-4 sm:p-5">
         <div class="flex items-center gap-4">
             <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
                 <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -60,95 +60,96 @@
                 </svg>
             </div>
             <div>
-                <p class="text-2xl font-display font-bold text-brand-dark">{{ userCount }}</p>
-                <p class="text-sm text-brand-medium">Foydalanuvchilar</p>
+                <p class="text-2xl font-display font-bold text-app-ink">{{ userCount }}</p>
+                <p class="text-sm text-app-inkMuted">Foydalanuvchilar</p>
             </div>
         </div>
     </div>
 
-    <div class="card p-6">
+    <div class="card p-4 sm:p-5">
         <div class="flex items-center gap-4">
             <div class="w-12 h-12 bg-pink-100 rounded-xl flex items-center justify-center">
                 <span class="text-xl">✨</span>
             </div>
             <div>
-                <p class="text-2xl font-display font-bold text-brand-dark">{{ smartStyleUsers }}</p>
-                <p class="text-sm text-brand-medium">SmartStyle foydalanuvchilar</p>
+                <p class="text-2xl font-display font-bold text-app-ink">{{ smartStyleUsers }}</p>
+                <p class="text-sm text-app-inkMuted">SmartStyle foydalanuvchilar</p>
             </div>
         </div>
     </div>
 
-    <div class="card p-6">
+    <div class="card p-4 sm:p-5">
         <div class="flex items-center gap-4">
             <div class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center">
                 <span class="text-xl">🤝</span>
             </div>
             <div>
-                <p class="text-2xl font-display font-bold text-brand-dark">{{ memberCount|default(0) }}</p>
-                <p class="text-sm text-brand-medium">A'zolar (pullik reja)</p>
+                <p class="text-2xl font-display font-bold text-app-ink">{{ memberCount|default(0) }}</p>
+                <p class="text-sm text-app-inkMuted">A'zolar (pullik reja)</p>
             </div>
         </div>
     </div>
 
-    <div class="card p-6">
+    <div class="card p-4 sm:p-5">
         <div class="flex items-center gap-4">
             <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center">
                 <span class="text-xl">💸</span>
             </div>
             <div>
-                <p class="text-2xl font-display font-bold text-brand-dark">{{ pendingWithdrawals|default(0) }}</p>
-                <p class="text-sm text-brand-medium">Kutilayotgan yechishlar</p>
+                <p class="text-2xl font-display font-bold text-app-ink">{{ pendingWithdrawals|default(0) }}</p>
+                <p class="text-sm text-app-inkMuted">Kutilayotgan yechishlar</p>
             </div>
         </div>
     </div>
 
-    <div class="card p-6">
+    <div class="card p-4 sm:p-5">
         <div class="flex items-center gap-4">
             <div class="w-12 h-12 bg-cyan-100 rounded-xl flex items-center justify-center">
                 <span class="text-xl">🧾</span>
             </div>
             <div>
-                <p class="text-2xl font-display font-bold text-brand-dark">{{ orderCount|default(0) }}</p>
-                <p class="text-sm text-brand-medium">Jami buyurtmalar</p>
+                <p class="text-2xl font-display font-bold text-app-ink">{{ orderCount|default(0) }}</p>
+                <p class="text-sm text-app-inkMuted">Jami buyurtmalar</p>
             </div>
         </div>
     </div>
 
-    <div class="card p-6">
+    <div class="card p-4 sm:p-5">
         <div class="flex items-center gap-4">
             <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
                 <span class="text-xl">⏳</span>
             </div>
             <div>
-                <p class="text-2xl font-display font-bold text-brand-dark">{{ pendingOrderPayments|default(0) }}</p>
-                <p class="text-sm text-brand-medium">To'lovi kutilayotgan buyurtmalar</p>
+                <p class="text-2xl font-display font-bold text-app-ink">{{ pendingOrderPayments|default(0) }}</p>
+                <p class="text-sm text-app-inkMuted">To'lovi kutilayotgan buyurtmalar</p>
             </div>
         </div>
     </div>
 
-    <div class="card p-6">
+    <div class="card p-4 sm:p-5">
         <div class="flex items-center gap-4">
             <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center">
                 <span class="text-xl">💳</span>
             </div>
             <div>
-                <p class="text-2xl font-display font-bold text-brand-dark">{{ pendingWalletTopups|default(0) }}</p>
-                <p class="text-sm text-brand-medium">Kutilayotgan top-up so'rovlar</p>
+                <p class="text-2xl font-display font-bold text-app-ink">{{ pendingWalletTopups|default(0) }}</p>
+                <p class="text-sm text-app-inkMuted">Kutilayotgan top-up so'rovlar</p>
             </div>
         </div>
     </div>
 </div>
 
 {# ─── Quick Actions ─── #}
-<div class="card p-6">
-    <h3 class="font-display font-semibold text-lg text-brand-dark mb-4">Tezkor amallar</h3>
-    <div class="flex flex-wrap gap-3">
-        <a href="{{ path('admin_product_new') }}" class="btn-primary text-sm">Mahsulot qo'shish</a>
-        <a href="{{ path('admin_category_new') }}" class="btn-secondary text-sm">Kategoriya qo'shish</a>
-        <a href="{{ path('admin_user_index') }}" class="btn-secondary text-sm">Foydalanuvchilarni boshqarish</a>
-        <a href="{{ path('admin_order_index') }}" class="btn-secondary text-sm">Buyurtmalarni boshqarish</a>
-        <a href="{{ path('admin_withdrawal_index') }}" class="btn-secondary text-sm">💸 Yechish so'rovlari</a>
-        <a href="{{ path('admin_wallet_topup_index') }}" class="btn-secondary text-sm">💳 Top-up so'rovlari</a>
+<div class="card p-4 sm:p-5">
+    <h3 class="font-display font-semibold text-base text-app-ink mb-3">Tezkor amallar</h3>
+    <div class="flex flex-col sm:flex-row sm:flex-wrap gap-2">
+        <a href="{{ path('admin_product_new') }}" class="btn-primary text-sm justify-center min-h-[48px]">Mahsulot qo'shish</a>
+        <a href="{{ path('admin_category_new') }}" class="btn-secondary text-sm justify-center min-h-[48px]">Kategoriya qo'shish</a>
+        <a href="{{ path('admin_user_index') }}" class="btn-secondary text-sm justify-center min-h-[48px]">Foydalanuvchilar</a>
+        <a href="{{ path('admin_order_index') }}" class="btn-secondary text-sm justify-center min-h-[48px]">Buyurtmalar</a>
+        <a href="{{ path('admin_withdrawal_index') }}" class="btn-secondary text-sm justify-center min-h-[48px]">💸 Yechish</a>
+        <a href="{{ path('admin_wallet_topup_index') }}" class="btn-secondary text-sm justify-center min-h-[48px]">💳 Top-up</a>
+        <a href="{{ path('admin_corporate_partnership_index') }}" class="btn-secondary text-sm justify-center min-h-[48px]">🏢 Tashkilot so‘rovlari</a>
     </div>
 </div>
 {% endblock %}

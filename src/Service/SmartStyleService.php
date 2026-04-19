@@ -13,28 +13,23 @@ class SmartStyleService
     ) {}
 
     /**
-     * Foydalanuvchi profiliga mos mahsulotlarni topish
+     * Profil maydonlari bo'yicha mos mahsulotlar (DB ga yozmasdan ham ishlatiladi).
      *
-     * @return array{product: Product, score: int}[]
+     * @return list<array{product: Product, score: int}>
      */
-    public function getRecommendations(UserProfile $profile, int $minScore = 50): array
-    {
-        if (!$profile->isAnalyzed()) {
-            return [];
-        }
-
-        $skinTone = $profile->getSkinTone();
-        $faceShape = $profile->getFaceShape();
-        $gender = $profile->getGender();
-        $occasion = $profile->getOccasion();
-        $bodyType = $profile->getBodyType();
-        $season = $profile->getSeason();
+    public function recommendForAttributes(
+        string $skinTone,
+        string $faceShape,
+        ?string $gender,
+        ?string $occasion,
+        ?string $bodyType,
+        ?string $season,
+        int $minScore = 50,
+    ): array {
         $products = $this->productRepository->findActive();
-
         $recommendations = [];
 
         foreach ($products as $product) {
-            // Gender filter: faqat mos jins yoki unisex mahsulotlar
             $productGender = $product->getGender();
             if ($gender && $productGender && $productGender !== 'unisex' && $productGender !== $gender) {
                 continue;
@@ -50,10 +45,31 @@ class SmartStyleService
             }
         }
 
-        // Score bo'yicha kamayish tartibida
         usort($recommendations, fn($a, $b) => $b['score'] <=> $a['score']);
 
         return $recommendations;
+    }
+
+    /**
+     * Foydalanuvchi profiliga mos mahsulotlarni topish
+     *
+     * @return array{product: Product, score: int}[]
+     */
+    public function getRecommendations(UserProfile $profile, int $minScore = 50): array
+    {
+        if (!$profile->isAnalyzed()) {
+            return [];
+        }
+
+        return $this->recommendForAttributes(
+            (string) $profile->getSkinTone(),
+            (string) $profile->getFaceShape(),
+            $profile->getGender(),
+            $profile->getOccasion(),
+            $profile->getBodyType(),
+            $profile->getSeason(),
+            $minScore,
+        );
     }
 
     /**

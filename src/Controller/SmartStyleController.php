@@ -2,7 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\SmartStyleScanHistory;
+use App\Entity\User;
 use App\Entity\UserProfile;
+use App\Service\SmartStyleMonthlyQuotaService;
+use App\Service\SmartStyleProfileApplier;
 use App\Service\SmartStyleService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,28 +21,38 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class SmartStyleController extends AbstractController
 {
     #[Route('', name: 'index')]
-    public function index(): Response
+    public function index(SmartStyleMonthlyQuotaService $quotaService): Response
     {
+        /** @var User $user */
         $user = $this->getUser();
         $profile = $user->getProfile();
 
         return $this->render('smart_style/index.html.twig', [
             'profile' => $profile,
+            'smartStyleQuota' => $quotaService->getStateForUser($user),
         ]);
     }
 
     #[Route('/scan', name: 'scan')]
-    public function scan(): Response
+    public function scan(SmartStyleMonthlyQuotaService $quotaService): Response
     {
-        return $this->render('smart_style/scan.html.twig');
+        /** @var User $user */
+        $user = $this->getUser();
+
+        return $this->render('smart_style/scan.html.twig', [
+            'smartStyleQuota' => $quotaService->getStateForUser($user),
+        ]);
     }
 
     #[Route('/analyze', name: 'analyze', methods: ['POST'])]
     public function analyze(
         Request $request,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        SmartStyleProfileApplier $profileApplier,
+        SmartStyleMonthlyQuotaService $quotaService,
+        SmartStyleService $smartStyleService,
     ): JsonResponse {
-        $data = json_decode($request->getContent(), true);
+        $data = json_decode($request->getContent(), true) ?? [];
 
         $skinTone = $data['skinTone'] ?? null;
         $faceShape = $data['faceShape'] ?? null;
@@ -54,58 +68,68 @@ class SmartStyleController extends AbstractController
         $waistCm = $this->sanitizeMeasurement($data['waistCm'] ?? null);
         $hipCm = $this->sanitizeMeasurement($data['hipCm'] ?? null);
 
-        // Validatsiya
         if (!$gender || !in_array($gender, UserProfile::GENDERS, true)) {
-            return $this->json(['error' => 'Jins majburiy (male yoki female).'], 400);
+            return $this->json(['success' => false, 'error' => 'Jins majburiy (male yoki female).'], 400);
         }
 
         if (!$skinTone || !in_array($skinTone, UserProfile::SKIN_TONES, true)) {
-            return $this->json(['error' => 'Noto\'g\'ri teri rangi.'], 400);
+            return $this->json(['success' => false, 'error' => 'Noto\'g\'ri teri rangi.'], 400);
         }
 
         if (!$faceShape || !in_array($faceShape, UserProfile::FACE_SHAPES, true)) {
-            return $this->json(['error' => 'Noto\'g\'ri yuz shakli.'], 400);
+            return $this->json(['success' => false, 'error' => 'Noto\'g\'ri yuz shakli.'], 400);
         }
 
         if ($occasion !== null && $occasion !== '' && !in_array($occasion, UserProfile::OCCASIONS, true)) {
-            return $this->json(['error' => 'Noto\'g\'ri occasion.'], 400);
+            return $this->json(['success' => false, 'error' => 'Noto\'g\'ri occasion.'], 400);
         }
 
         if ($styleIntent !== null && $styleIntent !== '' && !in_array($styleIntent, UserProfile::STYLE_INTENTS, true)) {
-            return $this->json(['error' => 'Noto\'g\'ri style intent.'], 400);
+            return $this->json(['success' => false, 'error' => 'Noto\'g\'ri style intent.'], 400);
         }
 
         if ($season !== null && $season !== '' && !in_array($season, UserProfile::SEASONS, true)) {
-            return $this->json(['error' => 'Noto\'g\'ri fasl.'], 400);
+            return $this->json(['success' => false, 'error' => 'Noto\'g\'ri fasl.'], 400);
         }
 
+        /** @var User $user */
         $user = $this->getUser();
-        $profile = $user->getProfile();
 
-        if (!$profile) {
-            $profile = new UserProfile();
-            $profile->setUser($user);
-            $user->setProfile($profile);
+        if ($quotaService->isBlocked($user)) {
+            $state = $quotaService->getStateForUser($user);
+
+            return $this->json([
+                'success' => false,
+                'code' => 'smart_style_monthly_limit',
+                'error' => sprintf(
+                    'Bu oy uchun SmartStyle limiti tugadi (%d/%d). Yangilanish: %s. Davom etish uchun yuqori tarifni tanlang.',
+                    (int) $state['used'],
+                    (int) $state['limit'],
+                    (string) ($state['nextResetLabel'] ?? ''),
+                ),
+                'upgradeUrl' => $this->generateUrl('app_hamkorlik_index'),
+                'used' => $state['used'],
+                'limit' => $state['limit'],
+            ], 403);
         }
 
-        $profile->setSkinTone($skinTone);
-        $profile->setFaceShape($faceShape);
-        $profile->setGender($gender);
-        $profile->setOccasion($occasion !== '' ? $occasion : null);
-        $profile->setStyleIntent($styleIntent !== '' ? $styleIntent : null);
-        $profile->setSeason($season !== '' ? $season : null);
-        $profile->setHeightCm($heightCm);
-        $profile->setShoulderCm($shoulderCm);
-        $profile->setChestCm($chestCm);
-        $profile->setWaistCm($waistCm);
-        $profile->setHipCm($hipCm);
+        $profile = $profileApplier->applyToUser(
+            $user,
+            $em,
+            $gender,
+            $skinTone,
+            $faceShape,
+            $occasion !== '' ? $occasion : null,
+            $styleIntent !== '' ? $styleIntent : null,
+            $season !== '' ? $season : null,
+            $heightCm,
+            $shoulderCm,
+            $chestCm,
+            $waistCm,
+            $hipCm,
+        );
 
-        $bodyType = SmartStyleService::detectBodyType($shoulderCm, $chestCm, $waistCm, $hipCm, $gender);
-        $profile->setBodyType($bodyType);
-
-        $profile->setAnalyzedAt(new \DateTimeImmutable());
-
-        $em->persist($profile);
+        $this->persistSmartStyleScanHistory($user, $profile, $smartStyleService, $em);
         $em->flush();
 
         return $this->json([
@@ -162,6 +186,46 @@ class SmartStyleController extends AbstractController
 
         $this->addFlash('success', 'Profilingiz tozalandi.');
         return $this->redirectToRoute('app_smart_style_index');
+    }
+
+    private function persistSmartStyleScanHistory(
+        User $user,
+        UserProfile $profile,
+        SmartStyleService $smartStyleService,
+        EntityManagerInterface $em,
+    ): void {
+        $recommendations = $smartStyleService->getRecommendations($profile);
+        $recSnapshot = array_map(static function (array $row): array {
+            return [
+                'id' => $row['product']->getId(),
+                'name' => $row['product']->getName(),
+                'score' => $row['score'],
+            ];
+        }, $recommendations);
+
+        $profileSnapshot = [
+            'gender' => $profile->getGender(),
+            'skinTone' => $profile->getSkinTone(),
+            'faceShape' => $profile->getFaceShape(),
+            'occasion' => $profile->getOccasion(),
+            'styleIntent' => $profile->getStyleIntent(),
+            'season' => $profile->getSeason(),
+            'bodyType' => $profile->getBodyType(),
+            'measurements' => [
+                'heightCm' => $profile->getHeightCm(),
+                'shoulderCm' => $profile->getShoulderCm(),
+                'chestCm' => $profile->getChestCm(),
+                'waistCm' => $profile->getWaistCm(),
+                'hipCm' => $profile->getHipCm(),
+            ],
+            'source' => 'web',
+        ];
+
+        $history = new SmartStyleScanHistory();
+        $history->setUser($user);
+        $history->setProfileSnapshot($profileSnapshot);
+        $history->setRecommendationsSnapshot($recSnapshot);
+        $em->persist($history);
     }
 
     private function sanitizeMeasurement(mixed $value): ?int

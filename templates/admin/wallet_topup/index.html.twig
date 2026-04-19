@@ -5,13 +5,13 @@
 {% block admin_body %}
 <div class="mb-8 flex items-start justify-between gap-4">
     <div>
-        <h1 class="text-2xl md:text-3xl font-display font-bold text-brand-dark">Yangi top-up so'rovlari</h1>
-        <p class="text-brand-medium mt-1">Faqat yangi so'rovlar. Tasdiqlangan/rad etilganlar tarixda.</p>
+        <h1 class="text-2xl md:text-3xl font-display font-bold text-app-ink">Yangi top-up so'rovlari</h1>
+        <p class="text-app-inkMuted mt-1">Faqat yangi so'rovlar. Tasdiqlangan/rad etilganlar tarixda.</p>
     </div>
     <div class="flex items-center gap-2">
         <a
             href="{{ path('admin_wallet_topup_history') }}"
-            class="inline-flex items-center justify-center w-10 h-10 rounded-xl border border-beige-300 text-brand-medium hover:text-peach-700 hover:border-peach-300 hover:bg-peach-50 transition-colors"
+            class="inline-flex items-center justify-center w-10 h-10 rounded-xl border border-app-hairline text-app-inkMuted hover:text-app-ink hover:border-app-accent hover:bg-app-canvas transition-colors"
             title="Top-up tarixi"
             aria-label="Top-up tarixi"
         >
@@ -23,36 +23,36 @@
 </div>
 
 <div class="card p-4 md:p-5 mb-6 flex items-center justify-between">
-    <span class="text-sm text-brand-medium">Kutilayotgan top-up so'rovlar soni</span>
-    <span class="text-xl font-display font-bold text-brand-dark">{{ requests|length }}</span>
+    <span class="text-sm text-app-inkMuted">Kutilayotgan top-up so'rovlar soni</span>
+    <span class="text-xl font-display font-bold text-app-ink">{{ requests|length }}</span>
 </div>
 
 {% if requests|length > 0 %}
-    <div class="bg-white rounded-xl shadow-sm border border-beige-200 overflow-hidden">
+    <div class="bg-white rounded-xl shadow-sm border border-app-hairline overflow-hidden">
         <table class="min-w-full">
-            <thead class="bg-beige-50">
+            <thead class="bg-app-canvas">
                 <tr>
-                    <th class="px-4 py-3 text-left text-xs font-semibold text-brand-medium uppercase">Foydalanuvchi</th>
-                    <th class="px-4 py-3 text-left text-xs font-semibold text-brand-medium uppercase">Summa</th>
-                    <th class="px-4 py-3 text-left text-xs font-semibold text-brand-medium uppercase">To'lov</th>
-                    <th class="px-4 py-3 text-left text-xs font-semibold text-brand-medium uppercase">Holat</th>
-                    <th class="px-4 py-3 text-left text-xs font-semibold text-brand-medium uppercase">Sana</th>
-                    <th class="px-4 py-3 text-left text-xs font-semibold text-brand-medium uppercase">Harakatlar</th>
+                    <th class="px-4 py-3 text-left text-xs font-semibold text-app-inkMuted uppercase">Foydalanuvchi</th>
+                    <th class="px-4 py-3 text-left text-xs font-semibold text-app-inkMuted uppercase">Summa</th>
+                    <th class="px-4 py-3 text-left text-xs font-semibold text-app-inkMuted uppercase">To'lov</th>
+                    <th class="px-4 py-3 text-left text-xs font-semibold text-app-inkMuted uppercase">Holat</th>
+                    <th class="px-4 py-3 text-left text-xs font-semibold text-app-inkMuted uppercase">Sana</th>
+                    <th class="px-4 py-3 text-left text-xs font-semibold text-app-inkMuted uppercase">Harakatlar</th>
                 </tr>
             </thead>
-            <tbody class="divide-y divide-beige-100">
+            <tbody class="divide-y divide-app-hairline">
                 {% for item in requests %}
                     <tr class="{% if item.isPending %}bg-yellow-50{% endif %}">
                         <td class="px-4 py-3">
-                            <div class="text-sm font-medium text-brand-dark">{{ item.user.fullName }}</div>
-                            <div class="text-xs text-brand-light">{{ item.user.phone }}</div>
+                            <div class="text-sm font-medium text-app-ink">{{ item.user.fullName }}</div>
+                            <div class="text-xs text-app-inkMuted">{{ item.user.phone }}</div>
                         </td>
                         <td class="px-4 py-3">
-                            <span class="text-sm font-bold text-brand-dark">{{ item.amount|number_format(0, '.', ' ') }} so'm</span>
+                            <span class="text-sm font-bold text-app-ink">{{ item.amount|number_format(0, '.', ' ') }} so'm</span>
                         </td>
-                        <td class="px-4 py-3 text-xs text-brand-dark">
+                        <td class="px-4 py-3 text-xs text-app-ink">
                             <div>{{ item.methodLabel }}</div>
-                            <div class="text-brand-light">User: {{ item.user.fullName }}</div>
+                            <div class="text-app-inkMuted">User: {{ item.user.fullName }}</div>
                         </td>
                         <td class="px-4 py-3">
                             <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium
@@ -62,7 +62,7 @@
                                 {{ item.statusLabel }}
                             </span>
                         </td>
-                        <td class="px-4 py-3 text-sm text-brand-light">
+                        <td class="px-4 py-3 text-sm text-app-inkMuted">
                             {{ item.createdAt|date('d.m.Y H:i') }}
                         </td>
                         <td class="px-4 py-3">
@@ -85,7 +85,7 @@
                                     </form>
                                 </div>
                             {% else %}
-                                <span class="text-xs text-brand-light">
+                                <span class="text-xs text-app-inkMuted">
                                     {% if item.processedAt %}{{ item.processedAt|date('d.m.Y H:i') }}{% endif %}
                                 </span>
                             {% endif %}
@@ -96,8 +96,8 @@
         </table>
     </div>
 {% else %}
-    <div class="bg-white rounded-xl shadow-sm border border-beige-200 p-12 text-center">
-        <p class="text-brand-light">Yangi top-up so'rovlari yo'q.</p>
+    <div class="bg-white rounded-xl shadow-sm border border-app-hairline p-12 text-center">
+        <p class="text-app-inkMuted">Yangi top-up so'rovlari yo'q.</p>
     </div>
 {% endif %}
 {% endblock %}

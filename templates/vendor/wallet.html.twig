@@ -3,85 +3,77 @@
 {% block title %}Virtual Kassa{% endblock %}
 
 {% block main %}
-<div class="max-w-5xl mx-auto">
-    <h1 class="text-2xl font-bold text-gray-800 mb-6">Virtual Kassa</h1>
+<div class="w-full min-w-0">
+    <h1 class="text-xl sm:text-2xl font-display font-semibold text-app-ink mb-4">Virtual Kassa</h1>
 
-    {# ─── Jami ko'rsatkichlar ─── #}
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-        <div class="bg-white rounded-2xl border shadow-sm p-5">
-            <p class="text-xs text-gray-500 uppercase tracking-wide mb-1">Jami savdo summasi</p>
-            <p class="text-3xl font-bold text-gray-800">{{ vendor.totalEarnings|number_format(0, '.', ' ') }}</p>
-            <p class="text-sm text-gray-400">so'm (barcha vaqt)</p>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6">
+        <div class="card p-4 min-w-0">
+            <p class="text-[10px] sm:text-xs text-app-inkMuted uppercase tracking-wide mb-1 app-prose-tight">Jami savdo summasi</p>
+            <p class="app-money font-display text-xl sm:text-3xl text-app-ink leading-tight">{{ vendor.totalEarnings|number_format(0, '.', ' ') }}</p>
+            <p class="text-xs text-app-inkMuted app-prose-tight">so'm (barcha vaqt)</p>
         </div>
 
-        <div class="bg-orange-50 rounded-2xl border border-orange-200 p-5">
-            <p class="text-xs text-orange-600 uppercase tracking-wide mb-1">Platforma ulushi (to'lanmagan)</p>
-            <p class="text-3xl font-bold text-orange-700">{{ unsettled|number_format(0, '.', ' ') }}</p>
-            <p class="text-sm text-orange-500">so'm (admin undirishi kerak)</p>
+        <div class="rounded-[20px] border border-orange-200 bg-orange-50/90 p-4 min-w-0">
+            <p class="text-[10px] sm:text-xs text-orange-700 uppercase tracking-wide mb-1 app-prose-tight">Platforma ulushi (to'lanmagan)</p>
+            <p class="app-money font-display text-xl sm:text-3xl text-orange-700 leading-tight">{{ unsettled|number_format(0, '.', ' ') }}</p>
+            <p class="text-xs text-orange-600 app-prose-tight">so'm (admin undirishi kerak)</p>
         </div>
 
-        <div class="bg-green-50 rounded-2xl border border-green-200 p-5">
-            <p class="text-xs text-green-600 uppercase tracking-wide mb-1">Sizning qo'lingizdagi</p>
-            <p class="text-3xl font-bold text-green-700">
+        <div class="rounded-[20px] border border-green-200 bg-green-50/90 p-4 min-w-0">
+            <p class="text-[10px] sm:text-xs text-green-700 uppercase tracking-wide mb-1 app-prose-tight">Sizning qo'lingizdagi</p>
+            <p class="app-money font-display text-xl sm:text-3xl text-green-800 leading-tight">
                 {{ (vendor.totalEarnings - unsettled)|number_format(0, '.', ' ') }}
             </p>
-            <p class="text-sm text-green-500">so'm (taxminiy)</p>
+            <p class="text-xs text-green-600 app-prose-tight">so'm (taxminiy)</p>
         </div>
     </div>
 
-    <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-4 text-sm text-yellow-800 mb-6">
+    <div class="rounded-[14px] border border-amber-200 bg-amber-50 p-3 sm:p-4 text-xs sm:text-sm text-amber-950 mb-6 app-prose-tight">
         <strong>Qanday ishlaydi?</strong>
         Har safar "Tayyor — yetkazib berdim" bossangiz, kiritgan summa kassaga yoziladi.
         Oyning oxirida admin platforma ulushini sizdan to'ldirishingizni so'raydi.
     </div>
 
-    {# ─── Tranzaksiyalar tarixi ─── #}
     {% if transactions is empty %}
-        <div class="bg-white rounded-2xl border p-12 text-center text-gray-400">
+        <div class="card p-10 sm:p-12 text-center text-app-inkMuted">
             <p class="text-4xl mb-3">📋</p>
             <p>Hali tranzaksiya yo'q</p>
         </div>
     {% else %}
-        <div class="bg-white rounded-2xl border shadow-sm overflow-hidden">
-            <div class="px-6 py-4 border-b">
-                <h2 class="font-semibold text-gray-800">Tranzaksiyalar tarixi</h2>
+        <div class="card overflow-hidden min-w-0">
+            <div class="px-4 sm:px-6 py-3 border-b border-app-hairline">
+                <h2 class="font-display font-semibold text-app-ink text-sm sm:text-base">Tranzaksiyalar tarixi</h2>
             </div>
-            <div class="overflow-x-auto">
-            <table class="w-full text-sm">
+            <div class="app-table-scroll">
+            <table class="w-full text-[11px] sm:text-sm min-w-[720px]">
                 <thead>
-                <tr class="bg-gray-50 text-gray-500 text-xs uppercase border-b">
-                    <th class="text-left px-6 py-3">Zakaz</th>
-                    <th class="text-right px-4 py-3">Savdo summasi</th>
-                    <th class="text-right px-4 py-3">Platforma ulushi</th>
-                    <th class="text-right px-4 py-3">Sizda qoldi</th>
-                    <th class="text-center px-4 py-3">Holati</th>
-                    <th class="text-right px-6 py-3">Sana</th>
+                <tr class="bg-app-canvas text-app-inkMuted text-[10px] sm:text-xs uppercase border-b border-app-hairline">
+                    <th class="text-left px-3 sm:px-6 py-2.5">Zakaz</th>
+                    <th class="text-right px-2 py-2.5">Savdo</th>
+                    <th class="text-right px-2 py-2.5">Platforma</th>
+                    <th class="text-right px-2 py-2.5">Sizda</th>
+                    <th class="text-center px-2 py-2.5">Holat</th>
+                    <th class="text-right px-3 sm:px-6 py-2.5">Sana</th>
                 </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-100">
+                <tbody class="divide-y divide-app-hairline">
                 {% for tx in transactions %}
-                <tr class="hover:bg-gray-50">
-                    <td class="px-6 py-3 font-medium">#{{ tx.order.id }}</td>
-                    <td class="px-4 py-3 text-right font-semibold text-gray-800">
-                        {{ tx.saleAmount|number_format(0, '.', ' ') }} so'm
-                    </td>
-                    <td class="px-4 py-3 text-right text-orange-600">
+                <tr class="hover:bg-app-canvas/60">
+                    <td class="px-3 sm:px-6 py-2.5 font-medium text-app-ink">#{{ tx.order.id }}</td>
+                    <td class="px-2 py-2.5 text-right font-semibold text-app-ink app-money">{{ tx.saleAmount|number_format(0, '.', ' ') }} so'm</td>
+                    <td class="px-2 py-2.5 text-right text-orange-600 app-money app-prose-tight">
                         {{ tx.commissionAmount|number_format(0, '.', ' ') }} so'm
-                        <span class="text-xs text-gray-400">({{ tx.commissionRate }}%)</span>
+                        <span class="text-app-inkMuted block sm:inline text-[10px]">({{ tx.commissionRate }}%)</span>
                     </td>
-                    <td class="px-4 py-3 text-right font-semibold text-green-700">
-                        {{ tx.vendorAmount|number_format(0, '.', ' ') }} so'm
-                    </td>
-                    <td class="px-4 py-3 text-center">
+                    <td class="px-2 py-2.5 text-right font-semibold text-green-700 app-money">{{ tx.vendorAmount|number_format(0, '.', ' ') }} so'm</td>
+                    <td class="px-2 py-2.5 text-center">
                         {% if tx.status == 'settled' %}
-                            <span class="inline-flex px-2 py-1 rounded-full text-xs bg-gray-100 text-gray-600">Yopildi</span>
+                            <span class="inline-flex px-2 py-1 rounded-full text-[10px] sm:text-xs bg-app-canvas text-app-inkMuted border border-app-hairline">Yopildi</span>
                         {% else %}
-                            <span class="inline-flex px-2 py-1 rounded-full text-xs bg-green-100 text-green-700">Faol</span>
+                            <span class="inline-flex px-2 py-1 rounded-full text-[10px] sm:text-xs bg-green-100 text-green-800">Faol</span>
                         {% endif %}
                     </td>
-                    <td class="px-6 py-3 text-right text-gray-400 text-xs">
-                        {{ tx.createdAt|date('d.m.Y H:i') }}
-                    </td>
+                    <td class="px-3 sm:px-6 py-2.5 text-right text-app-inkMuted text-[10px] sm:text-xs whitespace-nowrap">{{ tx.createdAt|date('d.m.Y H:i') }}</td>
                 </tr>
                 {% endfor %}
                 </tbody>

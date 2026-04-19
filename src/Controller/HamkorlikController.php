@@ -2,10 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\CorporatePartnershipRequest;
 use App\Entity\MembershipPlan;
+use App\Entity\User;
+use App\Form\CorporatePartnershipRequestType;
 use App\Repository\MembershipPlanRepository;
-use App\Service\BonusService;
 use App\Service\MembershipService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,6 +29,36 @@ class HamkorlikController extends AbstractController
         return $this->render('hamkorlik/index.html.twig', [
             'plans' => $plans,
             'currentPlan' => $this->getUser()?->getCurrentPlan() ?? 'free',
+        ]);
+    }
+
+    /**
+     * Korporativ hamkorlik — so'rov formasi (B2B)
+     */
+    #[Route('/korporativ', name: 'app_hamkorlik_corporate', methods: ['GET', 'POST'], priority: 10)]
+    public function corporate(Request $request, EntityManagerInterface $em): Response
+    {
+        $entity = new CorporatePartnershipRequest();
+        $user = $this->getUser();
+        if ($user instanceof User) {
+            $entity->setSubmittedByUser($user);
+            $entity->setContactFullName((string) $user->getFullName());
+            $entity->setPhone((string) $user->getPhone());
+        }
+
+        $form = $this->createForm(CorporatePartnershipRequestType::class, $entity);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($entity);
+            $em->flush();
+            $this->addFlash('success', 'So‘rovingiz qabul qilindi. Tez orada siz bilan bog‘lanamiz.');
+
+            return $this->redirectToRoute('app_hamkorlik_corporate');
+        }
+
+        return $this->render('hamkorlik/corporate.html.twig', [
+            'form' => $form,
         ]);
     }
 

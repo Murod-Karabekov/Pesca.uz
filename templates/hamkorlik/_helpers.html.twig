@@ -1,0 +1,11 @@
+{# Mahsulot referral foizi: Start UI da 0; butun son bo‘lsa butun, aks holda 1 ta onlik (masalan 0.5). #}
+{% macro product_referral_pct(plan) -%}
+    {%- set p = plan.productReferralPercent + 0 -%}
+    {%- if plan.slug == 'start' -%}
+        0
+    {%- elseif p|round(0, 'floor') == p|round(0, 'ceil') -%}
+        {{ p|round(0) }}
+    {%- else -%}
+        {{ p|number_format(1, '.', '') }}
+    {%- endif -%}
+{%- endmacro %}

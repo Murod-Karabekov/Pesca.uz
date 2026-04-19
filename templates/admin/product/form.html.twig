@@ -4,11 +4,11 @@
 
 {% block admin_body %}
 <div class="mb-8">
-    <a href="{{ path('admin_product_index') }}" class="inline-flex items-center gap-2 text-sm text-brand-medium hover:text-peach-600 transition-colors mb-4">
+    <a href="{{ path('admin_product_index') }}" class="inline-flex items-center gap-2 text-sm text-app-inkMuted hover:text-app-ink transition-colors mb-4">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
         Mahsulotlarga qaytish
     </a>
-    <h1 class="text-2xl md:text-3xl font-display font-bold text-brand-dark">{{ title }}</h1>
+    <h1 class="text-2xl md:text-3xl font-display font-bold text-app-ink">{{ title }}</h1>
 </div>
 
 <div class="card p-6 md:p-8 max-w-2xl">
@@ -17,58 +17,58 @@
     {{ form_errors(form) }}
 
     <div>
-        {{ form_label(form.name, null, {'label_attr': {'class': 'block text-sm font-medium text-brand-dark mb-2'}}) }}
+        {{ form_label(form.name, null, {'label_attr': {'class': 'block text-sm font-medium text-app-ink mb-2'}}) }}
         {{ form_widget(form.name) }}
         {{ form_errors(form.name) }}
     </div>
 
     <div>
-        {{ form_label(form.price, null, {'label_attr': {'class': 'block text-sm font-medium text-brand-dark mb-2'}}) }}
+        {{ form_label(form.price, null, {'label_attr': {'class': 'block text-sm font-medium text-app-ink mb-2'}}) }}
         {{ form_widget(form.price) }}
         {{ form_errors(form.price) }}
     </div>
 
     <div>
-        {{ form_label(form.description, null, {'label_attr': {'class': 'block text-sm font-medium text-brand-dark mb-2'}}) }}
+        {{ form_label(form.description, null, {'label_attr': {'class': 'block text-sm font-medium text-app-ink mb-2'}}) }}
         {{ form_widget(form.description) }}
         {{ form_errors(form.description) }}
     </div>
 
     <div>
-        {{ form_label(form.size, null, {'label_attr': {'class': 'block text-sm font-medium text-brand-dark mb-2'}}) }}
+        {{ form_label(form.size, null, {'label_attr': {'class': 'block text-sm font-medium text-app-ink mb-2'}}) }}
         {{ form_widget(form.size) }}
         {{ form_errors(form.size) }}
-        <p class="text-xs text-brand-medium mt-1">Masalan: 53, 54 yoki X, XL</p>
+        <p class="text-xs text-app-inkMuted mt-1">Masalan: 53, 54 yoki X, XL</p>
     </div>
 
     <div>
-        {{ form_label(form.category, null, {'label_attr': {'class': 'block text-sm font-medium text-brand-dark mb-2'}}) }}
+        {{ form_label(form.category, null, {'label_attr': {'class': 'block text-sm font-medium text-app-ink mb-2'}}) }}
         {{ form_widget(form.category) }}
         {{ form_errors(form.category) }}
     </div>
 
     {# ─── SmartStyle Settings ─── #}
-    <div class="border-t border-beige-200 pt-6 mt-6">
-        <h3 class="text-lg font-display font-semibold text-brand-dark mb-4">
+    <div class="border-t border-app-hairline pt-6 mt-6">
+        <h3 class="text-lg font-display font-semibold text-app-ink mb-4">
             ✨ SmartStyle sozlamalari
         </h3>
-        <p class="text-xs text-brand-medium mb-4">Bu mahsulot qaysi jins, teri rangi va yuz shakliga mos keladi?</p>
+        <p class="text-xs text-app-inkMuted mb-4">Bu mahsulot qaysi jins, teri rangi va yuz shakliga mos keladi?</p>
 
         <div class="mb-6">
-            {{ form_label(form.gender, null, {'label_attr': {'class': 'block text-sm font-medium text-brand-dark mb-2'}}) }}
+            {{ form_label(form.gender, null, {'label_attr': {'class': 'block text-sm font-medium text-app-ink mb-2'}}) }}
             {{ form_widget(form.gender) }}
             {{ form_errors(form.gender) }}
         </div>
 
         <div class="mb-6">
-            <label class="block text-sm font-medium text-brand-dark mb-3">Mos teri tonlari</label>
+            <label class="block text-sm font-medium text-app-ink mb-3">Mos teri tonlari</label>
             <div class="flex flex-wrap gap-3">
                 {% for child in form.skinTones %}
                 <label class="cursor-pointer">
                     {{ form_widget(child, {'attr': {'class': 'sr-only peer'}}) }}
-                    <span class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl border-2 border-beige-300 text-sm font-medium text-brand-medium
-                                 peer-checked:border-peach-500 peer-checked:bg-peach-50 peer-checked:text-peach-700
-                                 hover:border-peach-300 transition-all duration-200">
+                    <span class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl border-2 border-app-hairline text-sm font-medium text-app-inkMuted
+                                 peer-checked:border-app-ink peer-checked:bg-app-canvas peer-checked:text-app-ink
+                                 hover:border-app-accent transition-all duration-200">
                         {{ child.vars.label }}
                     </span>
                 </label>
@@ -78,14 +78,14 @@
         </div>
 
         <div>
-            <label class="block text-sm font-medium text-brand-dark mb-3">Mos yuz shakllari</label>
+            <label class="block text-sm font-medium text-app-ink mb-3">Mos yuz shakllari</label>
             <div class="flex flex-wrap gap-3">
                 {% for child in form.faceShapes %}
                 <label class="cursor-pointer">
                     {{ form_widget(child, {'attr': {'class': 'sr-only peer'}}) }}
-                    <span class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl border-2 border-beige-300 text-sm font-medium text-brand-medium
-                                 peer-checked:border-peach-500 peer-checked:bg-peach-50 peer-checked:text-peach-700
-                                 hover:border-peach-300 transition-all duration-200">
+                    <span class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl border-2 border-app-hairline text-sm font-medium text-app-inkMuted
+                                 peer-checked:border-app-ink peer-checked:bg-app-canvas peer-checked:text-app-ink
+                                 hover:border-app-accent transition-all duration-200">
                         {{ child.vars.label }}
                     </span>
                 </label>
@@ -95,14 +95,14 @@
         </div>
 
         <div class="mt-6">
-            <label class="block text-sm font-medium text-brand-dark mb-3">Voqealar (Occasion)</label>
+            <label class="block text-sm font-medium text-app-ink mb-3">Voqealar (Occasion)</label>
             <div class="flex flex-wrap gap-3">
                 {% for child in form.occasions %}
                 <label class="cursor-pointer">
                     {{ form_widget(child, {'attr': {'class': 'sr-only peer'}}) }}
-                    <span class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl border-2 border-beige-300 text-sm font-medium text-brand-medium
-                                 peer-checked:border-peach-500 peer-checked:bg-peach-50 peer-checked:text-peach-700
-                                 hover:border-peach-300 transition-all duration-200">
+                    <span class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl border-2 border-app-hairline text-sm font-medium text-app-inkMuted
+                                 peer-checked:border-app-ink peer-checked:bg-app-canvas peer-checked:text-app-ink
+                                 hover:border-app-accent transition-all duration-200">
                         {{ child.vars.label }}
                     </span>
                 </label>
@@ -112,14 +112,14 @@
         </div>
 
         <div class="mt-6">
-            <label class="block text-sm font-medium text-brand-dark mb-3">Uslub yo'nalishlari (Style)</label>
+            <label class="block text-sm font-medium text-app-ink mb-3">Uslub yo'nalishlari (Style)</label>
             <div class="flex flex-wrap gap-3">
                 {% for child in form.styleIntents %}
                 <label class="cursor-pointer">
                     {{ form_widget(child, {'attr': {'class': 'sr-only peer'}}) }}
-                    <span class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl border-2 border-beige-300 text-sm font-medium text-brand-medium
-                                 peer-checked:border-peach-500 peer-checked:bg-peach-50 peer-checked:text-peach-700
-                                 hover:border-peach-300 transition-all duration-200">
+                    <span class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl border-2 border-app-hairline text-sm font-medium text-app-inkMuted
+                                 peer-checked:border-app-ink peer-checked:bg-app-canvas peer-checked:text-app-ink
+                                 hover:border-app-accent transition-all duration-200">
                         {{ child.vars.label }}
                     </span>
                 </label>
@@ -129,12 +129,12 @@
         </div>
 
         <div class="mt-6">
-            <label class="block text-sm font-medium text-brand-dark mb-3">Fasllar</label>
+            <label class="block text-sm font-medium text-app-ink mb-3">Fasllar</label>
             <div class="flex flex-wrap gap-3">
                 {% for child in form.seasons %}
                 <label class="cursor-pointer">
                     {{ form_widget(child, {'attr': {'class': 'sr-only peer'}}) }}
-                    <span class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl border-2 border-beige-300 text-sm font-medium text-brand-medium
+                    <span class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl border-2 border-app-hairline text-sm font-medium text-app-inkMuted
                                  peer-checked:border-teal-400 peer-checked:bg-teal-50 peer-checked:text-teal-700
                                  hover:border-teal-300 transition-all duration-200">
                         {{ child.vars.label }}
@@ -146,12 +146,12 @@
         </div>
 
         <div class="mt-6">
-            <label class="block text-sm font-medium text-brand-dark mb-3">Mos tana turlari</label>
+            <label class="block text-sm font-medium text-app-ink mb-3">Mos tana turlari</label>
             <div class="flex flex-wrap gap-3">
                 {% for child in form.bodyTypes %}
                 <label class="cursor-pointer flex items-center gap-2">
                     {{ form_widget(child, {'attr': {'class': 'sr-only peer'}}) }}
-                    <span class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border-2 border-beige-300 text-sm font-medium text-brand-medium
+                    <span class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border-2 border-app-hairline text-sm font-medium text-app-inkMuted
                                  peer-checked:border-purple-400 peer-checked:bg-purple-50 peer-checked:text-purple-700
                                  hover:border-purple-300 transition-all duration-200">
                         <img src="/images/mannequins/woman/{{ child.vars.value }}.png" alt="" class="w-5 h-5 object-contain">
@@ -165,12 +165,12 @@
     </div>
 
     <div>
-        {{ form_label(form.imageFile, null, {'label_attr': {'class': 'block text-sm font-medium text-brand-dark mb-2'}}) }}
+        {{ form_label(form.imageFile, null, {'label_attr': {'class': 'block text-sm font-medium text-app-ink mb-2'}}) }}
         {% if product.imageSrc %}
             <div class="mb-3">
                 <img src="{{ product.imageSrc }}" alt="Current" class="w-32 h-32 object-cover rounded-xl">
                 {% if product.isExternalImage %}
-                    <p class="text-xs text-brand-medium mt-1">Tashqi havola orqali</p>
+                    <p class="text-xs text-app-inkMuted mt-1">Tashqi havola orqali</p>
                 {% endif %}
             </div>
         {% endif %}
@@ -179,15 +179,15 @@
     </div>
 
     <div>
-        {{ form_label(form.imageUrl, null, {'label_attr': {'class': 'block text-sm font-medium text-brand-dark mb-2'}}) }}
+        {{ form_label(form.imageUrl, null, {'label_attr': {'class': 'block text-sm font-medium text-app-ink mb-2'}}) }}
         {{ form_widget(form.imageUrl) }}
         {{ form_errors(form.imageUrl) }}
-        <p class="text-xs text-brand-medium mt-1">Rasm havolasini kiritish fayl yuklashdan ustun turadi. VDS'da joy tejaydi.</p>
+        <p class="text-xs text-app-inkMuted mt-1">Rasm havolasini kiritish fayl yuklashdan ustun turadi. VDS'da joy tejaydi.</p>
     </div>
 
     <div class="flex items-center gap-3">
-        {{ form_widget(form.status, {'attr': {'class': 'w-5 h-5 rounded border-beige-300 text-peach-500 focus:ring-peach-300'}}) }}
-        {{ form_label(form.status, null, {'label_attr': {'class': 'text-sm font-medium text-brand-dark'}}) }}
+        {{ form_widget(form.status, {'attr': {'class': 'w-5 h-5 rounded border-app-hairline text-app-ink focus:ring-app-ink/20'}}) }}
+        {{ form_label(form.status, null, {'label_attr': {'class': 'text-sm font-medium text-app-ink'}}) }}
     </div>
 
     <div class="flex gap-3 pt-4">

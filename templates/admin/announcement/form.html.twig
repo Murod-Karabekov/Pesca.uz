@@ -4,79 +4,79 @@
 
 {% block admin_body %}
 <div class="mb-8">
-    <a href="{{ path('admin_announcement_index') }}" class="inline-flex items-center gap-2 text-sm text-brand-medium hover:text-peach-600 transition-colors mb-4">
+    <a href="{{ path('admin_announcement_index') }}" class="inline-flex items-center gap-2 text-sm text-app-inkMuted hover:text-app-ink transition-colors mb-4">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
         E'lonlarga qaytish
     </a>
-    <h1 class="text-2xl md:text-3xl font-display font-bold text-brand-dark">{{ title }}</h1>
+    <h1 class="text-2xl md:text-3xl font-display font-bold text-app-ink">{{ title }}</h1>
 </div>
 
 <div class="card p-5 md:p-6 max-w-4xl">
     {{ form_start(form, {'attr': {'class': 'space-y-5', 'novalidate': 'novalidate'}}) }}
 
-    <div class="rounded-2xl border border-beige-200 bg-beige-50 p-4">
-        <h2 class="text-sm font-semibold text-brand-dark mb-1">1. Asosiy ma'lumot</h2>
-        <p class="text-xs text-brand-medium">Sarlavha va matn qanday kiritsangiz, frontda shunday ko'rinadi.</p>
+    <div class="rounded-2xl border border-app-hairline bg-app-canvas p-4">
+        <h2 class="text-sm font-semibold text-app-ink mb-1">1. Asosiy ma'lumot</h2>
+        <p class="text-xs text-app-inkMuted">Sarlavha va matn qanday kiritsangiz, frontda shunday ko'rinadi.</p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
         <div>
-        {{ form_label(form.title, null, {'label_attr': {'class': 'block text-sm font-medium text-brand-dark mb-2'}}) }}
+        {{ form_label(form.title, null, {'label_attr': {'class': 'block text-sm font-medium text-app-ink mb-2'}}) }}
         {{ form_widget(form.title) }}
         {{ form_errors(form.title) }}
-            <p class="text-xs text-brand-medium mt-1">Masalan: 🔥 Yangi kolleksiya chiqdi</p>
+            <p class="text-xs text-app-inkMuted mt-1">Masalan: 🔥 Yangi kolleksiya chiqdi</p>
         </div>
         <div>
-            {{ form_label(form.sortOrder, null, {'label_attr': {'class': 'block text-sm font-medium text-brand-dark mb-2'}}) }}
+            {{ form_label(form.sortOrder, null, {'label_attr': {'class': 'block text-sm font-medium text-app-ink mb-2'}}) }}
             {{ form_widget(form.sortOrder) }}
             {{ form_errors(form.sortOrder) }}
-            <p class="text-xs text-brand-medium mt-1">Kichik raqam oldin chiqadi.</p>
+            <p class="text-xs text-app-inkMuted mt-1">Kichik raqam oldin chiqadi.</p>
         </div>
     </div>
 
     <div>
-        {{ form_label(form.body, null, {'label_attr': {'class': 'block text-sm font-medium text-brand-dark mb-2'}}) }}
+        {{ form_label(form.body, null, {'label_attr': {'class': 'block text-sm font-medium text-app-ink mb-2'}}) }}
         {{ form_widget(form.body) }}
         {{ form_errors(form.body) }}
-        <p class="text-xs text-brand-medium mt-1">Home'da qisqa preview chiqadi, foydalanuvchi bosib to'liq o'qiydi.</p>
+        <p class="text-xs text-app-inkMuted mt-1">Home'da qisqa preview chiqadi, foydalanuvchi bosib to'liq o'qiydi.</p>
     </div>
 
-    <div class="rounded-2xl border border-beige-200 bg-beige-50 p-4">
-        <h2 class="text-sm font-semibold text-brand-dark mb-1">2. Media va tugma (ixtiyoriy)</h2>
-        <p class="text-xs text-brand-medium">Rasm/video link bo'lsa qo'shing, bo'lmasa bo'sh qoldiring.</p>
+    <div class="rounded-2xl border border-app-hairline bg-app-canvas p-4">
+        <h2 class="text-sm font-semibold text-app-ink mb-1">2. Media va tugma (ixtiyoriy)</h2>
+        <p class="text-xs text-app-inkMuted">Rasm/video link bo'lsa qo'shing, bo'lmasa bo'sh qoldiring.</p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
         <div>
-            {{ form_label(form.mediaType, null, {'label_attr': {'class': 'block text-sm font-medium text-brand-dark mb-2'}}) }}
+            {{ form_label(form.mediaType, null, {'label_attr': {'class': 'block text-sm font-medium text-app-ink mb-2'}}) }}
             {{ form_widget(form.mediaType) }}
             {{ form_errors(form.mediaType) }}
         </div>
         <div>
-            {{ form_label(form.mediaUrl, null, {'label_attr': {'class': 'block text-sm font-medium text-brand-dark mb-2'}}) }}
+            {{ form_label(form.mediaUrl, null, {'label_attr': {'class': 'block text-sm font-medium text-app-ink mb-2'}}) }}
             {{ form_widget(form.mediaUrl) }}
             {{ form_errors(form.mediaUrl) }}
         </div>
     </div>
 
-    <p class="text-xs text-brand-medium -mt-2">Video uchun YouTube yoki Vimeo link ishlatish tavsiya qilinadi.</p>
+    <p class="text-xs text-app-inkMuted -mt-2">Video uchun YouTube yoki Vimeo link ishlatish tavsiya qilinadi.</p>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
         <div>
-            {{ form_label(form.ctaLabel, null, {'label_attr': {'class': 'block text-sm font-medium text-brand-dark mb-2'}}) }}
+            {{ form_label(form.ctaLabel, null, {'label_attr': {'class': 'block text-sm font-medium text-app-ink mb-2'}}) }}
             {{ form_widget(form.ctaLabel) }}
             {{ form_errors(form.ctaLabel) }}
         </div>
         <div>
-            {{ form_label(form.ctaUrl, null, {'label_attr': {'class': 'block text-sm font-medium text-brand-dark mb-2'}}) }}
+            {{ form_label(form.ctaUrl, null, {'label_attr': {'class': 'block text-sm font-medium text-app-ink mb-2'}}) }}
             {{ form_widget(form.ctaUrl) }}
             {{ form_errors(form.ctaUrl) }}
         </div>
     </div>
 
-    <div class="flex flex-wrap items-center gap-3 rounded-xl bg-beige-50 px-4 py-3">
+    <div class="flex flex-wrap items-center gap-3 rounded-xl bg-app-canvas px-4 py-3">
         {{ form_widget(form.isActive) }}
-        {{ form_label(form.isActive, null, {'label_attr': {'class': 'text-sm font-medium text-brand-dark'}}) }}
+        {{ form_label(form.isActive, null, {'label_attr': {'class': 'text-sm font-medium text-app-ink'}}) }}
         {{ form_errors(form.isActive) }}
     </div>
 

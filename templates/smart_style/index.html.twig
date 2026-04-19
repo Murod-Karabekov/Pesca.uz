@@ -3,67 +3,93 @@
 {% block title %}SmartStyle — Pesca{% endblock %}
 
 {% block body %}
-<section class="py-8 md:py-14">
+<section class="py-8 md:py-12 bg-app-canvas border-b border-app-hairline">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {% if profile and profile.isAnalyzed %}
         {# ─── Natija mavjud ─── #}
-        <div class="rounded-2xl md:rounded-3xl border border-green-200 bg-gradient-to-b from-green-50 to-white p-4 md:p-8 mb-5 md:mb-6">
-            <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-white text-green-700 rounded-full text-xs font-semibold border border-green-200 mb-4">
-                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+        {% if smartStyleQuota.limit is not null and smartStyleQuota.blocked %}
+        <div class="card p-4 md:p-5 mb-5 border border-amber-200 bg-amber-50/90 text-sm text-app-ink">
+            <p class="font-semibold text-app-ink mb-1">Bu oy uchun SmartStyle limiti tugadi</p>
+            <p class="text-app-inkMuted leading-relaxed mb-3">Yuqori tarifga o‘tgach yoki keyingi oyda ({{ smartStyleQuota.nextResetLabel }}) qayta tahlil qilishingiz mumkin.</p>
+            <a href="{{ path('app_hamkorlik_index') }}" class="btn-primary inline-flex justify-center min-h-[44px] text-sm px-5">Tariflarni ko‘rish</a>
+        </div>
+        {% elseif smartStyleQuota.limit is not null %}
+        <div class="card p-4 md:p-5 mb-5 border border-app-hairline bg-white text-xs sm:text-sm text-app-inkMuted">
+            <span class="font-semibold text-app-ink">SmartStyle (bu oy):</span>
+            <span class="tabular-nums">{{ smartStyleQuota.used }}</span> / <span class="tabular-nums">{{ smartStyleQuota.limit }}</span> marta ishlatilgan
+            {% if smartStyleQuota.remaining > 0 %}— yana <span class="tabular-nums font-semibold text-app-ink">{{ smartStyleQuota.remaining }}</span> marta{% endif %}.
+            Yangilanish: <span class="font-medium text-app-ink">{{ smartStyleQuota.nextResetLabel }}</span>.
+        </div>
+        {% elseif smartStyleQuota.limit is null %}
+        <div class="card p-4 md:p-5 mb-5 border border-amber-200 bg-gradient-to-r from-amber-50 to-white text-xs sm:text-sm text-app-ink">
+            <span class="font-semibold text-app-ink">VIP · SmartStyle</span>
+            <span class="text-app-inkMuted"> — bu oy uchun limit yo‘q; tahlil va tavsiyalardan cheksiz foydalanasiz.</span>
+            {% if smartStyleQuota.used > 0 %}<span class="block mt-1 text-app-inkMuted">Hozirgacha ishlatilgan: <strong class="text-app-ink tabular-nums">{{ smartStyleQuota.used }}</strong> marta.</span>{% endif %}
+        </div>
+        {% endif %}
+        <div class="card p-5 md:p-8 mb-6 border border-app-hairline bg-white">
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold border border-app-hairline text-app-ink bg-app-canvas mb-4">
+                <svg class="w-4 h-4 text-app-accent shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
                 Profilingiz tayyor
             </div>
-            <h1 class="text-xl md:text-4xl font-display font-bold text-brand-dark mb-2">SmartStyle profilingiz faol</h1>
-            <p class="text-sm md:text-base text-brand-medium">Endi AI stilist sizning yuz shaklingiz, tana ma'lumotingiz va tanlagan uslubingiz asosida eng mos obrazlarni tavsiya qiladi.</p>
+            <h1 class="text-2xl md:text-3xl font-display font-medium text-app-ink tracking-tight mb-2">SmartStyle profilingiz faol</h1>
+            <p class="text-sm md:text-base text-app-inkMuted">Endi AI stilist sizning yuz shaklingiz, tana ma'lumotingiz va tanlagan uslubingiz asosida eng mos obrazlarni tavsiya qiladi.</p>
         </div>
 
         <div class="card p-4 md:p-7 mb-5">
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 md:gap-4 mb-4 md:mb-6">
-                <div class="bg-beige-50 rounded-2xl p-3 md:p-5 text-center">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4 mb-5 md:mb-6">
+                <div class="rounded-[14px] border border-app-hairline bg-app-canvas p-4 text-center">
                     <div class="text-3xl mb-2">{{ profile.gender == 'male' ? '👨' : (profile.gender == 'female' ? '👩' : '🧍') }}</div>
-                    <p class="text-xs text-brand-medium mb-1">Jins</p>
-                    <p class="font-display font-bold text-brand-dark text-sm md:text-base">{{ profile.genderLabel }}</p>
+                    <p class="text-[10px] font-semibold uppercase tracking-widest text-app-accent mb-1">Jins</p>
+                    <p class="font-display font-semibold text-app-ink text-sm md:text-base">{{ profile.genderLabel }}</p>
                 </div>
-                <div class="bg-beige-50 rounded-2xl p-3 md:p-5 text-center">
+                <div class="rounded-[14px] border border-app-hairline bg-app-canvas p-4 text-center">
                     <div class="text-3xl mb-2">👤</div>
-                    <p class="text-xs text-brand-medium mb-1">Yuz shakli</p>
-                    <p class="font-display font-bold text-brand-dark text-sm md:text-base">{{ profile.faceShapeLabel }}</p>
+                    <p class="text-[10px] font-semibold uppercase tracking-widest text-app-accent mb-1">Yuz shakli</p>
+                    <p class="font-display font-semibold text-app-ink text-sm md:text-base">{{ profile.faceShapeLabel }}</p>
                 </div>
-                <div class="bg-beige-50 rounded-2xl p-3 md:p-5 text-center">
+                <div class="rounded-[14px] border border-app-hairline bg-app-canvas p-4 text-center">
                     <div class="text-3xl mb-2">🎨</div>
-                    <p class="text-xs text-brand-medium mb-1">Teri rangi</p>
-                    <p class="font-display font-bold text-brand-dark text-sm md:text-base">{{ profile.skinToneLabel }}</p>
+                    <p class="text-[10px] font-semibold uppercase tracking-widest text-app-accent mb-1">Teri rangi</p>
+                    <p class="font-display font-semibold text-app-ink text-sm md:text-base">{{ profile.skinToneLabel }}</p>
                 </div>
             </div>
 
             {% if profile.bodyType and profile.mannequinImage %}
-            <div class="flex items-center gap-4 bg-beige-50 rounded-2xl px-4 py-3 mb-4">
+            <div class="flex items-center gap-4 rounded-[14px] border border-app-hairline bg-app-canvas px-4 py-3 mb-4">
                 <img src="{{ profile.mannequinImage }}"
                      alt="{{ profile.bodyTypeLabel }}"
                      class="w-12 h-12 object-contain shrink-0">
                 <div>
-                    <p class="text-xs text-brand-medium">Tana turi</p>
-                    <p class="font-display font-bold text-brand-dark text-sm">{{ profile.bodyTypeLabel }}</p>
+                    <p class="text-[10px] font-semibold uppercase tracking-widest text-app-accent">Tana turi</p>
+                    <p class="font-display font-semibold text-app-ink text-sm">{{ profile.bodyTypeLabel }}</p>
                 </div>
             </div>
             {% endif %}
 
-            <p class="text-xs text-brand-medium text-center mb-4 md:mb-6">
+            <p class="text-xs text-app-inkMuted text-center mb-5 md:mb-6">
                 Oxirgi tahlil: {{ profile.analyzedAt|date('d.m.Y, H:i') }}
             </p>
 
             <div class="space-y-3">
-                     <a href="{{ path('app_smart_style_results') }}"
-                         class="w-full btn-primary justify-center text-center block py-3 md:py-4 text-sm md:text-base">
+                <a href="{{ path('app_smart_style_results') }}"
+                   class="w-full btn-primary justify-center text-center block py-3.5 text-sm md:text-base">
                     👗 Menga mos kiyimlarni ko'rsat
                 </a>
+                {% if smartStyleQuota.limit is not null and smartStyleQuota.blocked %}
+                <span class="w-full btn-secondary justify-center text-center block py-3.5 text-sm md:text-base opacity-60 cursor-not-allowed pointer-events-none" title="Limit tugagan">
+                    🔄 Qayta skanerlash (limit tugagan)
+                </span>
+                {% else %}
                 <a href="{{ path('app_smart_style_scan') }}"
-                   class="w-full btn-secondary justify-center text-center block">
+                   class="w-full btn-secondary justify-center text-center block py-3.5 text-sm md:text-base">
                     🔄 Qayta skanerlash
                 </a>
+                {% endif %}
                 <form method="post" action="{{ path('app_smart_style_clear') }}" class="text-center">
                     <input type="hidden" name="_token" value="{{ csrf_token('smart_style_clear') }}">
-                    <button type="submit" class="text-sm text-red-400 hover:text-red-600 transition-colors mt-2"
+                    <button type="submit" class="text-sm text-red-600 hover:text-red-700 font-medium mt-2"
                             data-confirm="Profilingizni tozalashni xohlaysizmi?">
                         🗑 Profilni tozalash
                     </button>
@@ -73,34 +99,40 @@
 
         {% else %}
         {# ─── Yangi foydalanuvchi ─── #}
-        <div class="relative overflow-hidden rounded-2xl md:rounded-3xl border border-beige-200 bg-gradient-to-b from-white via-beige-50 to-white px-4 py-6 md:px-8 md:py-10 mb-6">
-            <div class="absolute -top-20 -right-20 w-56 h-56 rounded-full bg-peach-200/40 blur-3xl"></div>
-            <div class="relative">
-                <p class="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.15em] uppercase text-brand-muted mb-3">AI Styling</p>
-                <h1 class="text-2xl md:text-4xl font-display font-bold text-brand-dark mb-3">SmartStyle</h1>
-                <p class="text-brand-medium max-w-xl text-sm md:text-base">Shaxsiy AI stilist: yuz shakli, tana o'lchovi, uslub, voqea va faslga mos eng kuchli kombinatsiyalarni topib beradi.</p>
-            </div>
+        {% if smartStyleQuota.limit is not null %}
+        <div class="rounded-[14px] border border-app-hairline bg-white px-4 py-3 mb-5 text-xs sm:text-sm text-app-inkMuted text-center">
+            Joriy tarifingiz bo‘yicha SmartStyle tahlili: bu oy maksimal <strong class="text-app-ink tabular-nums">{{ smartStyleQuota.limit }}</strong> marta.
+            {% if smartStyleQuota.used > 0 %}Hozircha ishlatilgan: <strong class="text-app-ink tabular-nums">{{ smartStyleQuota.used }}</strong>.{% endif %}
+        </div>
+        {% elseif smartStyleQuota.limit is null %}
+        <div class="rounded-[14px] border border-amber-200 bg-gradient-to-r from-amber-50 to-white px-4 py-3 mb-5 text-xs sm:text-sm text-app-ink text-center">
+            <strong class="text-app-ink">VIP</strong> — SmartStyle uchun oylik limit yo‘q, cheksiz tahlil.
+        </div>
+        {% endif %}
+        <div class="card p-6 md:p-9 mb-6">
+            <p class="text-xs font-semibold tracking-[0.2em] uppercase text-app-accent mb-3">AI Styling</p>
+            <h1 class="text-2xl md:text-3xl font-display font-medium text-app-ink tracking-tight mb-3">SmartStyle</h1>
+            <p class="text-app-inkMuted max-w-xl text-sm md:text-base leading-relaxed">Shaxsiy AI stilist: yuz shakli, tana o'lchovi, uslub, voqea va faslga mos eng kuchli kombinatsiyalarni topib beradi.</p>
         </div>
 
-        {# Feature cards #}
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-7">
-            <div class="card p-4 md:p-5 text-center">
-                <div class="text-3xl mb-3">📸</div>
-                <h3 class="font-semibold text-brand-dark text-sm">Selfie</h3>
+            <div class="card p-5 text-center">
+                <div class="text-3xl mb-2">📸</div>
+                <h3 class="font-semibold text-app-ink text-sm">Selfie</h3>
             </div>
-            <div class="card p-4 md:p-5 text-center">
-                <div class="text-3xl mb-3">🧠</div>
-                <h3 class="font-semibold text-brand-dark text-sm">AI tahlil</h3>
+            <div class="card p-5 text-center">
+                <div class="text-3xl mb-2">🧠</div>
+                <h3 class="font-semibold text-app-ink text-sm">AI tahlil</h3>
             </div>
-            <div class="card p-4 md:p-5 text-center">
-                <div class="text-3xl mb-3">👗</div>
-                <h3 class="font-semibold text-brand-dark text-sm">Mos obraz</h3>
+            <div class="card p-5 text-center">
+                <div class="text-3xl mb-2">👗</div>
+                <h3 class="font-semibold text-app-ink text-sm">Mos obraz</h3>
             </div>
         </div>
 
         <div class="text-center mb-6">
-                <a href="{{ path('app_smart_style_scan') }}"
-                    class="btn-primary inline-flex items-center gap-2 py-3 md:py-4 px-5 md:px-8 text-sm md:text-base">
+            <a href="{{ path('app_smart_style_scan') }}"
+               class="btn-primary inline-flex items-center gap-2 py-3.5 px-6 md:px-8 text-sm md:text-base">
                 <span>📸</span>
                 <span>AI stilistni ishga tushirish</span>
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -110,9 +142,9 @@
         </div>
 
         <div class="text-center">
-            <p class="text-xs text-brand-medium flex items-center justify-center gap-2">
-                <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg>
-                Rasmingiz serverga yuborilmaydi. Hamma tahlil telefoningizda amalga oshiriladi.
+            <p class="text-[11px] md:text-xs text-app-inkMuted flex items-center justify-center gap-2">
+                <svg class="w-4 h-4 text-app-accent shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg>
+                Rasmingiz serverga yuborilmaydi. Hamma tahlil brauzeringizda amalga oshiriladi.
             </p>
         </div>
         {% endif %}

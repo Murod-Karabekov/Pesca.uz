@@ -3,100 +3,100 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block main %}
-<div class="max-w-5xl mx-auto">
-    <h1 class="text-2xl font-bold text-gray-800 mb-6">Salom, {{ vendor.name }}! 👋</h1>
+<div class="w-full min-w-0">
+    <h1 class="text-xl sm:text-2xl font-display font-semibold text-app-ink mb-1 app-prose-tight">Salom, {{ vendor.name }}! 👋</h1>
+    <p class="text-sm text-app-inkMuted mb-5">Tezkor ko'rsatkichlar</p>
 
-    {# ─── Statistika kartalar ─── #}
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <div class="bg-white rounded-2xl p-5 shadow-sm border">
-            <p class="text-xs text-gray-500 uppercase tracking-wide mb-1">Jami savdo</p>
-            <p class="text-2xl font-bold text-gray-800">{{ vendor.totalEarnings|number_format(0, '.', ' ') }}</p>
-            <p class="text-xs text-gray-400">so'm</p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
+        <div class="card p-4 min-w-0">
+            <p class="text-[10px] sm:text-xs text-app-inkMuted uppercase tracking-wide mb-1 app-prose-tight">Jami savdo</p>
+            <p class="app-money font-display text-lg sm:text-2xl text-app-ink leading-tight">{{ vendor.totalEarnings|number_format(0, '.', ' ') }}</p>
+            <p class="text-[11px] text-app-inkMuted">so'm</p>
         </div>
 
-        <div class="bg-white rounded-2xl p-5 shadow-sm border">
-            <p class="text-xs text-gray-500 uppercase tracking-wide mb-1">Platforma ulushi</p>
-            <p class="text-2xl font-bold text-orange-600">{{ unsettledCommission|number_format(0, '.', ' ') }}</p>
-            <p class="text-xs text-gray-400">so'm (to'lanmagan)</p>
+        <div class="card p-4 min-w-0">
+            <p class="text-[10px] sm:text-xs text-app-inkMuted uppercase tracking-wide mb-1 app-prose-tight">Platforma ulushi</p>
+            <p class="app-money font-display text-lg sm:text-2xl text-orange-600 leading-tight">{{ unsettledCommission|number_format(0, '.', ' ') }}</p>
+            <p class="text-[11px] text-app-inkMuted app-prose-tight">so'm (to'lanmagan)</p>
         </div>
 
-        <div class="bg-white rounded-2xl p-5 shadow-sm border">
-            <p class="text-xs text-gray-500 uppercase tracking-wide mb-1">Kutilayotgan</p>
-            <p class="text-2xl font-bold text-yellow-600">{{ pendingCount }}</p>
-            <p class="text-xs text-gray-400">mahsulot (admin tekshiruvida)</p>
+        <div class="card p-4 min-w-0">
+            <p class="text-[10px] sm:text-xs text-app-inkMuted uppercase tracking-wide mb-1 app-prose-tight">Kutilayotgan</p>
+            <p class="app-money font-display text-lg sm:text-2xl text-amber-600 leading-tight">{{ pendingCount }}</p>
+            <p class="text-[11px] text-app-inkMuted app-prose-tight">mahsulot (admin tekshiruvida)</p>
         </div>
 
-        <div class="bg-white rounded-2xl p-5 shadow-sm border">
-            <p class="text-xs text-gray-500 uppercase tracking-wide mb-1">Tasdiqlangan</p>
-            <p class="text-2xl font-bold text-green-600">{{ publishedCount }}</p>
-            <p class="text-xs text-gray-400">mahsulot (saytda)</p>
+        <div class="card p-4 min-w-0">
+            <p class="text-[10px] sm:text-xs text-app-inkMuted uppercase tracking-wide mb-1 app-prose-tight">Tasdiqlangan</p>
+            <p class="app-money font-display text-lg sm:text-2xl text-green-600 leading-tight">{{ publishedCount }}</p>
+            <p class="text-[11px] text-app-inkMuted app-prose-tight">mahsulot (saytda)</p>
         </div>
     </div>
 
-    {# ─── Tez harakatlar ─── #}
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6 sm:mb-8">
         <a href="{{ path('vendor_product_new') }}"
-           class="flex items-center gap-4 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl p-5 transition-colors">
-            <svg class="w-8 h-8 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+           class="card p-4 flex items-start gap-3 min-h-[72px] border-app-ink/10 bg-app-ink text-app-canvas hover:opacity-95 transition-opacity">
+            <svg class="w-8 h-8 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4v16m8-8H4"/>
             </svg>
-            <div>
-                <p class="font-semibold">Yangi mahsulot</p>
-                <p class="text-xs opacity-80">Admin tekshiruvi uchun yuborish</p>
+            <div class="min-w-0">
+                <p class="font-semibold app-prose-tight">Yangi mahsulot</p>
+                <p class="text-xs opacity-85 mt-0.5 app-prose-tight">Admin tekshiruvi uchun yuborish</p>
             </div>
         </a>
 
         <a href="{{ path('vendor_orders') }}"
-           class="flex items-center gap-4 bg-white hover:bg-gray-50 border rounded-2xl p-5 transition-colors">
-            <svg class="w-8 h-8 shrink-0 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+           class="card p-4 flex items-start gap-3 min-h-[72px] hover:bg-app-canvas/50 transition-colors">
+            <svg class="w-8 h-8 shrink-0 text-app-inkMuted mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
             </svg>
-            <div>
-                <p class="font-semibold text-gray-800">Buyurtmalar</p>
-                <p class="text-xs text-gray-500">Yangi zakazlarni ko'rish</p>
+            <div class="min-w-0">
+                <p class="font-semibold text-app-ink app-prose-tight">Buyurtmalar</p>
+                <p class="text-xs text-app-inkMuted mt-0.5 app-prose-tight">Yangi zakazlarni ko'rish</p>
             </div>
         </a>
 
         <a href="{{ path('vendor_wallet') }}"
-           class="flex items-center gap-4 bg-white hover:bg-gray-50 border rounded-2xl p-5 transition-colors">
-            <svg class="w-8 h-8 shrink-0 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+           class="card p-4 flex items-start gap-3 min-h-[72px] hover:bg-app-canvas/50 transition-colors">
+            <svg class="w-8 h-8 shrink-0 text-app-inkMuted mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
             </svg>
-            <div>
-                <p class="font-semibold text-gray-800">Virtual kassa</p>
-                <p class="text-xs text-gray-500">Savdo tarixi</p>
+            <div class="min-w-0">
+                <p class="font-semibold text-app-ink app-prose-tight">Virtual kassa</p>
+                <p class="text-xs text-app-inkMuted mt-0.5 app-prose-tight">Savdo tarixi</p>
             </div>
         </a>
     </div>
 
-    {# ─── Oxirgi tranzaksiyalar ─── #}
     {% if recentTx is not empty %}
-    <div class="bg-white rounded-2xl shadow-sm border overflow-hidden">
-        <div class="px-6 py-4 border-b">
-            <h2 class="font-semibold text-gray-800">Oxirgi tasdiqlangan zakazlar</h2>
+    <div class="card overflow-hidden min-w-0">
+        <div class="px-4 sm:px-6 py-3 border-b border-app-hairline">
+            <h2 class="font-display font-semibold text-app-ink text-sm sm:text-base app-prose-tight">Oxirgi tasdiqlangan zakazlar</h2>
         </div>
-        <table class="w-full text-sm">
+        <div class="app-table-scroll">
+            <table class="w-full text-xs sm:text-sm min-w-[640px]">
             <thead>
-            <tr class="bg-gray-50 text-gray-500 text-xs uppercase">
-                <th class="text-left px-6 py-3">Zakaz #</th>
-                <th class="text-right px-6 py-3">Summa</th>
-                <th class="text-right px-6 py-3">Platforma ulushi</th>
-                <th class="text-right px-6 py-3">Sana</th>
+            <tr class="bg-app-canvas text-app-inkMuted text-[10px] sm:text-xs uppercase border-b border-app-hairline">
+                <th class="text-left px-3 sm:px-6 py-2.5 sm:py-3">Zakaz #</th>
+                <th class="text-right px-2 sm:px-6 py-2.5 sm:py-3">Summa</th>
+                <th class="text-right px-2 sm:px-6 py-2.5 sm:py-3">Platforma ulushi</th>
+                <th class="text-right px-3 sm:px-6 py-2.5 sm:py-3">Sana</th>
             </tr>
             </thead>
-            <tbody class="divide-y divide-gray-100">
+            <tbody class="divide-y divide-app-hairline">
             {% for tx in recentTx %}
-            <tr class="hover:bg-gray-50">
-                <td class="px-6 py-3 font-medium">#{{ tx.order.id }}</td>
-                <td class="px-6 py-3 text-right font-semibold text-green-700">{{ tx.saleAmount|number_format(0, '.', ' ') }} so'm</td>
-                <td class="px-6 py-3 text-right text-orange-600">{{ tx.commissionAmount|number_format(0, '.', ' ') }} so'm ({{ tx.commissionRate }}%)</td>
-                <td class="px-6 py-3 text-right text-gray-400">{{ tx.createdAt|date('d.m.Y H:i') }}</td>
+            <tr class="hover:bg-app-canvas/60">
+                <td class="px-3 sm:px-6 py-2.5 sm:py-3 font-medium text-app-ink">#{{ tx.order.id }}</td>
+                <td class="px-2 sm:px-6 py-2.5 sm:py-3 text-right font-semibold text-green-700 app-money text-[11px] sm:text-sm">{{ tx.saleAmount|number_format(0, '.', ' ') }} so'm</td>
+                <td class="px-2 sm:px-6 py-2.5 sm:py-3 text-right text-orange-600 app-prose-tight text-[11px] sm:text-sm">{{ tx.commissionAmount|number_format(0, '.', ' ') }} so'm <span class="text-app-inkMuted">({{ tx.commissionRate }}%)</span></td>
+                <td class="px-3 sm:px-6 py-2.5 sm:py-3 text-right text-app-inkMuted text-[10px] sm:text-xs whitespace-nowrap">{{ tx.createdAt|date('d.m.Y H:i') }}</td>
             </tr>
             {% endfor %}
             </tbody>
         </table>
-        <div class="px-6 py-3 border-t">
-            <a href="{{ path('vendor_wallet') }}" class="text-sm text-blue-600 hover:underline">Barchasini ko'rish →</a>
+        </div>
+        <div class="px-4 sm:px-6 py-3 border-t border-app-hairline">
+            <a href="{{ path('vendor_wallet') }}" class="text-sm font-medium text-app-accent hover:text-app-ink">Barchasini ko'rish →</a>
         </div>
     </div>
     {% endif %}

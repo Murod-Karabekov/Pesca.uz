@@ -2,12 +2,13 @@
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#F7F5F2">
     <title>{% block title %}Pesca — Online kiyim do'koni{% endblock %}</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>🛍️</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
     {% endblock %}
@@ -15,15 +16,15 @@
         {{ encore_entry_script_tags('app') }}
     {% endblock %}
 </head>
-<body class="min-h-screen flex flex-col">
+<body class="min-h-screen flex flex-col bg-app-canvas text-app-ink">
     {# ─── Flash Messages ─── #}
     {% for label, messages in app.flashes %}
         {% for message in messages %}
-            <div data-flash class="fixed top-4 right-4 z-50 max-w-sm px-6 py-4 rounded-xl shadow-lg text-sm font-medium
-                {% if label == 'success' %} bg-green-50 text-green-800 border border-green-200
-                {% elseif label == 'error' %} bg-red-50 text-red-800 border border-red-200
-                {% elseif label == 'warning' %} bg-yellow-50 text-yellow-800 border border-yellow-200
-                {% else %} bg-blue-50 text-blue-800 border border-blue-200 {% endif %}">
+            <div data-flash class="fixed top-4 right-4 z-50 max-w-sm px-5 py-4 rounded-[14px] shadow-sm text-sm font-medium border border-app-hairline
+                {% if label == 'success' %} bg-white text-green-800
+                {% elseif label == 'error' %} bg-white text-red-800
+                {% elseif label == 'warning' %} bg-white text-amber-900
+                {% else %} bg-white text-app-ink {% endif %}">
                 {{ message }}
             </div>
         {% endfor %}
@@ -31,42 +32,42 @@
 
     {# ─── Navigation ─── #}
     {% block navbar %}
-    <nav class="bg-white/80 backdrop-blur-md border-b border-beige-200 sticky top-0 z-40">
+    <nav class="bg-app-canvas/95 backdrop-blur-md border-b border-app-hairline sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
+            <div class="flex items-center justify-between h-[4.5rem]">
                 {# Logo #}
-                <a href="{{ path('app_home') }}" class="flex items-center gap-2">
-                    <span class="text-2xl font-display font-bold text-brand-dark">Pesca</span>
-                    <span class="text-xs text-brand-light tracking-widest uppercase">Store</span>
+                <a href="{{ path('app_home') }}" class="flex items-center gap-2 group">
+                    <span class="text-xl sm:text-2xl font-display font-semibold text-app-ink tracking-tight">Pesca</span>
+                    <span class="text-[10px] sm:text-xs text-app-accent font-semibold tracking-[0.2em] uppercase">Store</span>
                 </a>
 
                 {# Desktop Nav #}
-                <div class="hidden md:flex items-center gap-8">
-                    <a href="{{ path('app_home') }}" class="text-sm font-medium text-brand-medium hover:text-peach-600 transition-colors">Bosh sahifa</a>
-                    <a href="{{ path('app_product_index') }}" class="text-sm font-medium text-brand-medium hover:text-peach-600 transition-colors">Kolleksiya</a>
-                    <a href="{{ path('app_hamkorlik_index') }}" class="text-sm font-medium text-brand-medium hover:text-peach-600 transition-colors">Hamkorlik</a>
+                <div class="hidden md:flex items-center gap-7">
+                    <a href="{{ path('app_home') }}" class="text-sm font-medium text-app-inkMuted hover:text-app-ink transition-colors">Bosh sahifa</a>
+                    <a href="{{ path('app_product_index') }}" class="text-sm font-medium text-app-inkMuted hover:text-app-ink transition-colors">Kolleksiya</a>
+                    <a href="{{ path('app_hamkorlik_index') }}" class="text-sm font-medium text-app-inkMuted hover:text-app-ink transition-colors">Hamkorlik</a>
                     {% if app.user %}
-                        <a href="{{ path('app_smart_style_index') }}" class="text-sm font-medium text-peach-600 hover:text-peach-700 transition-colors flex items-center gap-1">
+                        <a href="{{ path('app_smart_style_index') }}" class="text-sm font-semibold text-app-accent hover:text-app-ink transition-colors flex items-center gap-1">
                             <span>✨</span> SmartStyle
                         </a>
-                        <a href="{{ path('app_cart_index') }}" class="text-sm font-medium text-brand-medium hover:text-peach-600 transition-colors relative">
+                        <a href="{{ path('app_cart_index') }}" class="text-sm font-medium text-app-inkMuted hover:text-app-ink transition-colors relative">
                             Savatcha
                         </a>
                         {% if is_granted('ROLE_ADMIN') %}
-                            <a href="{{ path('admin_dashboard') }}" class="text-sm font-medium text-peach-600 hover:text-peach-700 transition-colors">Admin</a>
+                            <a href="{{ path('admin_dashboard') }}" class="text-sm font-semibold text-app-accent hover:text-app-ink transition-colors">Admin</a>
                         {% endif %}
-                        <a href="{{ path('app_profile_index') }}" class="flex items-center gap-2 px-3 py-1.5 bg-beige-100 rounded-full hover:bg-beige-200 transition-colors">
-                            <span class="w-7 h-7 bg-gradient-to-br from-peach-400 to-peach-600 rounded-full flex items-center justify-center text-xs font-bold text-white">{{ app.user.fullName|first|upper }}</span>
-                            <span class="text-sm font-medium text-brand-dark">{{ app.user.fullName|split(' ')[0] }}</span>
+                        <a href="{{ path('app_profile_index') }}" class="flex items-center gap-2 px-3 py-1.5 rounded-full border border-app-hairline bg-white hover:bg-app-canvas transition-colors">
+                            <span class="w-7 h-7 bg-app-ink rounded-full flex items-center justify-center text-xs font-bold text-app-canvas">{{ app.user.fullName|first|upper }}</span>
+                            <span class="text-sm font-semibold text-app-ink">{{ app.user.fullName|split(' ')[0] }}</span>
                         </a>
                     {% else %}
-                        <a href="{{ path('app_login') }}" class="btn-primary text-sm !py-2 !px-4">Kirish</a>
+                        <a href="{{ path('app_login') }}" class="btn-primary text-sm !py-2.5 !px-5">Kirish</a>
                     {% endif %}
                 </div>
 
                 {# Mobile Toggle #}
-                <button id="mobile-menu-toggle" class="md:hidden p-2 rounded-lg hover:bg-beige-100 transition-colors">
-                    <svg class="w-6 h-6 text-brand-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <button id="mobile-menu-toggle" class="md:hidden p-2 rounded-[14px] hover:bg-white border border-transparent hover:border-app-hairline transition-colors" type="button" aria-label="Menyu">
+                    <svg class="w-6 h-6 text-app-ink" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                     </svg>
                 </button>
@@ -74,20 +75,20 @@
         </div>
 
         {# Mobile Menu #}
-        <div id="mobile-menu" class="hidden md:hidden border-t border-beige-200 bg-white">
-            <div class="px-4 py-4 space-y-3">
-                <a href="{{ path('app_home') }}" class="block text-sm font-medium text-brand-medium hover:text-peach-600">Bosh sahifa</a>
-                <a href="{{ path('app_product_index') }}" class="block text-sm font-medium text-brand-medium hover:text-peach-600">Kolleksiya</a>
-                <a href="{{ path('app_hamkorlik_index') }}" class="block text-sm font-medium text-brand-medium hover:text-peach-600">Hamkorlik</a>
+        <div id="mobile-menu" class="hidden md:hidden border-t border-app-hairline bg-app-canvas">
+            <div class="px-4 py-4 space-y-2">
+                <a href="{{ path('app_home') }}" class="block rounded-[14px] px-3 py-2.5 text-sm font-medium text-app-inkMuted hover:text-app-ink hover:bg-white">Bosh sahifa</a>
+                <a href="{{ path('app_product_index') }}" class="block rounded-[14px] px-3 py-2.5 text-sm font-medium text-app-inkMuted hover:text-app-ink hover:bg-white">Kolleksiya</a>
+                <a href="{{ path('app_hamkorlik_index') }}" class="block rounded-[14px] px-3 py-2.5 text-sm font-medium text-app-inkMuted hover:text-app-ink hover:bg-white">Hamkorlik</a>
                 {% if app.user %}
-                    <a href="{{ path('app_smart_style_index') }}" class="block text-sm font-medium text-peach-600 hover:text-peach-700">✨ SmartStyle</a>
-                    <a href="{{ path('app_cart_index') }}" class="block text-sm font-medium text-brand-medium hover:text-peach-600">Savatcha</a>
+                    <a href="{{ path('app_smart_style_index') }}" class="block rounded-[14px] px-3 py-2.5 text-sm font-semibold text-app-accent hover:text-app-ink hover:bg-white">✨ SmartStyle</a>
+                    <a href="{{ path('app_cart_index') }}" class="block rounded-[14px] px-3 py-2.5 text-sm font-medium text-app-inkMuted hover:text-app-ink hover:bg-white">Savatcha</a>
                     {% if is_granted('ROLE_ADMIN') %}
-                        <a href="{{ path('admin_dashboard') }}" class="block text-sm font-medium text-peach-600">Admin</a>
+                        <a href="{{ path('admin_dashboard') }}" class="block rounded-[14px] px-3 py-2.5 text-sm font-semibold text-app-accent">Admin</a>
                     {% endif %}
-                    <hr class="border-beige-200">
-                    <a href="{{ path('app_profile_index') }}" class="block text-sm font-medium text-brand-dark hover:text-peach-600">👤 Shaxsiy kabinet</a>
-                    <a href="{{ path('app_logout') }}" class="block text-sm font-medium text-red-500">Chiqish</a>
+                    <hr class="border-app-hairline my-2">
+                    <a href="{{ path('app_profile_index') }}" class="block rounded-[14px] px-3 py-2.5 text-sm font-semibold text-app-ink hover:bg-white">👤 Shaxsiy kabinet</a>
+                    <a href="{{ path('app_logout') }}" class="block rounded-[14px] px-3 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50">Chiqish</a>
                 {% else %}
                     <a href="{{ path('app_login') }}" class="block btn-primary text-sm text-center">Kirish</a>
                 {% endif %}
@@ -103,25 +104,25 @@
 
     {# ─── Footer ─── #}
     {% block footer %}
-    <footer class="bg-brand-dark text-white mt-auto">
+    <footer class="mt-auto border-t border-app-hairline bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div>
-                    <h3 class="text-xl font-display font-bold mb-4">Pesca</h3>
-                    <p class="text-brand-muted text-sm leading-relaxed">Sifatli va zamonaviy kiyimlar. Buyurtma bering — uyingizga tezkor yetkazib beramiz.</p>
+                    <h3 class="text-xl font-display font-semibold mb-3 text-app-ink">Pesca</h3>
+                    <p class="text-app-inkMuted text-sm leading-relaxed">Sifatli va zamonaviy kiyimlar. Buyurtma bering — uyingizga tezkor yetkazib beramiz.</p>
                 </div>
                 <div>
-                    <h4 class="font-semibold text-sm uppercase tracking-wider mb-4">Tezkor havolalar</h4>
-                    <ul class="space-y-2 text-sm text-brand-muted">
-                        <li><a href="{{ path('app_product_index') }}" class="hover:text-peach-400 transition-colors">Kolleksiya</a></li>
+                    <h4 class="font-semibold text-xs uppercase tracking-[0.15em] text-app-accent mb-4">Tezkor havolalar</h4>
+                    <ul class="space-y-2 text-sm text-app-inkMuted">
+                        <li><a href="{{ path('app_product_index') }}" class="hover:text-app-ink transition-colors">Kolleksiya</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4 class="font-semibold text-sm uppercase tracking-wider mb-4">Aloqa</h4>
-                    <p class="text-sm text-brand-muted">Toshkent, O'zbekiston</p>
+                    <h4 class="font-semibold text-xs uppercase tracking-[0.15em] text-app-accent mb-4">Aloqa</h4>
+                    <p class="text-sm text-app-inkMuted">Toshkent, O'zbekiston</p>
                 </div>
             </div>
-            <div class="border-t border-white/10 mt-10 pt-6 text-center text-xs text-brand-muted">
+            <div class="border-t border-app-hairline mt-10 pt-6 text-center text-xs text-app-inkMuted">
                 &copy; {{ "now"|date("Y") }} Pesca. Barcha huquqlar himoyalangan.
             </div>
         </div>

@@ -3,15 +3,15 @@
 {% block title %}Buyurtmalar{% endblock %}
 
 {% block main %}
-<div class="max-w-7xl mx-auto">
-    <div class="mb-8 flex items-start justify-between gap-4">
-        <div>
-            <h1 class="text-2xl md:text-3xl font-bold text-gray-800">Buyurtmalar</h1>
-            <p class="text-gray-500 mt-1">Qatorni bossangiz mahsulotlar ro'yxati ochiladi.</p>
+<div class="w-full min-w-0">
+    <div class="mb-5 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <div class="min-w-0">
+            <h1 class="text-xl sm:text-2xl md:text-3xl font-display font-semibold text-app-ink app-prose-tight">Buyurtmalar</h1>
+            <p class="text-sm text-app-inkMuted mt-1 app-prose-tight">Qatorni bossangiz mahsulotlar ro'yxati ochiladi.</p>
         </div>
         <a
             href="{{ path('vendor_orders_history') }}"
-            class="inline-flex items-center justify-center w-10 h-10 rounded-xl border border-gray-300 text-gray-600 hover:text-amber-700 hover:border-amber-300 hover:bg-amber-50 transition-colors"
+            class="inline-flex items-center justify-center min-w-[48px] min-h-[48px] shrink-0 rounded-[14px] border border-app-hairline bg-white text-app-inkMuted hover:text-app-ink hover:bg-app-canvas transition-colors self-start"
             title="Yetkazib berilganlar tarixi"
             aria-label="Yetkazib berilganlar tarixi"
         >
@@ -21,61 +21,61 @@
         </a>
     </div>
 
-    <div class="bg-white rounded-2xl border p-4 md:p-5 mb-6 flex items-center justify-between">
-        <span class="text-sm text-gray-500">Aktiv buyurtmalar soni</span>
-        <span class="text-xl font-bold text-gray-800">{{ activeOrders|length }}</span>
+    <div class="card p-4 mb-5 flex flex-wrap items-center justify-between gap-2 min-w-0">
+        <span class="text-sm text-app-inkMuted app-prose-tight">Aktiv buyurtmalar soni</span>
+        <span class="text-xl font-display font-semibold text-app-ink tabular-nums">{{ activeOrders|length }}</span>
     </div>
 
     {% if activeOrders|length > 0 %}
-        <div class="bg-white rounded-2xl border overflow-hidden mb-10">
-            <div class="overflow-x-auto">
-                <table class="w-full">
-                    <thead class="bg-gray-50 border-b">
+        <div class="card overflow-hidden mb-8 min-w-0">
+            <div class="app-table-scroll">
+                <table class="w-full min-w-[720px]">
+                    <thead class="bg-app-canvas border-b border-app-hairline">
                         <tr>
-                            <th class="px-5 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Order</th>
-                            <th class="px-5 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Mijoz</th>
-                            <th class="px-5 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Mahsulot</th>
-                            <th class="px-5 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Jami</th>
-                            <th class="px-5 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Sana</th>
-                            <th class="px-5 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"></th>
+                            <th class="px-3 sm:px-5 py-3 text-left text-[10px] sm:text-xs font-semibold text-app-inkMuted uppercase tracking-wider whitespace-nowrap">Order</th>
+                            <th class="px-3 sm:px-5 py-3 text-left text-[10px] sm:text-xs font-semibold text-app-inkMuted uppercase tracking-wider">Mijoz</th>
+                            <th class="px-3 sm:px-5 py-3 text-left text-[10px] sm:text-xs font-semibold text-app-inkMuted uppercase tracking-wider">Mahsulot</th>
+                            <th class="px-3 sm:px-5 py-3 text-left text-[10px] sm:text-xs font-semibold text-app-inkMuted uppercase tracking-wider">Jami</th>
+                            <th class="px-3 sm:px-5 py-3 text-left text-[10px] sm:text-xs font-semibold text-app-inkMuted uppercase tracking-wider whitespace-nowrap">Sana</th>
+                            <th class="px-3 sm:px-5 py-3 text-left text-[10px] sm:text-xs font-semibold text-app-inkMuted uppercase tracking-wider min-w-[11rem]"></th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-100">
+                    <tbody class="divide-y divide-app-hairline">
                         {% for card in activeOrders %}
                             {% set order = card.order %}
                             {% set firstItem = card.items|first %}
-                            <tr class="vendor-order-row hover:bg-gray-50/70 transition-colors cursor-pointer" data-order-id="{{ order.id }}">
-                                <td class="px-5 py-4 text-sm font-semibold text-gray-800">#{{ order.id }}</td>
-                                <td class="px-5 py-4 text-sm text-gray-600">
-                                    <div class="font-medium text-gray-800">{{ order.customerFullName }}</div>
-                                    <div class="text-xs text-gray-500">{{ order.customerPhone }}</div>
+                            <tr class="vendor-order-row hover:bg-app-canvas/60 transition-colors cursor-pointer" data-order-id="{{ order.id }}">
+                                <td class="px-3 sm:px-5 py-3 text-xs sm:text-sm font-semibold text-app-ink whitespace-nowrap">#{{ order.id }}</td>
+                                <td class="px-3 sm:px-5 py-3 text-xs sm:text-sm text-app-inkMuted max-w-[14rem]">
+                                    <div class="font-medium text-app-ink app-prose-tight">{{ order.customerFullName }}</div>
+                                    <div class="text-[11px] text-app-inkMuted break-all">{{ order.customerPhone }}</div>
                                 </td>
-                                <td class="px-5 py-4 text-sm text-gray-600">
+                                <td class="px-3 sm:px-5 py-3 text-xs sm:text-sm text-app-inkMuted min-w-0 max-w-[16rem]">
                                     {% if firstItem %}
-                                        <div class="font-medium text-gray-800">{{ firstItem.productNameSnapshot }}</div>
-                                        <div class="text-xs text-gray-500">+{{ card.items|length - 1 }} ta qo'shimcha</div>
+                                        <div class="font-medium text-app-ink app-prose-tight leading-snug">{{ firstItem.productNameSnapshot }}</div>
+                                        <div class="text-[11px] text-app-inkMuted">+{{ card.items|length - 1 }} ta qo'shimcha</div>
                                     {% endif %}
                                 </td>
-                                <td class="px-5 py-4 text-sm font-semibold text-gray-800">{{ card.total|number_format(0, '.', ' ') }} so'm</td>
-                                <td class="px-5 py-4 text-sm text-gray-600">{{ order.createdAt|date('d.m.Y H:i') }}</td>
-                                <td class="px-5 py-4">
-                                    <div class="order-actions flex items-center justify-end gap-2">
-                                            <form action="{{ path('vendor_order_confirm', {orderId: order.id}) }}" method="POST">
+                                <td class="px-3 sm:px-5 py-3 text-xs sm:text-sm font-semibold text-app-ink app-money whitespace-nowrap">{{ card.total|number_format(0, '.', ' ') }} so'm</td>
+                                <td class="px-3 sm:px-5 py-3 text-xs sm:text-sm text-app-inkMuted whitespace-nowrap">{{ order.createdAt|date('d.m.Y H:i') }}</td>
+                                <td class="px-3 sm:px-5 py-3 align-top">
+                                    <div class="order-actions flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-end gap-2 min-w-0">
+                                            <form action="{{ path('vendor_order_confirm', {orderId: order.id}) }}" method="POST" class="min-w-0">
                                             <input type="hidden" name="_token" value="{{ csrf_token('vendor_confirm_' ~ order.id) }}">
                                             <button type="submit"
-                                                    class="inline-flex items-center gap-1.5 justify-center px-3.5 py-2 rounded-lg border border-emerald-300 text-emerald-700 bg-emerald-50 hover:bg-emerald-100 transition-colors text-xs font-semibold whitespace-nowrap">
-                                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    class="w-full sm:w-auto inline-flex items-center gap-1.5 justify-center px-3 py-2.5 rounded-[12px] border border-emerald-300 text-emerald-800 bg-emerald-50 hover:bg-emerald-100 transition-colors text-[11px] sm:text-xs font-semibold whitespace-normal text-center leading-tight">
+                                                <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                                                 </svg>
-                                                Tayyor - yetkazdim
+                                                Tayyor — yetkazdim
                                             </button>
                                         </form>
 
-                                                                                <form action="{{ path('vendor_order_cancel', {orderId: order.id}) }}" method="POST" class="vendor-cancel-form">
+                                        <form action="{{ path('vendor_order_cancel', {orderId: order.id}) }}" method="POST" class="vendor-cancel-form min-w-0">
                                             <input type="hidden" name="_token" value="{{ csrf_token('vendor_cancel_' ~ order.id) }}">
                                             <button type="submit"
-                                                    class="inline-flex items-center gap-1.5 justify-center px-3.5 py-2 rounded-lg border border-red-300 text-red-700 bg-red-50 hover:bg-red-100 transition-colors text-xs font-semibold whitespace-nowrap">
-                                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    class="w-full sm:w-auto inline-flex items-center gap-1.5 justify-center px-3 py-2.5 rounded-[12px] border border-red-300 text-red-800 bg-red-50 hover:bg-red-100 transition-colors text-[11px] sm:text-xs font-semibold whitespace-normal text-center leading-tight">
+                                                <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                                                 </svg>
                                                 Bekor qilish
@@ -85,40 +85,40 @@
                                 </td>
                             </tr>
 
-                            <tr class="vendor-order-details-row hidden bg-gray-50/60" data-order-details-id="{{ order.id }}">
-                                <td colspan="6" class="px-5 py-5">
-                                    <div class="rounded-2xl border bg-white p-4 md:p-5">
-                                        <div class="flex items-center justify-between gap-3 mb-4">
-                                            <h4 class="font-semibold text-gray-800">Buyurtma tarkibi</h4>
-                                            <span class="text-xs text-gray-500">#{{ order.id }}</span>
+                            <tr class="vendor-order-details-row hidden bg-app-canvas/70" data-order-details-id="{{ order.id }}">
+                                <td colspan="6" class="px-3 sm:px-5 py-4 sm:py-5">
+                                    <div class="rounded-[16px] border border-app-hairline bg-white p-3 sm:p-5 min-w-0">
+                                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4 min-w-0">
+                                            <h4 class="font-semibold text-app-ink app-prose-tight">Buyurtma tarkibi</h4>
+                                            <span class="text-xs text-app-inkMuted shrink-0">#{{ order.id }}</span>
                                         </div>
 
                                         <div class="space-y-3">
                                             {% for item in card.items %}
-                                                <div class="border rounded-xl p-3 flex flex-col md:flex-row md:items-center gap-3">
-                                                    <div class="w-16 h-16 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
+                                                <div class="border border-app-hairline rounded-[14px] p-3 flex flex-col md:flex-row md:items-center gap-3 min-w-0">
+                                                    <div class="w-16 h-16 rounded-lg overflow-hidden bg-app-canvas shrink-0 border border-app-hairline">
                                                         {% if item.productImageSnapshot %}
-                                                            <img src="{{ item.productImageSnapshot }}" alt="{{ item.productNameSnapshot }}" class="w-full h-full object-cover">
+                                                            <img src="{{ item.productImageSnapshot }}" alt="" class="w-full h-full object-cover">
                                                         {% else %}
-                                                            <div class="w-full h-full flex items-center justify-center text-[10px] text-gray-400">Rasm yo'q</div>
+                                                            <div class="w-full h-full flex items-center justify-center text-[10px] text-app-inkMuted">Rasm yo'q</div>
                                                         {% endif %}
                                                     </div>
                                                     <div class="flex-1 min-w-0">
-                                                        <p class="text-sm font-semibold text-gray-800">{{ item.productNameSnapshot }}</p>
-                                                        <p class="text-xs text-gray-600">
-                                                            {{ item.unitPrice|number_format(0, '.', ' ') }} so'm x {{ item.quantity }} dona
+                                                        <p class="text-sm font-semibold text-app-ink app-prose-tight">{{ item.productNameSnapshot }}</p>
+                                                        <p class="text-xs text-app-inkMuted app-prose-tight mt-0.5">
+                                                            {{ item.unitPrice|number_format(0, '.', ' ') }} so'm × {{ item.quantity }} dona
                                                             {% if item.selectedSize %} | O'lcham: {{ item.selectedSize }}{% endif %}
                                                         </p>
                                                     </div>
-                                                    <div class="text-sm font-semibold text-gray-800">{{ item.lineTotal|number_format(0, '.', ' ') }} so'm</div>
+                                                    <div class="text-sm font-semibold text-app-ink app-money shrink-0 md:text-right">{{ item.lineTotal|number_format(0, '.', ' ') }} so'm</div>
                                                 </div>
                                             {% endfor %}
                                         </div>
 
                                         {% if order.notes %}
-                                            <div class="mt-4 p-3 rounded-xl bg-gray-50 border">
-                                                <p class="text-xs uppercase tracking-wider text-gray-500 mb-1">Mijoz izohi</p>
-                                                <p class="text-sm text-gray-700">{{ order.notes }}</p>
+                                            <div class="mt-4 p-3 rounded-[12px] bg-app-canvas border border-app-hairline min-w-0">
+                                                <p class="text-xs uppercase tracking-wider text-app-inkMuted mb-1">Mijoz izohi</p>
+                                                <p class="text-sm text-app-ink app-prose-tight">{{ order.notes }}</p>
                                             </div>
                                         {% endif %}
                                     </div>
@@ -130,23 +130,23 @@
             </div>
         </div>
     {% else %}
-        <div class="bg-white rounded-2xl border p-12 text-center mb-10">
-            <p class="text-gray-500">Aktiv buyurtmalar topilmadi.</p>
+        <div class="card p-10 text-center mb-8">
+            <p class="text-app-inkMuted">Aktiv buyurtmalar topilmadi.</p>
         </div>
     {% endif %}
 </div>
 
-<div id="cancel-modal" class="hidden fixed inset-0 z-50">
+<div id="cancel-modal" class="hidden fixed inset-0 z-[60]">
     <div class="absolute inset-0 bg-black/40" data-cancel-modal-close></div>
     <div class="absolute inset-0 flex items-center justify-center p-4">
-        <div class="w-full max-w-sm rounded-2xl bg-white border border-gray-200 shadow-2xl p-5 sm:p-6">
-            <h3 class="text-base sm:text-lg font-semibold text-gray-800">Buyurtmani bekor qilasizmi?</h3>
-            <p class="text-sm text-gray-500 mt-2">Bu amal qaytarib bo'lmaydi. Davom etishni xohlaysizmi?</p>
+        <div class="w-full max-w-sm rounded-[20px] bg-white border border-app-hairline shadow-2xl p-5 sm:p-6 min-w-0">
+            <h3 class="text-base sm:text-lg font-display font-semibold text-app-ink app-prose-tight">Buyurtmani bekor qilasizmi?</h3>
+            <p class="text-sm text-app-inkMuted mt-2 app-prose-tight">Bu amal qaytarib bo'lmaydi. Davom etishni xohlaysizmi?</p>
             <div class="mt-5 grid grid-cols-2 gap-2.5">
-                <button type="button" id="cancel-modal-no" class="w-full inline-flex items-center justify-center px-4 py-2.5 rounded-lg border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 text-sm font-semibold">
+                <button type="button" id="cancel-modal-no" class="w-full inline-flex items-center justify-center min-h-[44px] px-4 rounded-[12px] border border-app-hairline text-app-ink bg-white hover:bg-app-canvas text-sm font-semibold">
                     Yo'q
                 </button>
-                <button type="button" id="cancel-modal-yes" class="w-full inline-flex items-center justify-center px-4 py-2.5 rounded-lg border border-red-300 text-red-700 bg-red-50 hover:bg-red-100 text-sm font-semibold">
+                <button type="button" id="cancel-modal-yes" class="w-full inline-flex items-center justify-center min-h-[44px] px-4 rounded-[12px] border border-red-300 text-red-800 bg-red-50 hover:bg-red-100 text-sm font-semibold">
                     Ha, bekor qil
                 </button>
             </div>

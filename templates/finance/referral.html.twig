@@ -1,4 +1,5 @@
 {% extends 'base.html.twig' %}
+{% import 'hamkorlik/_helpers.html.twig' as ham_helpers %}
 
 {% block title %}Referral — Moliya{% endblock %}
 
@@ -29,7 +30,7 @@
         <h3 class="font-semibold text-brand-dark mb-4">📊 Hozirgi foizlaringiz (yangi referallar uchun):</h3>
         <div class="grid grid-cols-2 gap-4">
             <div class="bg-beige-50 rounded-xl p-4 text-center">
-                <div class="text-2xl font-bold text-brand-dark">{{ plan.productReferralPercent }}%</div>
+                <div class="text-2xl font-bold text-brand-dark">{{ ham_helpers.product_referral_pct(plan) }}%</div>
                 <div class="text-xs text-brand-medium mt-1">Mahsulotdan</div>
             </div>
             <div class="bg-beige-50 rounded-xl p-4 text-center">

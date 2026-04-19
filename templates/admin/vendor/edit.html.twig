@@ -5,8 +5,8 @@
 {% block admin_body %}
 <div class="max-w-2xl mx-auto">
     <div class="flex items-center gap-3 mb-6">
-        <a href="{{ path('admin_vendor_show', {id: vendor.id}) }}" class="text-gray-400 hover:text-gray-600">← Orqaga</a>
-        <h1 class="text-2xl font-bold text-gray-800">Tahrirlash: {{ vendor.name }}</h1>
+        <a href="{{ path('admin_vendor_show', {id: vendor.id}) }}" class="text-app-inkMuted hover:text-app-inkMuted">← Orqaga</a>
+        <h1 class="text-2xl font-bold text-app-ink">Tahrirlash: {{ vendor.name }}</h1>
     </div>
 
     <div class="bg-white rounded-2xl border shadow-sm p-6">
@@ -14,22 +14,22 @@
             <input type="hidden" name="_token" value="{{ csrf_token('vendor_edit_' ~ vendor.id) }}">
 
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">Do'kon nomi *</label>
+                <label class="block text-sm font-medium text-app-ink mb-1.5">Do'kon nomi *</label>
                 <input type="text" name="name" required value="{{ vendor.name }}"
                        class="w-full border rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">Telefon</label>
+                <label class="block text-sm font-medium text-app-ink mb-1.5">Telefon</label>
                 <input type="text" name="phone" value="{{ vendor.phone }}"
                        class="w-full border rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">Manzil</label>
+                <label class="block text-sm font-medium text-app-ink mb-1.5">Manzil</label>
                 <textarea name="address" rows="2"
                           class="w-full border rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none resize-none">{{ vendor.address }}</textarea>
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">Komissiya (%)</label>
+                <label class="block text-sm font-medium text-app-ink mb-1.5">Komissiya (%)</label>
                 <input type="number" name="commission_rate" min="0" max="50" step="0.5"
                        value="{{ vendor.commissionRate }}"
                        class="w-full border rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
@@ -38,11 +38,11 @@
                 <label class="flex items-center gap-2 cursor-pointer select-none">
                     <input type="checkbox" name="is_active" value="1" {{ vendor.isActive ? 'checked' : '' }}
                            class="rounded">
-                    <span class="text-sm font-medium text-gray-700">Do'kon faol</span>
+                    <span class="text-sm font-medium text-app-ink">Do'kon faol</span>
                 </label>
             </div>
             <div class="border-t pt-5">
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">Do'konchi telefoni (o'zgartirish uchun)</label>
+                <label class="block text-sm font-medium text-app-ink mb-1.5">Do'konchi telefoni (o'zgartirish uchun)</label>
                 <input type="text" name="owner_phone" value="{{ vendor.owner ? vendor.owner.phone : '' }}"
                        placeholder="{{ vendor.owner ? vendor.owner.phone : 'Yangi eganing telefoni' }}"
                        class="w-full border rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
@@ -54,7 +54,7 @@
                     Saqlash
                 </button>
                 <a href="{{ path('admin_vendor_show', {id: vendor.id}) }}"
-                   class="px-5 py-3 border rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors">
+                   class="px-5 py-3 border rounded-xl text-sm font-medium text-app-inkMuted hover:bg-app-canvas transition-colors">
                     Bekor qilish
                 </a>
             </div>

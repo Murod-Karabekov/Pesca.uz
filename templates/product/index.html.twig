@@ -3,105 +3,114 @@
 {% block title %}Kolleksiya — Pesca{% endblock %}
 
 {% block body %}
-<style>
-.mobile-filter-scroll {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-}
+<section class="min-h-[70vh] bg-app-canvas border-b border-app-hairline pb-10 sm:pb-14">
+    <div class="w-full max-w-6xl mx-auto px-4 sm:px-5 md:px-6 pt-4 sm:pt-6 min-w-0">
 
-.mobile-filter-scroll::-webkit-scrollbar {
-    display: none;
-}
-</style>
+        {# Sarlavha #}
+        <header class="mb-5 sm:mb-6">
+            <h1 class="text-2xl sm:text-3xl font-display font-medium text-app-ink tracking-tight">Kolleksiya</h1>
+            <p class="text-sm text-app-inkMuted mt-1">Jins va kategoriya bo‘yicha tanlang</p>
+        </header>
 
-<section class="py-12 md:py-16">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {# ─── Integrated Minimal Filter Bar ─── #}
-        <div class="mb-8 rounded-2xl md:rounded-3xl border border-beige-200 bg-white/95 backdrop-blur-sm shadow-sm overflow-hidden">
-            <div class="px-4 pt-4 pb-3 sm:px-5">
-                <div class="flex items-center justify-between mb-3">
-                    <p class="text-xs uppercase tracking-[0.2em] text-brand-muted">Kolleksiya filtrlari</p>
-                    <a href="{{ path('app_product_index') }}"
-                       class="text-xs font-medium px-3 py-1.5 rounded-full border border-beige-300 text-brand-medium hover:bg-beige-100 transition-colors">
-                        Hammasini ko'rish
-                    </a>
-                </div>
-
-                <div class="grid grid-cols-2 gap-2 rounded-2xl bg-beige-100 p-1.5 border border-beige-200">
-                    <a href="{{ path('app_product_index', currentCategory ? {gender: 'male', category: currentCategory.slug} : {gender: 'male'}) }}"
-                       class="rounded-xl px-4 py-3 transition-all duration-200 border
-                              {{ currentGender == 'male' ? 'bg-brand-dark border-brand-dark shadow-sm ring-2 ring-brand-dark/20' : 'bg-white/70 border-transparent hover:bg-white' }}">
-                        <div class="text-base font-semibold flex items-center gap-1.5 {{ currentGender == 'male' ? 'text-white' : 'text-brand-dark' }}">Erkak <span>♂</span></div>
-                        <div class="text-xs mt-0.5 {{ currentGender == 'male' ? 'text-white/80' : 'text-brand-medium' }}">Klassik va qat'iy siluetlar</div>
-                    </a>
-
-                    <a href="{{ path('app_product_index', currentCategory ? {gender: 'female', category: currentCategory.slug} : {gender: 'female'}) }}"
-                       class="rounded-xl px-4 py-3 transition-all duration-200 border
-                              {{ currentGender == 'female' ? 'bg-brand-dark border-brand-dark shadow-sm ring-2 ring-brand-dark/20' : 'bg-white/70 border-transparent hover:bg-white' }}">
-                        <div class="text-base font-semibold flex items-center gap-1.5 {{ currentGender == 'female' ? 'text-white' : 'text-brand-dark' }}">Ayol <span>♀</span></div>
-                        <div class="text-xs mt-0.5 {{ currentGender == 'female' ? 'text-white/80' : 'text-brand-medium' }}">Yumshoq va nafis chiziqlar</div>
-                    </a>
-                </div>
+        {# Jins — segment (mobil uchun katta zona) #}
+        <div class="mb-5">
+            <p class="text-[10px] font-semibold uppercase tracking-[0.18em] text-app-accent mb-2">Jins</p>
+            <div class="grid grid-cols-2 gap-2 p-1 rounded-[16px] bg-white border border-app-hairline shadow-sm">
+                <a href="{{ path('app_product_index', currentCategory ? {gender: 'male', category: currentCategory.slug} : {gender: 'male'}) }}"
+                   class="relative flex flex-col items-center justify-center min-h-[52px] sm:min-h-[56px] rounded-[12px] text-sm font-semibold transition-all duration-200
+                          {{ currentGender == 'male'
+                             ? 'bg-app-ink text-app-canvas shadow-sm'
+                             : 'text-app-inkMuted hover:text-app-ink hover:bg-app-canvas' }}">
+                    <span class="flex items-center gap-1.5">
+                        <span>Erkak</span><span class="text-base opacity-90" aria-hidden="true">♂</span>
+                    </span>
+                    <span class="text-[10px] font-normal mt-0.5 opacity-80 leading-tight text-center px-1 line-clamp-2 {{ currentGender == 'male' ? 'text-app-canvas/85' : 'text-app-inkMuted' }}">Klassik siluet</span>
+                </a>
+                <a href="{{ path('app_product_index', currentCategory ? {gender: 'female', category: currentCategory.slug} : {gender: 'female'}) }}"
+                   class="relative flex flex-col items-center justify-center min-h-[52px] sm:min-h-[56px] rounded-[12px] text-sm font-semibold transition-all duration-200
+                          {{ currentGender == 'female'
+                             ? 'bg-app-ink text-app-canvas shadow-sm'
+                             : 'text-app-inkMuted hover:text-app-ink hover:bg-app-canvas' }}">
+                    <span class="flex items-center gap-1.5">
+                        <span>Ayol</span><span class="text-base opacity-90" aria-hidden="true">♀</span>
+                    </span>
+                    <span class="text-[10px] font-normal mt-0.5 opacity-80 leading-tight text-center px-1 line-clamp-2 {{ currentGender == 'female' ? 'text-app-canvas/85' : 'text-app-inkMuted' }}">Nafis chiziqlar</span>
+                </a>
             </div>
+        </div>
 
-            <div class="border-t border-beige-200 bg-beige-50 px-4 py-3 sm:px-5">
-                <div class="flex items-center gap-2 overflow-x-auto mobile-filter-scroll whitespace-nowrap -mx-1 px-1 pb-0.5">
-                    <span class="text-xs font-medium text-brand-muted mr-1 flex-none">Kategoriyalar:</span>
+        {# Kategoriyalar — gorizontal scroll + snap #}
+        <div class="mb-6 sm:mb-8">
+            <div class="flex items-center justify-between gap-2 mb-2">
+                <p class="text-[10px] font-semibold uppercase tracking-[0.18em] text-app-accent shrink-0">Kategoriya</p>
+                <a href="{{ path('app_product_index') }}"
+                   class="text-xs font-semibold text-app-accent hover:text-app-ink transition-colors shrink-0 min-h-[40px] inline-flex items-center">
+                    Tozalash
+                </a>
+            </div>
+            <div class="collection-pills-scroll flex gap-2 overflow-x-auto pb-1 -mx-1 px-1 snap-x snap-mandatory scroll-smooth touch-pan-x">
                     <a href="{{ path('app_product_index', currentGender ? {gender: currentGender} : {}) }}"
-                       class="px-3.5 py-2 rounded-full text-xs font-medium transition-all duration-200 flex-none
-                              {{ currentCategory is null ? 'bg-brand-dark text-white shadow-sm' : 'bg-white text-brand-medium border border-beige-300 hover:bg-beige-100' }}">
+                       class="snap-start shrink-0 min-h-[44px] inline-flex items-center px-4 rounded-[14px] text-xs font-semibold border transition-colors
+                              {{ currentCategory is null
+                                 ? 'bg-app-ink text-app-canvas border-app-ink'
+                                 : 'bg-white text-app-inkMuted border-app-hairline hover:border-app-ink/25' }}">
                         Barchasi
                     </a>
                     {% for cat in categories %}
                         <a href="{{ path('app_product_index', currentGender ? {category: cat.slug, gender: currentGender} : {category: cat.slug}) }}"
-                           class="px-3.5 py-2 rounded-full text-xs font-medium transition-all duration-200 flex-none
-                                  {{ currentCategory and currentCategory.id == cat.id ? 'bg-brand-dark text-white shadow-sm' : 'bg-white text-brand-medium border border-beige-300 hover:bg-beige-100' }}">
-                            {% if cat.icon %}{{ cat.icon }} {% endif %}{{ cat.name }}
+                           class="snap-start shrink-0 min-h-[44px] inline-flex items-center max-w-[85vw] sm:max-w-xs px-4 rounded-[14px] text-xs font-semibold border transition-colors
+                                  {{ currentCategory and currentCategory.id == cat.id
+                                     ? 'bg-app-ink text-app-canvas border-app-ink'
+                                     : 'bg-white text-app-ink border-app-hairline hover:border-app-ink/25' }}">
+                            <span class="truncate">{% if cat.icon %}<span class="mr-1">{{ cat.icon }}</span>{% endif %}{{ cat.name }}</span>
                         </a>
                     {% endfor %}
-                </div>
             </div>
         </div>
 
-        {# ─── Products Grid ─── #}
+        {# Mahsulotlar — mobil 2 ustun, katta bosish zonasi #}
         {% if products|length > 0 %}
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-5">
             {% for product in products %}
             <a href="{{ path('app_product_show', {id: product.id}) }}"
-               class="card group">
-                <div class="aspect-[3/4] bg-beige-100 relative overflow-hidden">
+               class="group flex flex-col min-w-0 rounded-[18px] bg-white border border-app-hairline overflow-hidden shadow-sm active:scale-[0.98] transition-transform duration-150 hover:shadow-md hover:border-app-ink/15">
+                <div class="aspect-[3/4] bg-app-canvas relative overflow-hidden">
                     {% if product.imageSrc %}
-                        <img src="{{ product.imageSrc }}" alt="{{ product.name }}"
-                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        <img src="{{ product.imageSrc }}" alt="{{ product.name|e('html_attr') }}"
+                             class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out"
                              loading="lazy">
                     {% else %}
-                        <div class="w-full h-full flex items-center justify-center">
-                            <svg class="w-16 h-16 text-beige-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="w-full h-full flex items-center justify-center text-app-hairline">
+                            <svg class="w-12 h-12 sm:w-14 sm:h-14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                             </svg>
                         </div>
                     {% endif %}
                 </div>
-                <div class="p-5">
-                    <h3 class="font-semibold text-brand-dark mb-1 group-hover:text-peach-600 transition-colors">{{ product.name }}</h3>
-                    <p class="text-peach-600 font-display font-bold text-lg">{{ product.price|number_format(0, '.', ' ') }} so'm</p>
+                <div class="p-3 sm:p-4 flex flex-col flex-1 min-h-[5.5rem] sm:min-h-[6rem]">
+                    <h2 class="text-[13px] sm:text-sm font-semibold text-app-ink leading-snug line-clamp-2 break-words group-hover:text-app-accent transition-colors flex-1">
+                        {{ product.name }}
+                    </h2>
+                    <p class="text-sm sm:text-base font-display font-semibold text-app-ink tabular-nums mt-2 pt-1 border-t border-app-hairline">
+                        {{ product.price|number_format(0, '.', ' ') }} <span class="text-[11px] font-sans font-medium text-app-inkMuted">so'm</span>
+                    </p>
                     {% if product.size|length > 0 %}
-                        <p class="text-xs text-brand-muted mt-2">O'lchamlar: {{ product.size|join(', ') }}</p>
+                        <p class="text-[10px] sm:text-[11px] text-app-inkMuted mt-1.5 line-clamp-1 break-all">{{ product.size|join(', ') }}</p>
                     {% endif %}
                 </div>
             </a>
             {% endfor %}
         </div>
         {% else %}
-        <div class="text-center py-20">
-            <svg class="w-16 h-16 mx-auto text-beige-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/>
-            </svg>
-            <h3 class="text-lg font-display font-semibold text-brand-dark mb-2">Mahsulotlar topilmadi</h3>
-            <p class="text-brand-medium">Boshqa kategoriyani tanlang.</p>
+        <div class="card p-10 sm:p-14 text-center max-w-md mx-auto">
+            <div class="text-4xl mb-3" aria-hidden="true">🛍️</div>
+            <h2 class="text-lg font-display font-semibold text-app-ink mb-2">Hech narsa topilmadi</h2>
+            <p class="text-sm text-app-inkMuted mb-6">Boshqa kategoriya yoki filtrlarni sinab ko‘ring.</p>
+            <a href="{{ path('app_product_index') }}" class="btn-primary inline-flex justify-center min-h-[48px] px-6 text-sm w-full sm:w-auto">
+                Filtrlarni tozalash
+            </a>
         </div>
         {% endif %}
     </div>
 </section>
-
 {% endblock %}

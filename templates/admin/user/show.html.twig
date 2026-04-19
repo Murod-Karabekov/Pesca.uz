@@ -4,7 +4,7 @@
 
 {% block admin_body %}
 <div class="mb-6">
-    <a href="{{ path('admin_user_index') }}" class="text-sm text-brand-medium hover:text-peach-600 transition-colors">← Foydalanuvchilar</a>
+    <a href="{{ path('admin_user_index') }}" class="text-sm text-app-inkMuted hover:text-app-ink transition-colors">← Foydalanuvchilar</a>
 </div>
 
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -12,37 +12,37 @@
     <div class="space-y-6">
         {# User Card #}
         <div class="card p-6 text-center">
-            <div class="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-peach-400 to-peach-600 rounded-full flex items-center justify-center">
+            <div class="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-app-ink to-neutral-800 rounded-full flex items-center justify-center">
                 <span class="text-2xl font-bold text-white">{{ targetUser.fullName|first|upper }}</span>
             </div>
-            <h2 class="font-display font-semibold text-lg text-brand-dark">{{ targetUser.fullName }}</h2>
-            <p class="text-sm text-brand-medium mt-1">{{ targetUser.phone }}</p>
+            <h2 class="font-display font-semibold text-lg text-app-ink">{{ targetUser.fullName }}</h2>
+            <p class="text-sm text-app-inkMuted mt-1">{{ targetUser.phone }}</p>
             <div class="mt-3">
                 <span class="inline-flex items-center gap-1 px-3 py-1 bg-{{ targetUser.currentPlanColor }}-100 text-{{ targetUser.currentPlanColor }}-700 rounded-full text-xs font-semibold">
                     {{ targetUser.currentPlanLabel }}
                 </span>
             </div>
-            <div class="mt-4 pt-4 border-t border-beige-100 space-y-2 text-sm text-left">
+            <div class="mt-4 pt-4 border-t border-app-hairline space-y-2 text-sm text-left">
                 <div class="flex justify-between">
-                    <span class="text-brand-light">Referral kod:</span>
-                    <span class="font-mono text-brand-dark text-xs">{{ targetUser.referralCode }}</span>
+                    <span class="text-app-inkMuted">Referral kod:</span>
+                    <span class="font-mono text-app-ink text-xs">{{ targetUser.referralCode }}</span>
                 </div>
                 <div class="flex justify-between">
-                    <span class="text-brand-light">Taklif qilgan:</span>
-                    <span class="text-brand-dark">{{ targetUser.referredBy ? targetUser.referredBy.fullName : '—' }}</span>
+                    <span class="text-app-inkMuted">Taklif qilgan:</span>
+                    <span class="text-app-ink">{{ targetUser.referredBy ? targetUser.referredBy.fullName : '—' }}</span>
                 </div>
                 <div class="flex justify-between">
-                    <span class="text-brand-light">Ro'yxatdan o'tgan:</span>
-                    <span class="text-brand-dark">{{ targetUser.createdAt|date('d.m.Y H:i') }}</span>
+                    <span class="text-app-inkMuted">Ro'yxatdan o'tgan:</span>
+                    <span class="text-app-ink">{{ targetUser.createdAt|date('d.m.Y H:i') }}</span>
                 </div>
                 <div class="flex justify-between">
-                    <span class="text-brand-light">Rollar:</span>
+                    <span class="text-app-inkMuted">Rollar:</span>
                     <span>
                         {% for role in targetUser.roles %}
                             {% if role == 'ROLE_ADMIN' %}
-                                <span class="badge bg-peach-100 text-peach-700 text-xs">Admin</span>
+                                <span class="badge bg-app-ink text-app-canvas text-xs">Admin</span>
                             {% elseif role == 'ROLE_USER' %}
-                                <span class="badge bg-beige-200 text-brand-medium text-xs">User</span>
+                                <span class="badge bg-app-canvas text-app-inkMuted text-xs border border-app-hairline">User</span>
                             {% endif %}
                         {% endfor %}
                     </span>
@@ -52,15 +52,15 @@
 
         {# Balans kartalari #}
         <div class="card p-5">
-            <h3 class="font-semibold text-brand-dark mb-3">💰 Balanslar</h3>
+            <h3 class="font-semibold text-app-ink mb-3">💰 Balanslar</h3>
             <div class="space-y-3">
                 <div class="bg-emerald-50 rounded-xl p-4">
                     <div class="text-xs text-emerald-600 font-medium mb-1">Umumiy balans</div>
                     <div class="text-2xl font-bold text-emerald-700">{{ targetUser.generalBalance|number_format(0, '.', ' ') }} <span class="text-sm font-normal">so'm</span></div>
                 </div>
-                <div class="bg-gray-50 rounded-xl p-4">
-                    <div class="text-xs text-brand-medium font-medium mb-1">Bonus balans</div>
-                    <div class="text-2xl font-bold text-brand-dark">{{ bonusBalance|number_format(0, '.', ' ') }} <span class="text-sm font-normal">so'm</span></div>
+                <div class="bg-app-canvas rounded-xl p-4 border border-app-hairline">
+                    <div class="text-xs text-app-inkMuted font-medium mb-1">Bonus balans</div>
+                    <div class="text-2xl font-bold text-app-ink">{{ bonusBalance|number_format(0, '.', ' ') }} <span class="text-sm font-normal">so'm</span></div>
                 </div>
             </div>
         </div>
@@ -70,7 +70,7 @@
     <div class="lg:col-span-2 space-y-6">
         {# Tarifni boshqarish #}
         <div class="card p-6">
-            <h3 class="font-display font-semibold text-lg text-brand-dark mb-4">📋 Tarifni boshqarish</h3>
+            <h3 class="font-display font-semibold text-lg text-app-ink mb-4">📋 Tarifni boshqarish</h3>
             <form method="post" action="{{ path('admin_user_update_plan', {id: targetUser.id}) }}">
                 <input type="hidden" name="_token" value="{{ csrf_token('update_plan_' ~ targetUser.id) }}">
                 <div class="flex flex-col sm:flex-row gap-3">
@@ -90,21 +90,21 @@
 
         {# Umumiy balans boshqaruvi #}
         <div class="card p-6">
-            <h3 class="font-display font-semibold text-lg text-brand-dark mb-4">💳 Umumiy balansni boshqarish</h3>
+            <h3 class="font-display font-semibold text-lg text-app-ink mb-4">💳 Umumiy balansni boshqarish</h3>
             <form method="post" action="{{ path('admin_user_update_balance', {id: targetUser.id}) }}">
                 <input type="hidden" name="_token" value="{{ csrf_token('update_balance_' ~ targetUser.id) }}">
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
                     <div>
-                        <label class="block text-xs text-brand-medium mb-1">Summa (so'm)</label>
+                        <label class="block text-xs text-app-inkMuted mb-1">Summa (so'm)</label>
                         <input type="number" name="amount" min="1" step="1" required placeholder="100000"
                                class="input-field w-full">
                     </div>
                     <div>
-                        <label class="block text-xs text-brand-medium mb-1">Izoh</label>
+                        <label class="block text-xs text-app-inkMuted mb-1">Izoh</label>
                         <input type="text" name="note" placeholder="Izoh (ixtiyoriy)" class="input-field w-full">
                     </div>
                     <div>
-                        <label class="block text-xs text-brand-medium mb-1">Amal</label>
+                        <label class="block text-xs text-app-inkMuted mb-1">Amal</label>
                         <div class="flex gap-2">
                             <button type="submit" name="action" value="add"
                                     class="flex-1 px-4 py-2.5 bg-emerald-600 text-white rounded-xl text-sm font-medium hover:bg-emerald-700 transition-colors">
@@ -122,21 +122,21 @@
 
         {# Bonus balans boshqaruvi #}
         <div class="card p-6">
-            <h3 class="font-display font-semibold text-lg text-brand-dark mb-4">🎁 Bonus balansni boshqarish</h3>
+            <h3 class="font-display font-semibold text-lg text-app-ink mb-4">🎁 Bonus balansni boshqarish</h3>
             <form method="post" action="{{ path('admin_user_update_bonus', {id: targetUser.id}) }}">
                 <input type="hidden" name="_token" value="{{ csrf_token('update_bonus_' ~ targetUser.id) }}">
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
                     <div>
-                        <label class="block text-xs text-brand-medium mb-1">Summa (so'm)</label>
+                        <label class="block text-xs text-app-inkMuted mb-1">Summa (so'm)</label>
                         <input type="number" name="amount" min="1" step="1" required placeholder="100000"
                                class="input-field w-full">
                     </div>
                     <div>
-                        <label class="block text-xs text-brand-medium mb-1">Izoh</label>
+                        <label class="block text-xs text-app-inkMuted mb-1">Izoh</label>
                         <input type="text" name="note" placeholder="Izoh (ixtiyoriy)" class="input-field w-full">
                     </div>
                     <div>
-                        <label class="block text-xs text-brand-medium mb-1">Amal</label>
+                        <label class="block text-xs text-app-inkMuted mb-1">Amal</label>
                         <div class="flex gap-2">
                             <button type="submit" name="action" value="add"
                                     class="flex-1 px-4 py-2.5 bg-emerald-600 text-white rounded-xl text-sm font-medium hover:bg-emerald-700 transition-colors">
@@ -154,23 +154,23 @@
 
         {# Tranzaksiyalar tarixi #}
         <div class="card overflow-hidden">
-            <div class="px-6 py-4 border-b border-beige-100">
-                <h3 class="font-display font-semibold text-lg text-brand-dark">📋 Tranzaksiyalar tarixi</h3>
+            <div class="px-6 py-4 border-b border-app-hairline">
+                <h3 class="font-display font-semibold text-lg text-app-ink">📋 Tranzaksiyalar tarixi</h3>
             </div>
             {% if transactions|length > 0 %}
             <div class="overflow-x-auto max-h-96 overflow-y-auto">
                 <table class="w-full">
-                    <thead class="bg-beige-50 border-b border-beige-200">
+                    <thead class="bg-app-canvas border-b border-app-hairline">
                         <tr>
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-brand-medium uppercase">Turi</th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-brand-medium uppercase">Summa</th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-brand-medium uppercase">Izoh</th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-brand-medium uppercase">Sana</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-app-inkMuted uppercase">Turi</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-app-inkMuted uppercase">Summa</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-app-inkMuted uppercase">Izoh</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-app-inkMuted uppercase">Sana</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-beige-100">
+                    <tbody class="divide-y divide-app-hairline">
                         {% for tx in transactions %}
-                        <tr class="hover:bg-beige-50/50 transition-colors">
+                        <tr class="hover:bg-app-canvas/50 transition-colors">
                             <td class="px-6 py-3">
                                 {% if tx.type in ['product_referral', 'plan_referral', 'admin_topup', 'withdrawal_refunded'] %}
                                     <span class="inline-flex items-center px-2 py-0.5 bg-emerald-100 text-emerald-700 rounded-full text-xs font-medium">{{ tx.typeLabel }}</span>
@@ -179,7 +179,7 @@
                                 {% elseif tx.type == 'withdrawal_pending' %}
                                     <span class="inline-flex items-center px-2 py-0.5 bg-yellow-100 text-yellow-700 rounded-full text-xs font-medium">{{ tx.typeLabel }}</span>
                                 {% else %}
-                                    <span class="inline-flex items-center px-2 py-0.5 bg-gray-100 text-gray-700 rounded-full text-xs font-medium">{{ tx.typeLabel }}</span>
+                                    <span class="inline-flex items-center px-2 py-0.5 bg-app-canvas text-app-ink border border-app-hairline rounded-full text-xs font-medium">{{ tx.typeLabel }}</span>
                                 {% endif %}
                             </td>
                             <td class="px-6 py-3 text-sm font-medium
@@ -189,15 +189,15 @@
                                 {% endif %}">
                                 {% if tx.type in ['product_referral', 'plan_referral', 'admin_topup', 'withdrawal_refunded'] %}+{% elseif tx.type == 'withdrawal_pending' %}⏳{% else %}-{% endif %}{{ tx.amount|number_format(0, '.', ' ') }} so'm
                             </td>
-                            <td class="px-6 py-3 text-sm text-brand-medium">{{ tx.description|default('—') }}</td>
-                            <td class="px-6 py-3 text-sm text-brand-light">{{ tx.createdAt|date('d.m.Y H:i') }}</td>
+                            <td class="px-6 py-3 text-sm text-app-inkMuted">{{ tx.description|default('—') }}</td>
+                            <td class="px-6 py-3 text-sm text-app-inkMuted">{{ tx.createdAt|date('d.m.Y H:i') }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
             {% else %}
-            <div class="p-8 text-center text-brand-medium text-sm">
+            <div class="p-8 text-center text-app-inkMuted text-sm">
                 Hali tranzaksiya mavjud emas.
             </div>
             {% endif %}

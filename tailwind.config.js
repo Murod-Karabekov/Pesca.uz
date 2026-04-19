@@ -3,10 +3,19 @@ module.exports = {
   content: [
     './templates/**/*.html.twig',
     './assets/**/*.js',
+    './public/js/**/*.js',
   ],
   theme: {
     extend: {
       colors: {
+        /** Mobil ilova (Flutter AppTheme) bilan bir xil */
+        app: {
+          canvas: '#F7F5F2',
+          ink: '#1C1B1A',
+          inkMuted: '#6B6560',
+          accent: '#8B7355',
+          hairline: '#E8E4DE',
+        },
         peach: {
           50:  '#FFF8F5',
           100: '#FFF0EB',
@@ -39,8 +48,8 @@ module.exports = {
         },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
-        display: ['Playfair Display', 'Georgia', 'serif'],
+        sans: ['Outfit', 'system-ui', '-apple-system', 'sans-serif'],
+        display: ['Fraunces', 'Georgia', 'serif'],
       },
       borderRadius: {
         'xl': '1rem',

@@ -3,43 +3,73 @@
 {% block title %}Skanerlash — SmartStyle{% endblock %}
 
 {% block body %}
-<section class="py-6 md:py-10">
+<section class="py-6 md:py-10 bg-app-canvas border-b border-app-hairline">
     <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {# ─── Header ─── #}
         <div class="mb-5 md:mb-8">
-            <a href="{{ path('app_smart_style_index') }}" class="inline-flex items-center gap-2 text-sm text-brand-medium hover:text-peach-600 transition-colors mb-4">
+            <a href="{{ path('app_smart_style_index') }}" class="inline-flex items-center gap-2 text-sm text-app-inkMuted hover:text-app-ink transition-colors mb-4">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
                 Orqaga
             </a>
-            <h1 class="text-2xl md:text-3xl font-display font-bold text-brand-dark">SmartStyle tahlili</h1>
-            <p class="text-brand-medium text-sm mt-1.5">Bir nechta qisqa qadamdan o'ting: xohlaganlarini o'tkazib yuborishingiz mumkin, yuz skan esa majburiy.</p>
+            <h1 class="text-2xl md:text-3xl font-display font-medium text-app-ink tracking-tight">SmartStyle tahlili</h1>
+            <p class="text-app-inkMuted text-sm mt-2 leading-relaxed">Bir nechta qisqa qadamdan o'ting: xohlaganlarini o'tkazib yuborishingiz mumkin, yuz skan esa majburiy.</p>
         </div>
+
+        {% set smart_style_scan_blocked = smartStyleQuota.limit is not null and smartStyleQuota.blocked %}
+
+        {% if smart_style_scan_blocked %}
+        <div class="card p-6 md:p-8 border border-amber-200 bg-amber-50/80 text-center">
+            <div class="text-4xl mb-3" aria-hidden="true">⏳</div>
+            <h2 class="text-lg font-display font-semibold text-app-ink mb-2">Bu oy uchun limit tugadi</h2>
+            <p class="text-sm text-app-inkMuted leading-relaxed mb-5">
+                Sizning <strong>{{ smartStyleQuota.plan|upper }}</strong> tarifingiz bo‘yicha SmartStyle tahlili bu oy <strong>{{ smartStyleQuota.limit }}</strong> martadan oshmaydi.
+                Limit <strong>{{ smartStyleQuota.nextResetLabel }}</strong> sanasidan yangilanadi. Cheksiz yoki kattaroq limit uchun yuqori tarifga o‘ting.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-2 justify-center">
+                <a href="{{ path('app_hamkorlik_index') }}" class="btn-primary justify-center min-h-[48px]">Hamkorlik — tariflar</a>
+                <a href="{{ path('app_smart_style_index') }}" class="btn-secondary justify-center min-h-[48px]">SmartStyle bosh sahifa</a>
+            </div>
+        </div>
+        {% else %}
+        {% if smartStyleQuota.limit is not null %}
+        <div class="mb-4 rounded-[14px] border border-app-hairline bg-white px-4 py-3 text-xs sm:text-sm text-app-inkMuted">
+            <span class="font-semibold text-app-ink">SmartStyle limiti (bu oy):</span>
+            ishlatilgan <strong class="text-app-ink tabular-nums">{{ smartStyleQuota.used }}</strong> / <strong class="text-app-ink tabular-nums">{{ smartStyleQuota.limit }}</strong>
+            {% if smartStyleQuota.remaining > 0 %}— yana <strong class="text-app-ink tabular-nums">{{ smartStyleQuota.remaining }}</strong> marta{% endif %}.
+            Yangilanish: <strong class="text-app-ink">{{ smartStyleQuota.nextResetLabel }}</strong>.
+        </div>
+        {% elseif smartStyleQuota.limit is null %}
+        <div class="mb-4 rounded-[14px] border border-amber-200 bg-amber-50/90 px-4 py-3 text-xs sm:text-sm text-app-ink">
+            <span class="font-semibold">VIP</span>
+            <span class="text-app-inkMuted"> — SmartStyle uchun oylik limit yo‘q (cheksiz).</span>
+        </div>
+        {% endif %}
 
         {# ─── Camera Container ─── #}
         <div id="smart-style-app">
             {# Step 1: Gender (mandatory) #}
             <div id="step-gender" class="card smart-step-card p-4 md:p-8">
-                <h2 class="text-lg font-display font-semibold text-brand-dark mb-2 text-center">1-qadam: Jinsni tanlang</h2>
-                <p class="text-sm text-brand-medium mb-6 text-center">Aniqroq tavsiya va tana tipini aniqlash uchun zarur.</p>
+                <h2 class="text-lg font-display font-semibold text-app-ink mb-2 text-center">1-qadam: Jinsni tanlang</h2>
+                <p class="text-sm text-app-inkMuted mb-6 text-center">Aniqroq tavsiya va tana tipini aniqlash uchun zarur.</p>
                 <div class="grid grid-cols-2 gap-4 max-w-sm mx-auto">
                     <button type="button" data-gender="male"
-                            class="gender-btn group flex flex-col items-center gap-3 p-6 rounded-2xl border-2 border-beige-200 hover:border-peach-400 hover:bg-peach-50 transition-all duration-200">
-                        <span class="text-5xl group-hover:scale-110 transition-transform">👨</span>
-                        <span class="font-display font-bold text-brand-dark text-base">Erkak</span>
+                            class="gender-btn group flex flex-col items-center gap-3 p-6 rounded-[14px] border-2 border-app-hairline bg-white hover:bg-app-canvas transition-all duration-200">
+                        <span class="text-5xl group-hover:scale-105 transition-transform">👨</span>
+                        <span class="font-display font-semibold text-app-ink text-base">Erkak</span>
                     </button>
                     <button type="button" data-gender="female"
-                            class="gender-btn group flex flex-col items-center gap-3 p-6 rounded-2xl border-2 border-beige-200 hover:border-peach-400 hover:bg-peach-50 transition-all duration-200">
-                        <span class="text-5xl group-hover:scale-110 transition-transform">👩</span>
-                        <span class="font-display font-bold text-brand-dark text-base">Ayol</span>
+                            class="gender-btn group flex flex-col items-center gap-3 p-6 rounded-[14px] border-2 border-app-hairline bg-white hover:bg-app-canvas transition-all duration-200">
+                        <span class="text-5xl group-hover:scale-105 transition-transform">👩</span>
+                        <span class="font-display font-semibold text-app-ink text-base">Ayol</span>
                     </button>
                 </div>
             </div>
 
             {# Step 2: Occasion (optional) #}
             <div id="step-occasion" class="hidden card smart-step-card p-4 md:p-8">
-                <h2 class="text-lg font-display font-semibold text-brand-dark mb-2 text-center">2-qadam: Nimaga kiyim tanlayapsiz?</h2>
-                <p class="text-sm text-brand-medium mb-6 text-center">Bu qadamni xohlasangiz o'tkazib yuborishingiz mumkin</p>
+                <h2 class="text-lg font-display font-semibold text-app-ink mb-2 text-center">2-qadam: Nimaga kiyim tanlayapsiz?</h2>
+                <p class="text-sm text-app-inkMuted mb-6 text-center">Bu qadamni xohlasangiz o'tkazib yuborishingiz mumkin</p>
                 <div id="occasion-buttons" class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 mb-3">
                     <button type="button" data-value="office" class="occasion-btn smart-toggle-btn">💼 Ish / Ofis</button>
                     <button type="button" data-value="study" class="occasion-btn smart-toggle-btn">📚 O'qish</button>
@@ -50,17 +80,17 @@
                     <button type="button" data-value="home" class="occasion-btn smart-toggle-btn">🏠 Uy / Casual</button>
                     <button type="button" data-value="other" class="occasion-btn smart-toggle-btn">✨ Boshqa</button>
                 </div>
-                <p id="occasion-hint" class="text-xs text-brand-medium mb-4">Bir nechta variantni tanlashingiz mumkin.</p>
+                <p id="occasion-hint" class="text-xs text-app-inkMuted mb-4">Bir nechta variantni tanlashingiz mumkin.</p>
                 <div class="flex flex-col sm:flex-row gap-2 justify-end mt-1">
-                    <button id="btn-skip-occasion" type="button" class="btn-secondary smart-skip-btn">O'tkazib yuborish</button>
-                    <button id="btn-next-occasion" type="button" class="btn-primary smart-next-btn">Davom etish</button>
+                    <button id="btn-skip-occasion" type="button" class="btn-secondary">O'tkazib yuborish</button>
+                    <button id="btn-next-occasion" type="button" class="btn-primary">Davom etish</button>
                 </div>
             </div>
 
             {# Step 3: Style Intent (optional) #}
             <div id="step-style" class="hidden card smart-step-card p-4 md:p-8">
-                <h2 class="text-lg font-display font-semibold text-brand-dark mb-2 text-center">3-qadam: Qanday uslub xohlaysiz?</h2>
-                <p class="text-sm text-brand-medium mb-6 text-center">Bu qadamni xohlasangiz o'tkazib yuborishingiz mumkin</p>
+                <h2 class="text-lg font-display font-semibold text-app-ink mb-2 text-center">3-qadam: Qanday uslub xohlaysiz?</h2>
+                <p class="text-sm text-app-inkMuted mb-6 text-center">Bu qadamni xohlasangiz o'tkazib yuborishingiz mumkin</p>
                 <div id="style-buttons" class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 mb-3">
                     <button type="button" data-value="minimal" class="style-btn smart-toggle-btn">▫️ Minimal</button>
                     <button type="button" data-value="classic" class="style-btn smart-toggle-btn">🕴️ Klassik</button>
@@ -69,34 +99,34 @@
                     <button type="button" data-value="trendy" class="style-btn smart-toggle-btn">🔥 Trendy</button>
                     <button type="button" data-value="sport_chic" class="style-btn smart-toggle-btn">🏃 Sport-chic</button>
                 </div>
-                <p class="text-xs text-brand-medium mb-4">Bir nechta uslubni birga tanlashingiz mumkin.</p>
+                <p class="text-xs text-app-inkMuted mb-4">Bir nechta uslubni birga tanlashingiz mumkin.</p>
                 <div class="flex flex-col sm:flex-row gap-2 justify-end mt-1">
-                    <button id="btn-skip-style" type="button" class="btn-secondary smart-skip-btn">O'tkazib yuborish</button>
-                    <button id="btn-next-style" type="button" class="btn-primary smart-next-btn">Davom etish</button>
+                    <button id="btn-skip-style" type="button" class="btn-secondary">O'tkazib yuborish</button>
+                    <button id="btn-next-style" type="button" class="btn-primary">Davom etish</button>
                 </div>
             </div>
 
             {# Step 4: Season (optional) #}
             <div id="step-season" class="hidden card smart-step-card p-4 md:p-8">
-                <h2 class="text-lg font-display font-semibold text-brand-dark mb-2 text-center">4-qadam: Ob-havo (fasl)</h2>
-                <p class="text-sm text-brand-medium mb-6 text-center">Qaysi fasl uchun kiyim qidiryapsiz?</p>
+                <h2 class="text-lg font-display font-semibold text-app-ink mb-2 text-center">4-qadam: Ob-havo (fasl)</h2>
+                <p class="text-sm text-app-inkMuted mb-6 text-center">Qaysi fasl uchun kiyim qidiryapsiz?</p>
                 <div id="season-buttons" class="grid grid-cols-2 gap-2.5 mb-3">
                     <button type="button" data-value="spring" class="season-btn smart-toggle-btn">🌸 Bahor</button>
                     <button type="button" data-value="summer" class="season-btn smart-toggle-btn">☀️ Yoz</button>
                     <button type="button" data-value="autumn" class="season-btn smart-toggle-btn">🍂 Kuz</button>
                     <button type="button" data-value="winter" class="season-btn smart-toggle-btn">❄️ Qish</button>
                 </div>
-                <p id="season-hint" class="text-xs text-brand-medium mb-4">Bir nechta fasl tanlashingiz mumkin.</p>
+                <p id="season-hint" class="text-xs text-app-inkMuted mb-4">Bir nechta fasl tanlashingiz mumkin.</p>
                 <div class="flex flex-col sm:flex-row gap-2 justify-end mt-1">
-                    <button id="btn-skip-season" type="button" class="btn-secondary smart-skip-btn">O'tkazib yuborish</button>
-                    <button id="btn-next-season" type="button" class="btn-primary smart-next-btn">Davom etish</button>
+                    <button id="btn-skip-season" type="button" class="btn-secondary">O'tkazib yuborish</button>
+                    <button id="btn-next-season" type="button" class="btn-primary">Davom etish</button>
                 </div>
             </div>
 
             {# Step 5: Measurements (optional) #}
             <div id="step-measurements" class="hidden card smart-step-card p-4 md:p-8">
-                <h2 class="text-lg font-display font-semibold text-brand-dark mb-2 text-center">5-qadam: Tana ma'lumoti</h2>
-                <p class="text-sm text-brand-medium mb-5 text-center">Har bir joyni o'lchab kiriting. Rasmda ko'rsatilgan chiziq bo'yicha santimetr lenta bilan o'lchang.</p>
+                <h2 class="text-lg font-display font-semibold text-app-ink mb-2 text-center">5-qadam: Tana ma'lumoti</h2>
+                <p class="text-sm text-app-inkMuted mb-5 text-center">Har bir joyni o'lchab kiriting. Rasmda ko'rsatilgan chiziq bo'yicha santimetr lenta bilan o'lchang.</p>
 
                 <div class="measure-actor-layout mb-5">
                     <div class="measure-menu-panel">
@@ -155,8 +185,8 @@
                     </div>
                 </div>
                 <div class="flex flex-col sm:flex-row gap-2 justify-end mt-1">
-                    <button id="btn-skip-measurements" type="button" class="btn-secondary smart-skip-btn">O'tkazib yuborish</button>
-                    <button id="btn-next-measurements" type="button" class="btn-primary smart-next-btn">Davom etish</button>
+                    <button id="btn-skip-measurements" type="button" class="btn-secondary">O'tkazib yuborish</button>
+                    <button id="btn-next-measurements" type="button" class="btn-primary">Davom etish</button>
                 </div>
             </div>
 
@@ -170,15 +200,15 @@
                     <img id="image-preview" class="absolute inset-0 w-full h-full object-cover rounded-full hidden" alt="Preview">
 
                     {# Placeholder #}
-                    <div id="camera-placeholder" class="absolute inset-0 w-full h-full rounded-full bg-beige-100 flex items-center justify-center border-4 border-dashed border-beige-300">
+                    <div id="camera-placeholder" class="absolute inset-0 w-full h-full rounded-full bg-app-canvas flex items-center justify-center border-4 border-dashed border-app-hairline">
                         <div class="text-center p-4">
                             <div class="text-5xl mb-3">😊</div>
-                            <p class="text-sm text-brand-medium leading-tight">Yuzingizni<br>shu yerga</p>
+                            <p class="text-sm text-app-inkMuted leading-tight">Yuzingizni<br>shu yerga</p>
                         </div>
                     </div>
 
                     {# Scanning overlay #}
-                    <div id="scan-overlay" class="hidden absolute inset-0 rounded-full border-4 border-peach-500 animate-pulse"></div>
+                    <div id="scan-overlay" class="hidden absolute inset-0 rounded-full border-4 border-app-accent animate-pulse"></div>
                 </div>
 
                 {# Buttons #}
@@ -221,321 +251,52 @@
             {# Step 2: Loading #}
             <div id="step-loading" class="hidden card p-6 md:p-12 text-center">
                 <div class="mb-6">
-                    <div class="w-24 h-24 mx-auto rounded-full bg-peach-50 flex items-center justify-center mb-4">
-                        <svg class="w-12 h-12 text-peach-500 animate-spin" fill="none" viewBox="0 0 24 24">
+                    <div class="w-24 h-24 mx-auto rounded-full bg-app-canvas border border-app-hairline flex items-center justify-center mb-4">
+                        <svg class="w-12 h-12 text-app-ink animate-spin" fill="none" viewBox="0 0 24 24">
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
                     </div>
                 </div>
-                <h2 class="text-xl font-display font-bold text-brand-dark mb-3">Tahlil qilinmoqda...</h2>
-                <div class="w-full bg-beige-200 rounded-full h-2 mb-4 max-w-xs mx-auto">
-                    <div id="progress-bar" class="bg-peach-500 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
+                <h2 class="text-xl font-display font-semibold text-app-ink mb-3">Tahlil qilinmoqda...</h2>
+                <div class="w-full bg-app-hairline rounded-full h-2 mb-4 max-w-xs mx-auto">
+                    <div id="progress-bar" class="bg-app-ink h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
                 </div>
-                <p id="loading-text" class="text-sm text-brand-medium">Model yuklanmoqda...</p>
+                <p id="loading-text" class="text-sm text-app-inkMuted">Model yuklanmoqda...</p>
             </div>
 
             {# Step 3: Error #}
             <div id="step-error" class="hidden card p-6 md:p-12 text-center">
                 <div class="text-5xl mb-4">😕</div>
-                <h2 class="text-xl font-display font-bold text-brand-dark mb-3">Xatolik</h2>
-                <p id="error-text" class="text-sm text-brand-medium mb-6">Yuzni aniqlab bo'lmadi. Iltimos, qaytadan urinib ko'ring.</p>
+                <h2 id="error-title" class="text-xl font-display font-semibold text-app-ink mb-3">Xatolik</h2>
+                <div id="error-text" class="text-sm text-app-inkMuted mb-6 text-left max-w-md mx-auto">Yuzni aniqlab bo'lmadi. Iltimos, qaytadan urinib ko'ring.</div>
                 <button id="btn-retry" type="button" class="btn-primary">Qayta urinish</button>
+                <a id="btn-tariffs" href="{{ path('app_hamkorlik_index') }}" class="hidden mt-3 btn-primary justify-center min-h-[48px] inline-flex w-full sm:w-auto sm:min-w-[12rem]">Hamkorlik — tariflar</a>
             </div>
         </div>
 
         {# Privacy note #}
         <div class="mt-5 text-center">
-            <p class="text-[11px] md:text-xs text-brand-medium flex items-center justify-center gap-2">
-                <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg>
+            <p class="text-[11px] md:text-xs text-app-inkMuted flex items-center justify-center gap-2">
+                <svg class="w-4 h-4 text-app-accent shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg>
                 Rasmingiz serverga yuborilmaydi. Barcha tahlil brauzeringizda amalga oshiriladi.
             </p>
         </div>
 
         {# Hidden canvas for processing #}
         <canvas id="processing-canvas" class="hidden"></canvas>
+        {% endif %}
     </div>
 </section>
-
-<style>
-    .smart-step-card {
-        background: linear-gradient(180deg, #ffffff 0%, #fffaf5 100%);
-        border: 1px solid rgba(231, 218, 197, 0.9);
-        box-shadow: 0 8px 30px rgba(141, 107, 79, 0.08);
-    }
-
-    .smart-skip-btn {
-        border: 1px solid rgba(225, 193, 160, 0.9);
-        background: linear-gradient(180deg, #fffaf4 0%, #fff0e1 100%);
-        color: #8a5a35;
-        font-weight: 700;
-        letter-spacing: 0.01em;
-        box-shadow: 0 4px 14px rgba(184, 132, 88, 0.14);
-        transition: transform 140ms ease, box-shadow 160ms ease, border-color 160ms ease, color 160ms ease;
-    }
-
-    .smart-skip-btn:hover {
-        border-color: #eca66a;
-        color: #7c471f;
-        transform: translateY(-1px);
-        box-shadow: 0 8px 20px rgba(236, 166, 106, 0.28);
-    }
-
-    .smart-skip-btn:active {
-        transform: translateY(0);
-        box-shadow: 0 3px 10px rgba(236, 166, 106, 0.2);
-    }
-
-    .smart-next-btn {
-        background: linear-gradient(135deg, #f39a52 0%, #e77c2a 100%);
-        border: 1px solid rgba(214, 111, 32, 0.95);
-        color: #fff;
-        font-weight: 800;
-        letter-spacing: 0.01em;
-        box-shadow: 0 10px 22px rgba(231, 124, 42, 0.28);
-        transition: transform 140ms ease, box-shadow 160ms ease, filter 160ms ease;
-    }
-
-    .smart-next-btn:hover {
-        transform: translateY(-1px);
-        filter: brightness(1.02);
-        box-shadow: 0 14px 26px rgba(231, 124, 42, 0.32);
-    }
-
-    .smart-next-btn:active {
-        transform: translateY(0);
-        box-shadow: 0 6px 14px rgba(231, 124, 42, 0.25);
-    }
-
-    .measure-actor-layout {
-        display: grid;
-        grid-template-columns: 180px 1fr;
-        gap: 14px;
-        align-items: stretch;
-    }
-
-    .measure-menu-panel {
-        border: 1px solid #eadfce;
-        border-radius: 1rem;
-        background: #fffdf9;
-        padding: 0.5rem;
-        display: flex;
-        flex-direction: column;
-        gap: 0.45rem;
-        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.8);
-    }
-
-    .measure-menu-btn {
-        border: 1px solid #ead8bf;
-        border-radius: 0.8rem;
-        background: #fff8ef;
-        color: #5e4c3e;
-        font-size: 0.85rem;
-        font-weight: 700;
-        text-align: left;
-        padding: 0.58rem 0.7rem;
-        transition: all 180ms ease;
-    }
-
-    .measure-menu-btn:hover {
-        border-color: #efba88;
-        transform: translateX(2px);
-        background: #fff1e3;
-    }
-
-    .measure-menu-btn.is-active {
-        border-color: #ef944e;
-        background: linear-gradient(180deg, #ffeed9 0%, #ffe3c3 100%);
-        color: #7f451c;
-        box-shadow: 0 6px 16px rgba(239, 148, 78, 0.2);
-    }
-
-    .measure-stage-panel {
-        border: 1px solid #eadfce;
-        border-radius: 1rem;
-        background: #ffffff;
-        padding: 0.75rem;
-        box-shadow: 0 10px 26px rgba(169, 126, 86, 0.1);
-        min-height: 350px;
-    }
-
-    .measure-stage {
-        height: 100%;
-    }
-
-    .measure-stage-visual {
-        border-radius: 0.9rem;
-        min-height: 225px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0.75rem;
-        margin-bottom: 0.5rem;
-        background: radial-gradient(circle at 35% 20%, #fff8ef 0%, #f9eddd 100%);
-        overflow: hidden;
-        position: relative;
-    }
-
-    .measure-stage-visual::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(120deg, transparent 34%, rgba(255, 255, 255, 0.45) 50%, transparent 66%);
-        transform: translateX(-120%);
-        animation: measureShine 4.2s ease-in-out infinite;
-    }
-
-    .measure-stage-image {
-        width: 100%;
-        max-width: 260px;
-        height: 210px;
-        object-fit: contain;
-        animation: measureFloat 4s ease-in-out infinite;
-    }
-
-    .measure-stage-title {
-        font-size: 0.95rem;
-        font-weight: 700;
-        color: #3f3125;
-        margin-bottom: 0.2rem;
-    }
-
-    .measure-stage-text {
-        font-size: 0.75rem;
-        color: #7c6755;
-        margin-bottom: 0.5rem;
-    }
-
-    .smart-toggle-btn {
-        border: 2px solid #e7dac5;
-        background: #fffdf9;
-        color: #5a4737;
-        border-radius: 0.9rem;
-        padding: 0.7rem 0.75rem;
-        font-size: 0.85rem;
-        font-weight: 600;
-        line-height: 1.25;
-        transition: all 180ms ease;
-    }
-
-    .smart-toggle-btn:hover {
-        border-color: #f0b486;
-        background: #fff3e7;
-        transform: translateY(-1px);
-        box-shadow: 0 8px 18px rgba(240, 180, 134, 0.2);
-    }
-
-    .smart-toggle-btn.is-selected {
-        border-color: #f39a52;
-        background: linear-gradient(180deg, #fff4e7 0%, #ffe9d4 100%);
-        color: #8b4f1f;
-        box-shadow: 0 6px 16px rgba(243, 154, 82, 0.2);
-    }
-
-    .measure-card {
-        transition: transform 200ms ease, box-shadow 220ms ease, border-color 200ms ease;
-    }
-
-    .measure-card:hover {
-        transform: translateY(-2px);
-        border-color: #efbd94;
-        box-shadow: 0 10px 22px rgba(206, 154, 109, 0.16);
-    }
-
-    .measure-visual {
-        position: relative;
-        overflow: hidden;
-        background: radial-gradient(circle at 30% 20%, #fff8ef 0%, #f9efdf 100%);
-    }
-
-    .measure-visual::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(120deg, transparent 35%, rgba(255, 255, 255, 0.45) 50%, transparent 65%);
-        transform: translateX(-120%);
-        animation: measureShine 3.8s ease-in-out infinite;
-        pointer-events: none;
-    }
-
-    .measure-visual img {
-        animation: measureFloat 4s ease-in-out infinite;
-    }
-
-    .measure-input {
-        border-width: 2px;
-        border-color: #eadcc9;
-        transition: border-color 160ms ease, box-shadow 160ms ease;
-    }
-
-    .measure-input:focus {
-        border-color: #ef9a5a;
-        box-shadow: 0 0 0 4px rgba(239, 154, 90, 0.14);
-    }
-
-    @keyframes measureFloat {
-        0%,
-        100% { transform: translateY(0px); }
-        50% { transform: translateY(-4px); }
-    }
-
-    @keyframes measureShine {
-        0%,
-        20% { transform: translateX(-120%); }
-        50% { transform: translateX(130%); }
-        100% { transform: translateX(130%); }
-    }
-
-    @media (max-width: 850px) {
-        .measure-actor-layout {
-            grid-template-columns: 1fr;
-        }
-
-        .measure-menu-panel {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-
-        .measure-menu-btn {
-            text-align: center;
-            padding: 0.6rem 0.45rem;
-            font-size: 0.8rem;
-        }
-
-        .measure-menu-btn:hover {
-            transform: translateY(-1px);
-        }
-
-        .measure-stage-panel {
-            min-height: 300px;
-            padding: 0.65rem;
-        }
-
-        .measure-stage-visual {
-            min-height: 180px;
-        }
-
-        .measure-stage-image {
-            max-width: 200px;
-            height: 150px;
-        }
-
-        .measure-stage-title {
-            font-size: 0.88rem;
-        }
-
-        .measure-stage-text {
-            font-size: 0.72rem;
-        }
-    }
-</style>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
+    {% if not (smartStyleQuota.limit is not null and smartStyleQuota.blocked) %}
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core@4.17.0/dist/tf-core.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter@4.17.0/dist/tf-converter.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl@4.17.0/dist/tf-backend-webgl.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/face-landmarks-detection@1.0.5/dist/face-landmarks-detection.js"></script>
     <script src="{{ asset('js/smart-style-scan.js') }}" data-analyze-url="{{ path('app_smart_style_analyze') }}" data-results-url="{{ path('app_smart_style_results') }}"></script>
+    {% endif %}
 {% endblock %}
