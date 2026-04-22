@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-# Loyihadagi .flutter-sdk orqali flutter (tizimga o'rnatmasdan).
-set -euo pipefail
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-export PATH="$ROOT/.flutter-sdk/bin:$PATH"
-cd "$SCRIPT_DIR"
-exec flutter "$@"

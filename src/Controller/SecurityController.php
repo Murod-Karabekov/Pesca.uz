@@ -19,6 +19,12 @@ class SecurityController extends AbstractController
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
+            if ($this->isGranted('ROLE_ADMIN')) {
+                return $this->redirectToRoute('admin_dashboard');
+            }
+            if ($this->isGranted('ROLE_VENDOR')) {
+                return $this->redirectToRoute('vendor_dashboard');
+            }
             return $this->redirectToRoute('app_home');
         }
 
@@ -48,6 +54,12 @@ class SecurityController extends AbstractController
         ?string $refCode = null
     ): Response {
         if ($this->getUser()) {
+            if ($this->isGranted('ROLE_ADMIN')) {
+                return $this->redirectToRoute('admin_dashboard');
+            }
+            if ($this->isGranted('ROLE_VENDOR')) {
+                return $this->redirectToRoute('vendor_dashboard');
+            }
             return $this->redirectToRoute('app_home');
         }
 

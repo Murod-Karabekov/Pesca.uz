@@ -19,3 +19,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 4000);
   });
 });
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(() => {
+      // Keep silent in production if service worker registration fails.
+    });
+  });
+}

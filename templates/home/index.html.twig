@@ -3,6 +3,157 @@
 {% block title %}Pesca — Online kiyim do'koni{% endblock %}
 
 {% block body %}
+{# ─── Mobile/Tablet SmartStyle App Home ─── #}
+<section class="lg:hidden relative min-h-[100svh] overflow-hidden bg-[#0b1020] text-white">
+    <div class="absolute inset-0 pointer-events-none">
+        <div class="ss-orb ss-orb-1"></div>
+        <div class="ss-orb ss-orb-2"></div>
+        <div class="ss-orb ss-orb-3"></div>
+        <div class="ss-rain" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(255,255,255,0.2),transparent_35%),radial-gradient(circle_at_80%_20%,rgba(114,140,255,0.28),transparent_32%),radial-gradient(circle_at_50%_90%,rgba(46,200,255,0.22),transparent_34%)]"></div>
+    </div>
+
+    <div class="relative z-10 max-w-md mx-auto px-4 pt-8 pb-10">
+        <div class="ss-glass rounded-[26px] p-4 border border-white/25 shadow-2xl">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-[11px] uppercase tracking-[0.22em] text-cyan-100/80">SmartStyle.ai</p>
+                    <h1 class="mt-2 text-2xl font-display font-semibold tracking-tight">AI Fashion Assistant</h1>
+                </div>
+                <span class="inline-flex items-center justify-center rounded-full border border-white/30 bg-white/10 px-3 py-1 text-xs font-semibold text-cyan-100">
+                    beta
+                </span>
+            </div>
+            <p class="mt-3 text-sm leading-relaxed text-slate-100/90">
+                Sun'iy intellekt sizning uslubingiz, tana proporsiyangiz va kiyim didingizga mos tavsiyalar beradi.
+            </p>
+        </div>
+
+        <div class="mt-4 ss-glass rounded-2xl border border-white/20 p-2">
+            <img
+                src="{{ asset('images/home/mobile.png') }}"
+                alt="SmartStyle AI fashion"
+                class="w-full h-[240px] object-cover object-[center_28%] rounded-[14px]"
+                loading="lazy"
+            >
+        </div>
+
+        <div class="mt-6 grid grid-cols-1 gap-3">
+            <a href="{{ path('app_smart_style_index') }}"
+               class="inline-flex min-h-[50px] items-center justify-center rounded-2xl bg-white text-[#0e1326] font-semibold text-sm shadow-xl shadow-cyan-200/20 transition-transform duration-200 active:scale-[0.98]">
+                SmartStylega o'tish
+            </a>
+            <a href="{{ path('app_product_index') }}"
+               class="inline-flex min-h-[48px] items-center justify-center rounded-2xl border border-white/35 bg-white/10 text-white font-medium text-sm backdrop-blur transition-colors hover:bg-white/15">
+                Marketplace kolleksiyasi
+            </a>
+        </div>
+    </div>
+
+    <style>
+        .ss-glass {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.07));
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        .ss-orb {
+            position: absolute;
+            border-radius: 9999px;
+            filter: blur(18px);
+            opacity: 0.65;
+            animation: ss-float 8s ease-in-out infinite;
+        }
+
+        .ss-orb-1 {
+            width: 180px;
+            height: 180px;
+            left: -40px;
+            top: 30px;
+            background: rgba(71, 199, 255, 0.45);
+        }
+
+        .ss-orb-2 {
+            width: 210px;
+            height: 210px;
+            right: -70px;
+            top: 120px;
+            background: rgba(132, 123, 255, 0.45);
+            animation-delay: 1.8s;
+        }
+
+        .ss-orb-3 {
+            width: 190px;
+            height: 190px;
+            left: 35%;
+            bottom: -60px;
+            background: rgba(52, 233, 188, 0.35);
+            animation-delay: 3s;
+        }
+
+        .ss-rain {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            opacity: 0.42;
+        }
+
+        .ss-rain span {
+            position: absolute;
+            top: -20%;
+            width: 1px;
+            height: 18px;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.8));
+            border-radius: 999px;
+            animation: ss-rain-fall linear infinite;
+        }
+
+        .ss-rain span:nth-child(1) { left: 7%; animation-duration: 3.8s; animation-delay: 0.1s; }
+        .ss-rain span:nth-child(2) { left: 14%; animation-duration: 4.2s; animation-delay: 1.2s; }
+        .ss-rain span:nth-child(3) { left: 22%; animation-duration: 3.4s; animation-delay: 0.8s; }
+        .ss-rain span:nth-child(4) { left: 29%; animation-duration: 4.6s; animation-delay: 2.3s; }
+        .ss-rain span:nth-child(5) { left: 36%; animation-duration: 3.1s; animation-delay: 1.6s; }
+        .ss-rain span:nth-child(6) { left: 43%; animation-duration: 4.1s; animation-delay: 0.4s; }
+        .ss-rain span:nth-child(7) { left: 50%; animation-duration: 3.7s; animation-delay: 2.1s; }
+        .ss-rain span:nth-child(8) { left: 58%; animation-duration: 4.4s; animation-delay: 0.9s; }
+        .ss-rain span:nth-child(9) { left: 66%; animation-duration: 3.6s; animation-delay: 1.5s; }
+        .ss-rain span:nth-child(10) { left: 73%; animation-duration: 4.0s; animation-delay: 2.8s; }
+        .ss-rain span:nth-child(11) { left: 79%; animation-duration: 3.2s; animation-delay: 1.1s; }
+        .ss-rain span:nth-child(12) { left: 85%; animation-duration: 4.8s; animation-delay: 0.3s; }
+        .ss-rain span:nth-child(13) { left: 90%; animation-duration: 3.9s; animation-delay: 2.4s; }
+        .ss-rain span:nth-child(14) { left: 95%; animation-duration: 4.3s; animation-delay: 1.9s; }
+        .ss-rain span:nth-child(15) { left: 98%; animation-duration: 3.5s; animation-delay: 0.6s; }
+
+        @keyframes ss-float {
+            0%, 100% {
+                transform: translateY(0) translateX(0) scale(1);
+            }
+            50% {
+                transform: translateY(-14px) translateX(8px) scale(1.06);
+            }
+        }
+
+        @keyframes ss-rain-fall {
+            0% {
+                transform: translateY(-20%) translateX(0);
+                opacity: 0;
+            }
+            12% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(130vh) translateX(-12px);
+                opacity: 0;
+            }
+        }
+    </style>
+</section>
+
+<div class="hidden lg:block">
 {# ─── Hero (mobil ilova uslubi) ─── #}
 <section class="relative bg-app-canvas overflow-hidden border-b border-app-hairline">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
@@ -29,7 +180,7 @@
             <div class="relative hidden md:block">
                 <div class="relative rounded-[20px] border border-app-hairline bg-white p-2 shadow-none">
                     <img
-                        src="https://i.pinimg.com/736x/bb/6f/85/bb6f85562ea83531d0a0dcfec54c2c6c.jpg"
+                        src="{{ asset('images/home/desktop.png') }}"
                         alt="Pesca kiyim kolleksiyasi"
                         class="w-full h-[26rem] object-cover rounded-[14px]"
                     >
@@ -206,38 +357,48 @@
 
 {# ─── Featured Products ─── #}
 {% if featured_products|length > 0 %}
-<section class="py-16 md:py-24 bg-beige-50">
+<section class="py-12 md:py-24 bg-beige-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-12">
-            <h2 class="text-3xl md:text-4xl font-display font-bold text-brand-dark mb-4">Tanlangan kolleksiya</h2>
-            <p class="text-brand-medium max-w-2xl mx-auto">Sifatli va uslubli kiyimlar to'g'ridan-to'g'ri uyingizga yetkaziladi.</p>
+        <div class="text-center mb-7 md:mb-12">
+            <h2 class="text-2xl md:text-4xl font-display font-bold text-brand-dark mb-2 md:mb-4">Tanlangan kolleksiya</h2>
+            <p class="text-sm md:text-base text-brand-medium max-w-2xl mx-auto">Sifatli va uslubli kiyimlar to'g'ridan-to'g'ri uyingizga yetkaziladi.</p>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-5">
             {% for product in featured_products %}
-            <a href="{{ path('app_product_show', {id: product.id}) }}" class="card group">
-                <div class="aspect-[3/4] bg-beige-100 relative overflow-hidden">
+            <a href="{{ path('app_product_show', {id: product.id}) }}"
+               class="group flex flex-col min-w-0 rounded-[18px] bg-white border border-app-hairline overflow-hidden shadow-sm active:scale-[0.98] transition-transform duration-150 hover:shadow-md hover:border-app-ink/15">
+                <div class="aspect-[3/4] bg-app-canvas relative overflow-hidden">
                     {% if product.imageSrc %}
-                        <img src="{{ product.imageSrc }}" alt="{{ product.name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <img
+                            src="{{ product.imageSrc }}"
+                            alt="{{ product.name }}"
+                            class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out"
+                            loading="lazy"
+                        >
                     {% else %}
                         <div class="w-full h-full flex items-center justify-center">
-                            <svg class="w-16 h-16 text-beige-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-12 h-12 sm:w-14 sm:h-14 text-beige-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                             </svg>
                         </div>
                     {% endif %}
                 </div>
-                <div class="p-5">
-                    <h3 class="font-semibold text-brand-dark mb-1 group-hover:text-peach-600 transition-colors">{{ product.name }}</h3>
-                    <p class="text-peach-600 font-display font-bold text-lg">{{ product.price|number_format(0, '.', ' ') }} so'm</p>
+                <div class="p-3 sm:p-4 flex flex-col flex-1 min-h-[5.5rem] sm:min-h-[6rem]">
+                    <h3 class="text-[13px] sm:text-sm font-semibold text-app-ink leading-snug line-clamp-2 break-words group-hover:text-app-accent transition-colors flex-1">
+                        {{ product.name }}
+                    </h3>
+                    <p class="text-sm sm:text-base font-display font-semibold text-app-ink tabular-nums mt-2 pt-1 border-t border-app-hairline">
+                        {{ product.price|number_format(0, '.', ' ') }} <span class="text-[11px] font-sans font-medium text-app-inkMuted">so'm</span>
+                    </p>
                     {% if product.size|length > 0 %}
-                        <p class="text-xs text-brand-muted mt-2">O'lchamlar: {{ product.size|join(', ') }}</p>
+                        <p class="text-[10px] sm:text-[11px] text-app-inkMuted mt-1.5 line-clamp-1 break-all">{{ product.size|join(', ') }}</p>
                     {% endif %}
                 </div>
             </a>
             {% endfor %}
         </div>
-        <div class="text-center mt-10">
-            <a href="{{ path('app_product_index') }}" class="btn-secondary">Barcha kolleksiyani ko'rish →</a>
+        <div class="text-center mt-7 md:mt-10">
+            <a href="{{ path('app_product_index') }}" class="btn-secondary text-sm md:text-base">Barcha kolleksiyani ko'rish →</a>
         </div>
     </div>
 </section>
@@ -334,4 +495,5 @@
     <script src="{{ asset('js/home-banners.js') }}"></script>
 {% endif %}
 
+</div>
 {% endblock %}

@@ -3,9 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="theme-color" content="#F7F5F2">
+    <meta name="theme-color" content="#0b1020">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SmartStyle.ai">
     <title>{% block title %}Pesca — Online kiyim do'koni{% endblock %}</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>🛍️</text></svg>">
+    <link rel="manifest" href="{{ asset('manifest.webmanifest') }}">
+    <link rel="icon" type="image/png" href="{{ asset('icons/smartstyle-icon.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('icons/smartstyle-icon.png') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -16,7 +21,9 @@
         {{ encore_entry_script_tags('app') }}
     {% endblock %}
 </head>
-<body class="min-h-screen flex flex-col bg-app-canvas text-app-ink">
+{% set isSmartstyleMobileHome = app.request.attributes.get('_route') == 'app_home' %}
+<body class="min-h-screen flex flex-col text-app-ink
+            {{ isSmartstyleMobileHome ? 'bg-[#0b1020] lg:bg-app-canvas' : 'bg-app-canvas' }}">
     {# ─── Flash Messages ─── #}
     {% for label, messages in app.flashes %}
         {% for message in messages %}
@@ -32,13 +39,18 @@
 
     {# ─── Navigation ─── #}
     {% block navbar %}
-    <nav class="bg-app-canvas/95 backdrop-blur-md border-b border-app-hairline sticky top-0 z-40">
+    <nav class="sticky top-0 z-40 border-b
+                {{ isSmartstyleMobileHome
+                    ? 'bg-transparent border-transparent backdrop-blur-0 lg:bg-app-canvas/95 lg:border-app-hairline lg:backdrop-blur-md'
+                    : 'bg-app-canvas/95 border-app-hairline backdrop-blur-md' }}">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-[4.5rem]">
                 {# Logo #}
                 <a href="{{ path('app_home') }}" class="flex items-center gap-2 group">
-                    <span class="text-xl sm:text-2xl font-display font-semibold text-app-ink tracking-tight">Pesca</span>
-                    <span class="text-[10px] sm:text-xs text-app-accent font-semibold tracking-[0.2em] uppercase">Store</span>
+                    <span class="text-xl sm:text-2xl font-display font-semibold tracking-tight
+                                 {{ isSmartstyleMobileHome ? 'text-white lg:text-app-ink' : 'text-app-ink' }}">Pesca</span>
+                    <span class="text-[10px] sm:text-xs font-semibold tracking-[0.2em] uppercase
+                                 {{ isSmartstyleMobileHome ? 'text-cyan-100 lg:text-app-accent' : 'text-app-accent' }}">Store</span>
                 </a>
 
                 {# Desktop Nav #}
@@ -66,8 +78,13 @@
                 </div>
 
                 {# Mobile Toggle #}
-                <button id="mobile-menu-toggle" class="md:hidden p-2 rounded-[14px] hover:bg-white border border-transparent hover:border-app-hairline transition-colors" type="button" aria-label="Menyu">
-                    <svg class="w-6 h-6 text-app-ink" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <button id="mobile-menu-toggle"
+                        class="md:hidden p-2 rounded-[14px] border transition-colors
+                               {{ isSmartstyleMobileHome
+                                   ? 'bg-transparent border-white/20 hover:bg-white/10'
+                                   : 'hover:bg-white border-transparent hover:border-app-hairline' }}"
+                        type="button" aria-label="Menyu">
+                    <svg class="w-6 h-6 {{ isSmartstyleMobileHome ? 'text-white' : 'text-app-ink' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                     </svg>
                 </button>
@@ -75,19 +92,23 @@
         </div>
 
         {# Mobile Menu #}
-        <div id="mobile-menu" class="hidden md:hidden border-t border-app-hairline bg-app-canvas">
+        <div id="mobile-menu"
+             class="hidden md:hidden border-t
+                    {{ isSmartstyleMobileHome
+                        ? 'border-white/10 bg-black/70 backdrop-blur-xl'
+                        : 'border-app-hairline bg-app-canvas' }}">
             <div class="px-4 py-4 space-y-2">
-                <a href="{{ path('app_home') }}" class="block rounded-[14px] px-3 py-2.5 text-sm font-medium text-app-inkMuted hover:text-app-ink hover:bg-white">Bosh sahifa</a>
-                <a href="{{ path('app_product_index') }}" class="block rounded-[14px] px-3 py-2.5 text-sm font-medium text-app-inkMuted hover:text-app-ink hover:bg-white">Kolleksiya</a>
-                <a href="{{ path('app_hamkorlik_index') }}" class="block rounded-[14px] px-3 py-2.5 text-sm font-medium text-app-inkMuted hover:text-app-ink hover:bg-white">Hamkorlik</a>
+                <a href="{{ path('app_home') }}" class="block rounded-[14px] px-3 py-2.5 text-sm font-medium {{ isSmartstyleMobileHome ? 'text-slate-100 hover:text-white hover:bg-white/10' : 'text-app-inkMuted hover:text-app-ink hover:bg-white' }}">Bosh sahifa</a>
+                <a href="{{ path('app_product_index') }}" class="block rounded-[14px] px-3 py-2.5 text-sm font-medium {{ isSmartstyleMobileHome ? 'text-slate-100 hover:text-white hover:bg-white/10' : 'text-app-inkMuted hover:text-app-ink hover:bg-white' }}">Kolleksiya</a>
+                <a href="{{ path('app_hamkorlik_index') }}" class="block rounded-[14px] px-3 py-2.5 text-sm font-medium {{ isSmartstyleMobileHome ? 'text-slate-100 hover:text-white hover:bg-white/10' : 'text-app-inkMuted hover:text-app-ink hover:bg-white' }}">Hamkorlik</a>
                 {% if app.user %}
-                    <a href="{{ path('app_smart_style_index') }}" class="block rounded-[14px] px-3 py-2.5 text-sm font-semibold text-app-accent hover:text-app-ink hover:bg-white">✨ SmartStyle</a>
-                    <a href="{{ path('app_cart_index') }}" class="block rounded-[14px] px-3 py-2.5 text-sm font-medium text-app-inkMuted hover:text-app-ink hover:bg-white">Savatcha</a>
+                    <a href="{{ path('app_smart_style_index') }}" class="block rounded-[14px] px-3 py-2.5 text-sm font-semibold {{ isSmartstyleMobileHome ? 'text-cyan-200 hover:text-white hover:bg-white/10' : 'text-app-accent hover:text-app-ink hover:bg-white' }}">✨ SmartStyle</a>
+                    <a href="{{ path('app_cart_index') }}" class="block rounded-[14px] px-3 py-2.5 text-sm font-medium {{ isSmartstyleMobileHome ? 'text-slate-100 hover:text-white hover:bg-white/10' : 'text-app-inkMuted hover:text-app-ink hover:bg-white' }}">Savatcha</a>
                     {% if is_granted('ROLE_ADMIN') %}
-                        <a href="{{ path('admin_dashboard') }}" class="block rounded-[14px] px-3 py-2.5 text-sm font-semibold text-app-accent">Admin</a>
+                        <a href="{{ path('admin_dashboard') }}" class="block rounded-[14px] px-3 py-2.5 text-sm font-semibold {{ isSmartstyleMobileHome ? 'text-cyan-200' : 'text-app-accent' }}">Admin</a>
                     {% endif %}
-                    <hr class="border-app-hairline my-2">
-                    <a href="{{ path('app_profile_index') }}" class="block rounded-[14px] px-3 py-2.5 text-sm font-semibold text-app-ink hover:bg-white">👤 Shaxsiy kabinet</a>
+                    <hr class="my-2 {{ isSmartstyleMobileHome ? 'border-white/15' : 'border-app-hairline' }}">
+                    <a href="{{ path('app_profile_index') }}" class="block rounded-[14px] px-3 py-2.5 text-sm font-semibold {{ isSmartstyleMobileHome ? 'text-white hover:bg-white/10' : 'text-app-ink hover:bg-white' }}">👤 Shaxsiy kabinet</a>
                     <a href="{{ path('app_logout') }}" class="block rounded-[14px] px-3 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50">Chiqish</a>
                 {% else %}
                     <a href="{{ path('app_login') }}" class="block btn-primary text-sm text-center">Kirish</a>
@@ -104,7 +125,7 @@
 
     {# ─── Footer ─── #}
     {% block footer %}
-    <footer class="mt-auto border-t border-app-hairline bg-white">
+    <footer class="hidden lg:block mt-auto border-t border-app-hairline bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div>
