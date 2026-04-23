@@ -30,3 +30,13 @@ yarn-error.log
 /var/smartstyle_mobile_uploads/
 ###< smartstyle mobile uploads ###
 
+###> twa-android (local Bubblewrap / Gradle) ###
+/twa-android/android-release.keystore
+/twa-android/.release-keystore.pass
+/twa-android/.gradle/
+/twa-android/**/build/
+/twa-android/*.apk
+/twa-android/*.aab
+/twa-android/*.idsig
+###< twa-android (local Bubblewrap / Gradle) ###
+

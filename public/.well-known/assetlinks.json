@@ -5,7 +5,8 @@
       "namespace": "android_app",
       "package_name": "ai.smartstyle.app",
       "sha256_cert_fingerprints": [
-        "2A:1B:A5:69:51:01:69:61:7E:0B:13:EE:27:B1:79:C0:4D:A5:9C:5F:67:4B:33:9C:B2:F2:70:47:98:0E:C1:D4"
+        "2A:1B:A5:69:51:01:69:61:7E:0B:13:EE:27:B1:79:C0:4D:A5:9C:5F:67:4B:33:9C:B2:F2:70:47:98:0E:C1:D4",
+        "E1:A4:F8:F9:63:BD:BA:97:85:41:1E:8D:6C:9A:B7:49:61:DC:7C:9F:D9:A4:03:90:33:F8:1F:F3:F5:9B:6C:2A"
       ]
     }
   }
